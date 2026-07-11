@@ -721,7 +721,7 @@
 
     .success-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 22px;
     }
 
@@ -794,7 +794,7 @@
 
     .video-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 22px;
     }
 
@@ -996,6 +996,8 @@
     @media (max-width: 1024px) {
       .container { padding: 0 24px; }
       .homes-grid { grid-template-columns: repeat(2, 1fr); }
+      .success-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .video-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .info-section { grid-template-columns: 1fr; }
       .footer-section { grid-template-columns: repeat(2, 1fr); }
       .hero-text h1 { font-size: 44px; }
@@ -1021,6 +1023,8 @@
       .hero-float-card { left: 16px; right: 16px; max-width: none; bottom: -70px; }
 
       .homes-grid { grid-template-columns: 1fr; gap: 16px; }
+      .success-grid,
+      .video-grid { grid-template-columns: 1fr; gap: 16px; }
       .footer-section { grid-template-columns: 1fr; gap: 24px; }
       .section-title { font-size: 22px; }
       .info-box { padding: 20px; }
@@ -1113,7 +1117,7 @@
     <!-- cards will be filtered by search -->
     <article class="home-card" data-title="Brand-New Duplex with Rebero Views — Gahanga" data-location="Gahanga">
       <span class="home-label">Exclusive</span>
-      <div class="home-image"></div>
+      <div class="home-image" style="background-image: url('https://images.unsplash.com/photo-1570129477492-45a003537e1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');"></div>
       <div class="property-meta">
         <span class="property-pill red">For Sale</span>
         <span class="property-pill">House</span>
@@ -1133,7 +1137,7 @@
 
     <article class="home-card" data-title="City Light Apartment with Rooftop Access" data-location="Kacyiru">
       <span class="home-label rent">Featured</span>
-      <div class="home-image"></div>
+      <div class="home-image" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');"></div>
       <div class="property-meta">
         <span class="property-pill">For Rent</span>
         <span class="property-pill green">Apartment</span>
@@ -1153,7 +1157,7 @@
 
     <article class="home-card" data-title="Sunny Garden Villa Near the Hillside" data-location="Nyarutarama">
       <span class="home-label featured">New Offer</span>
-      <div class="home-image"></div>
+      <div class="home-image" style="background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');"></div>
       <div class="property-meta">
         <span class="property-pill green">For Sale</span>
         <span class="property-pill">Villa</span>
@@ -1173,7 +1177,7 @@
 
     <article class="home-card" data-title="Contemporary Townhouse with Family Lounge" data-location="Nyabugogo">
       <span class="home-label sale">Open House</span>
-      <div class="home-image"></div>
+      <div class="home-image" style="background-image: url('https://images.unsplash.com/photo-1572120471610-0ecae6ca6a0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');"></div>
       <div class="property-meta">
         <span class="property-pill">For Rent</span>
         <span class="property-pill green">Townhouse</span>
@@ -1280,7 +1284,7 @@
 <!-- LARGE IMAGE SECTION -->
 <div class="large-image-section">
   <div class="image-overlay-text">
-    We craft <em>kitchenware</em> you can trust for year to come
+    We help you buy, sell, and grow with property solutions you can trust for years to come
   </div>
 </div>
 
