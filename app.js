@@ -252,7 +252,7 @@ const formatPrice = (value) => {
   if (Number.isNaN(number)) return value;
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'RWF',
     maximumFractionDigits: 0
   }).format(number);
 };
@@ -560,7 +560,7 @@ const renderPropertyDetails = () => {
   }
 
   if (agentNameNode) {
-    agentNameNode.textContent = 'EstateHub Team';
+    agentNameNode.textContent = 'Kamari Paul';
   }
 
   if (agentTitleNode) {
