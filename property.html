@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOMELINE · Property Details</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #faf8f5;
+      color: #1a1a18;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    /* ===== HEADER / NAV ===== */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 0 24px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      color: #1a1a18;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      color: #5a5a56;
+    }
+
+    .hamburger {
+      display: none;
+      border: none;
+      background: transparent;
+      color: #1a1a18;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.2s;
+      text-transform: capitalize;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #1a1a18;
+      font-weight: 600;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-actions i {
+      font-size: 18px;
+      color: #5a5a56;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .nav-actions i:hover {
+      color: #1a1a18;
+    }
+
+    .search-box {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #5a5a56;
+      color: #5a5a56;
+      padding: 4px 0;
+      font-size: 13px;
+      width: 140px;
+    }
+
+    .search-box::placeholder {
+      color: #9a9a96;
+    }
+
+    /* ===== HERO PROPERTY ===== */
+    .hero-property {
+      margin: 40px 0 48px;
+      border-radius: 0;
+      overflow: hidden;
+      position: relative;
+      min-height: 420px;
+      background-image: url('https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+      background-size: cover;
+      background-position: center 30%;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .hero-property .overlay {
+      background: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.0) 70%);
+      width: 100%;
+      padding: 40px 44px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .hero-property .title-group h1 {
+      color: #fff;
+      font-size: 34px;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      text-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    }
+
+    .hero-property .title-group .price-tag {
+      color: rgba(255,255,255,0.95);
+      font-size: 22px;
+      font-weight: 600;
+      margin-top: 4px;
+      font-family: 'DM Mono', monospace;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .hero-property .badge-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .hero-property .badge-group span {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      padding: 8px 20px;
+      color: #fff;
+      font-weight: 500;
+      font-size: 13px;
+      border: 1px solid rgba(255,255,255,0.12);
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .hero-property .badge-group i {
+      margin-right: 6px;
+    }
+
+    /* ===== DETAILS GRID ===== */
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 32px;
+      margin-bottom: 80px;
+    }
+
+    .details-main {
+      background: #ffffff;
+      padding: 32px 36px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .details-main .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px 24px;
+      margin: 16px 0 20px;
+    }
+
+    .details-main .meta-grid span {
+      font-size: 14px;
+      color: #5a5a56;
+    }
+
+    .details-main .meta-grid strong {
+      color: #1a1a18;
+      font-weight: 600;
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
+      display: block;
+    }
+
+    .details-main p {
+      line-height: 1.7;
+      color: #5a5a56;
+      font-size: 15px;
+      margin: 8px 0 20px;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .details-side {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .agent-card {
+      background: #ffffff;
+      padding: 28px 30px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .agent-card h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-family: 'Barlow Condensed', sans-serif;
+      color: #1a1a18;
+    }
+
+    .agent-card .agent-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .agent-card .agent-avatar {
+      width: 52px;
+      height: 52px;
+      background: #e8e6e1;
+      background-image: url('https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .agent-card .agent-info strong {
+      display: block;
+      font-weight: 600;
+      color: #1a1a18;
+    }
+
+    .agent-card .agent-info span {
+      font-size: 13px;
+      color: #5a5a56;
+    }
+
+    .agent-phone {
+      font-size: 14px;
+      color: #1a1a18;
+      margin-bottom: 16px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .agent-phone i {
+      margin-right: 10px;
+      color: #5a5a56;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #1a1a18;
+      color: #faf8f5;
+      padding: 12px 28px;
+      font-weight: 500;
+      font-size: 13px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: 'Outfit', sans-serif;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .btn i {
+      margin-right: 8px;
+    }
+
+    .btn:hover {
+      background: #3a3a38;
+    }
+
+    .btn-whatsapp {
+      background: #25D366;
+      color: #fff;
+    }
+
+    .btn-whatsapp:hover {
+      background: #1da851;
+    }
+
+    .map-card {
+      background: #e8e6e1;
+      min-height: 140px;
+      background-image: url('https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      position: relative;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .map-card .map-overlay {
+      background: rgba(0,0,0,0.3);
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .map-card i {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+
+    .map-card span {
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== SECTION HEAD ===== */
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 36px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      font-family: 'Outfit', sans-serif;
+      color: #1a1a18;
+    }
+
+    .view-all {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      color: #5a5a56;
+      text-decoration: none;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .view-all:hover {
+      color: #1a1a18;
+    }
+
+    /* ===== RELATED PROPERTIES ===== */
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+
+    .card {
+      background: #ffffff;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      display: block;
+      color: inherit;
+      text-decoration: none;
+      transition: all 0.2s;
+      padding: 16px;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      border-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .card-img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      background: #e8e6e1;
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 12px;
+    }
+
+    .card-body h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a1a18;
+      margin-bottom: 2px;
+    }
+
+    .price {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a18;
+      margin: 6px 0 14px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .btn-small {
+      background: transparent;
+      border: 1px solid #1a1a18;
+      color: #1a1a18;
+      padding: 8px 16px;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    .btn-small:hover {
+      background: #1a1a18;
+      color: #faf8f5;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer-section {
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 48px 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) auto;
+      gap: 40px;
+      margin-bottom: 24px;
+    }
+
+    .footer-col h4 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #1a1a18;
+      margin-bottom: 16px;
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-col a {
+      font-size: 13px;
+      color: #5a5a56;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover {
+      color: #1a1a18;
+    }
+
+    .footer-badge {
+      background: #1a1a18;
+      color: #faf8f5;
+      padding: 12px 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Barlow Condensed', sans-serif;
+      align-self: flex-start;
+    }
+
+    .footer-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      font-size: 12px;
+      color: #9a9a96;
+    }
+
+    .social {
+      display: flex;
+      gap: 16px;
+    }
+
+    .social i {
+      color: #5a5a56;
+      cursor: pointer;
+      transition: color 0.2s;
+      font-size: 14px;
+    }
+
+    .social i:hover {
+      color: #1a1a18;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .container { padding: 0 24px; }
+      .details-grid { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .footer-section { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 760px) {
+      .container { padding: 0 20px; }
+      .navbar { flex-wrap: wrap; gap: 16px; }
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .search-box { display: none; }
+
+      .hero-property { min-height: 300px; margin: 24px 0 32px; }
+      .hero-property .overlay { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+      .hero-property .title-group h1 { font-size: 26px; }
+      .hero-property .badge-group span { font-size: 11px; padding: 6px 14px; }
+
+      .details-main { padding: 24px 20px; }
+      .details-main .meta-grid { grid-template-columns: 1fr 1fr; }
+      .grid-4 { grid-template-columns: 1fr; gap: 16px; }
+      .footer-section { grid-template-columns: 1fr; gap: 24px; }
+      .section-title { font-size: 22px; }
+      .btn-group { flex-direction: column; }
+      .btn { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="navbar-root"></div>
+
+  <main class="container">
+    <!-- HERO PROPERTY -->
+    <div class="hero-property">
+      <div class="overlay">
+        <div class="title-group">
+          <h1>Luxury Villa with Ocean View</h1>
+          <div class="price-tag">$1,250,000</div>
+        </div>
+        <div class="badge-group">
+          <span><i class="fas fa-bed"></i> 4 beds</span>
+          <span><i class="fas fa-bath"></i> 3 baths</span>
+          <span><i class="fas fa-expand"></i> 320 m²</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAILS GRID -->
+    <div class="details-grid">
+      <div class="details-main">
+        <div class="meta-grid">
+          <span><strong>Price</strong> $1,250,000</span>
+          <span><strong>Bedrooms</strong> 4</span>
+          <span><strong>Bathrooms</strong> 3</span>
+          <span><strong>Kitchen</strong> Modern</span>
+          <span><strong>Parking</strong> 2 cars</span>
+          <span><strong>Size</strong> 320 m²</span>
+        </div>
+        <p>A stunning villa featuring a private pool, smart home systems, panoramic views, and premium finishes in a secure gated community. Located just minutes from the beach and city center.</p>
+        <p style="margin-top: 4px;">This property offers exceptional space, natural light, and high-end appliances throughout. Perfect for those seeking luxury and comfort.</p>
+      </div>
+
+      <div class="details-side">
+        <div class="agent-card">
+          <h4><i class="fas fa-user-circle" style="margin-right: 8px;"></i> Agent</h4>
+          <div class="agent-row">
+            <div class="agent-avatar"></div>
+            <div class="agent-info">
+              <strong>John Doe</strong>
+              <span>Senior Real Estate Advisor</span>
+            </div>
+          </div>
+          <div class="agent-phone">
+            <i class="fas fa-phone-alt"></i> +1 234 567 890
+          </div>
+          <div class="btn-group">
+            <a class="btn" href="#"><i class="fas fa-envelope"></i> Contact agent</a>
+            <a class="btn btn-whatsapp" href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+          </div>
+        </div>
+
+        <div class="map-card">
+          <div class="map-overlay">
+            <i class="fas fa-map-pin"></i>
+            <span>123 Ocean Drive, Malibu, CA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RELATED PROPERTIES -->
+    <div class="section-head">
+      <h2 class="section-title">Related Properties</h2>
+      <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+
+    <div class="grid-4">
+      <a class="card" href="#">
+        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+        <div class="card-body">
+          <h3>Modern Apartment</h3>
+          <div class="price">$450,000</div>
+          <span class="btn-small">See more</span>
+        </div>
+      </a>
+
+      <a class="card" href="#">
+        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+        <div class="card-body">
+          <h3>Beach House</h3>
+          <div class="price">$890,000</div>
+          <span class="btn-small">See more</span>
+        </div>
+      </a>
+
+      <a class="card" href="#">
+        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1494526585095-c41746248156?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+        <div class="card-body">
+          <h3>Office Space</h3>
+          <div class="price">$620,000</div>
+          <span class="btn-small">See more</span>
+        </div>
+      </a>
+
+      <a class="card" href="#">
+        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+        <div class="card-body">
+          <h3>Luxury Penthouse</h3>
+          <div class="price">$1,600,000</div>
+          <span class="btn-small">See more</span>
+        </div>
+      </a>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <div class="container">
+    <footer class="footer-section">
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+        </ul>
+      </div>
+      <div class="footer-badge">
+        HOMELINE · 11MEDIA
+      </div>
+    </footer>
+
+    <div class="footer-meta">
+      <span>© 2026 HOMELINE — designed with care</span>
+      <div class="social">
+        <i class="fab fa-instagram"></i>
+        <i class="fab fa-pinterest"></i>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
