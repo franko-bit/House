@@ -825,9 +825,9 @@
         </div>
 
         <div class="nav-actions">
-          <form class="search-form" action="buy.html" method="get">
-            <input type="text" class="search-box" id="pageSearchInput" name="q" placeholder="Search...">
-            <button type="submit" class="nav-icon" id="pageSearchButton" aria-label="Search">
+          <form class="search-form" id="pageSearchForm" action="buy.html" method="get">
+            <input type="text" class="search-box" id="pageSearchInput" name="q" placeholder="Search..." autocomplete="off">
+            <button type="button" class="nav-icon" id="pageSearchButton" aria-label="Search">
               <i class="fas fa-search"></i>
             </button>
           </form>
@@ -1107,6 +1107,7 @@
     }
 
     // Search functionality - filters cards on this page
+    const searchForm = document.getElementById('pageSearchForm');
     const searchInput = document.getElementById('pageSearchInput');
     const searchButton = document.getElementById('pageSearchButton');
 
@@ -1122,9 +1123,6 @@
         card.style.display = isMatch ? '' : 'none';
         if (isMatch) matchCount++;
       });
-
-      const target = document.querySelector('.section-head');
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
 
       let msg = document.getElementById('noResultsMsg');
       if (matchCount === 0 && query !== '') {
@@ -1143,6 +1141,7 @@
     }
 
     if (searchInput) {
+      searchInput.addEventListener('input', performSearch);
       searchInput.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
           e.preventDefault();
@@ -1153,6 +1152,13 @@
 
     if (searchButton) {
       searchButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        performSearch();
+      });
+    }
+
+    if (searchForm) {
+      searchForm.addEventListener('submit', function(e) {
         e.preventDefault();
         performSearch();
       });
