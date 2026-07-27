@@ -612,7 +612,44 @@
       }
 
       .nav-links {
-        display: none;
+        display: none !important;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0 !important;
+        background: var(--color-cream);
+        border-top: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border);
+        padding: 16px 24px !important;
+        z-index: 999;
+      }
+
+      .nav-links.open {
+        display: flex !important;
+      }
+
+      .nav-links a {
+        padding: 10px 0;
+        width: 100%;
+        border-bottom: 1px solid var(--color-border);
+        color: var(--color-text) !important;
+      }
+
+      .nav-links a:last-child {
+        border-bottom: none;
+      }
+
+      .nav-links a.active {
+        border-bottom: none;
+        font-weight: 600;
+        color: var(--color-accent) !important;
+      }
+
+      .nav-links a:hover {
+        color: var(--color-accent) !important;
       }
 
       .hero-banner {
@@ -789,8 +826,8 @@
 
         <div class="nav-actions">
           <form class="search-form" action="buy.html" method="get">
-            <input type="text" class="search-box" name="q" placeholder="Search...">
-            <button type="submit" class="nav-icon" aria-label="Search">
+            <input type="text" class="search-box" id="pageSearchInput" name="q" placeholder="Search...">
+            <button type="submit" class="nav-icon" id="pageSearchButton" aria-label="Search">
               <i class="fas fa-search"></i>
             </button>
           </form>
@@ -1050,6 +1087,74 @@
           navLinks.classList.remove('open');
           hamburger.setAttribute('aria-expanded', 'false');
         }
+      });
+
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function() {
+          if (window.innerWidth <= 768) {
+            navLinks.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+          navLinks.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    // Search functionality - filters cards on this page
+    const searchInput = document.getElementById('pageSearchInput');
+    const searchButton = document.getElementById('pageSearchButton');
+
+    function performSearch() {
+      const query = (searchInput?.value || '').trim().toLowerCase();
+      const cards = document.querySelectorAll('.card');
+      let matchCount = 0;
+
+      cards.forEach(card => {
+        const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
+        const details = card.querySelector('.meta')?.textContent.toLowerCase() || '';
+        const isMatch = query === '' || title.includes(query) || details.includes(query);
+        card.style.display = isMatch ? '' : 'none';
+        if (isMatch) matchCount++;
+      });
+
+      const target = document.querySelector('.section-head');
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+
+      let msg = document.getElementById('noResultsMsg');
+      if (matchCount === 0 && query !== '') {
+        if (!msg) {
+          msg = document.createElement('p');
+          msg.id = 'noResultsMsg';
+          msg.style.textAlign = 'center';
+          msg.style.color = 'var(--color-neutral)';
+          msg.style.margin = '20px 0';
+          document.querySelector('.grid-4').insertAdjacentElement('beforebegin', msg);
+        }
+        msg.textContent = `No properties found matching "${searchInput.value}"`;
+      } else if (msg) {
+        msg.remove();
+      }
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          performSearch();
+        }
+      });
+    }
+
+    if (searchButton) {
+      searchButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        performSearch();
       });
     }
   </script>
