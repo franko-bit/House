@@ -2,24 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HOMELINE · Premium Home Spaces</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>HOMELINE – Premium Real Estate</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=EB+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
+    /* ===== RESET & BASE ===== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    :root {
+      --color-cream: #F7F5F0;
+      --color-text: #1A1810;
+      --color-accent: #4B5320;
+      --color-accent-light: #EFEEE7;
+      --color-gold: #C9A227;
+      --color-neutral: #8B8680;
+      --color-border: #E8E5E0;
+      --color-dark: #000;
+      --color-overlay: rgba(0, 0, 0, 0.25);
+      
+      --font-display: 'EB Garamond', serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'Barlow Condensed', sans-serif;
+    }
+
+    html, body {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+
     body {
-      font-family: 'Outfit', sans-serif;
-      background: #faf8f5;
-      color: #1a1a18;
+      font-family: var(--font-body);
+      background: var(--color-cream);
+      color: var(--color-text);
       line-height: 1.6;
+    }
+
+    /* ===== HEADER / NAVBAR ===== */
+    header {
+      background: var(--color-accent);
+      border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
     .container {
@@ -28,1378 +62,2483 @@
       padding: 0 48px;
     }
 
-    /* ===== HEADER / NAV ===== */
     .navbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 28px 0 24px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 20px 0;
+      gap: 48px;
     }
 
+    /* logo & brand */
     .logo-area {
       display: flex;
       align-items: center;
-      gap: 12px;
+      flex-shrink: 0;
     }
 
     .brand {
-      font-size: 20px;
+      font-family: var(--font-mono);
+      font-size: 16px;
       font-weight: 700;
-      letter-spacing: 2px;
-      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 3px;
       text-transform: uppercase;
-      color: #1a1a18;
+      color: var(--color-gold);
+      text-decoration: none;
+      transition: color 0.2s;
     }
 
+    .brand:hover {
+      color: var(--color-cream);
+    }
+
+    /* nav links */
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 48px;
+      gap: 40px;
+      flex: 1;
       font-size: 14px;
       font-weight: 500;
+      letter-spacing: 0.3px;
+      color: rgba(247, 245, 240, 0.8);
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.2s, border-color 0.2s;
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-gold);
+    }
+
+    .nav-links a.active {
+      color: var(--color-gold);
+      font-weight: 600;
+      border-bottom: 2px solid var(--color-gold);
+    }
+
+    /* nav actions (right side) */
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-shrink: 0;
+    }
+
+    .search-box {
+      background: transparent;
+      border: none;
+      border-bottom: 1.5px solid rgba(247, 245, 240, 0.4);
+      color: var(--color-cream);
+      padding: 6px 0;
+      font-size: 13px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      width: 160px;
+      transition: all 0.3s ease;
+    }
+
+    .search-box::placeholder {
+      color: rgba(247, 245, 240, 0.5);
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-bottom-color: var(--color-gold);
+    }
+
+    .search-box:focus::placeholder {
+      color: var(--color-gold);
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(247, 245, 240, 0.7);
+      cursor: pointer;
+      transition: color 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .nav-icon:hover {
+      color: var(--color-gold);
+      transform: scale(1.08);
+    }
+
+    .nav-icon i {
+      font-size: 16px;
+    }
+
+    /* cta button */
+    .cta-btn {
+      display: none;
+      background: var(--color-gold);
+      color: #1A1810 !important;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
       letter-spacing: 0.5px;
-      color: #5a5a56;
+      padding: 10px 22px;
+      border-radius: 2px;
+      white-space: nowrap;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .cta-btn:hover {
+      background: var(--color-text);
+      color: var(--color-cream) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     }
 
     .hamburger {
       display: none;
       border: none;
       background: transparent;
-      color: #1a1a18;
-      font-size: 22px;
+      color: var(--color-text);
+      font-size: 20px;
       cursor: pointer;
+      padding: 4px;
+      flex-shrink: 0;
     }
 
-    .nav-links a {
-      text-decoration: none;
-      color: inherit;
-      transition: color 0.2s;
-      text-transform: capitalize;
-    }
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: #1a1a18;
-      font-weight: 600;
+    .hamburger:hover {
+      color: var(--color-accent);
     }
 
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-
-    .nav-actions i {
-      font-size: 18px;
-      color: #5a5a56;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-
-    .nav-actions i:hover {
-      color: #1a1a18;
-    }
-
-    .search-box {
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid #5a5a56;
-      color: #5a5a56;
-      padding: 4px 0;
-      font-size: 13px;
-      width: 140px;
-    }
-
-    .search-box::placeholder {
-      color: #9a9a96;
-    }
-
-    /* ===== HERO SECTION (Full-bleed overlay layout) ===== */
-    .hero {
-      position: relative;
-      min-height: 620px;
-      border-radius: 20px;
-      overflow: visible;
-      margin: 40px 0 130px;
-      background: url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.15) 60%, rgba(0,0,0,0.55) 100%);
-      z-index: 1;
-    }
-
-    .hero-overlay {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 620px;
-      padding: 28px 28px 40px;
-    }
-
-    /* -- top row: location pill + gallery thumbs -- */
-    .hero-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-    }
-
-    .hero-location {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      color: #fff;
-      padding: 10px 18px 10px 10px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .hero-location .pin-icon {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: #fff;
-      color: #1a1a18;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-    }
-
-    .hero-gallery {
-      display: flex;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      padding: 6px;
-      border-radius: 999px;
-    }
-
-    .gallery-thumb {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(255, 255, 255, 0.85);
-      margin-left: -12px;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .gallery-thumb:first-child { margin-left: 0; }
-
-    .gallery-more {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: #faf8f5;
-      color: #1a1a18;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 700;
-      margin-left: -12px;
-      font-family: 'DM Mono', monospace;
-    }
-
-    /* -- bottom: headline / copy / cta / rating + floating icons -- */
-    .hero-bottom {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .hero-text {
-      max-width: 620px;
-      color: #fff;
-    }
-
-    .hero-label {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.85);
-      font-family: 'Barlow Condensed', sans-serif;
-      margin-bottom: 12px;
-    }
-
-    .hero-text h1 {
-      font-size: 56px;
-      font-weight: 300;
-      line-height: 1.1;
-      letter-spacing: -1.5px;
-      font-family: 'Outfit', sans-serif;
-      color: #fff;
-      margin-bottom: 14px;
-    }
-
-    .hero-text h1 em {
-      font-style: italic;
-      font-weight: 600;
-    }
-
-    .hero-text p {
-      font-size: 15px;
-      font-weight: 400;
-      color: rgba(255, 255, 255, 0.85);
-      max-width: 400px;
-      line-height: 1.7;
-      margin-bottom: 16px;
-    }
-
-    .rating {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.9);
-      font-family: 'DM Mono', monospace;
-    }
-
-    .rating .stars {
-      display: flex;
-      gap: 2px;
-    }
-
-    .rating i {
-      color: #fff;
-      font-size: 12px;
-    }
-
-    .hero-icon-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .icon-float {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 0.2s;
-      font-size: 15px;
-    }
-
-    .icon-float:hover {
-      background: rgba(255, 255, 255, 0.32);
-    }
-
-    /* -- floating tab bar overlapping the bottom edge of the hero image -- */
-    .hero-tabs {
-      position: absolute;
-      left: 50%;
-      bottom: -30px;
-      transform: translateX(-50%);
-      z-index: 3;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: #fff;
-      border-radius: 999px;
-      padding: 6px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-      flex-wrap: nowrap;
-      transition: all 0.2s ease;
-    }
-
-    /* expanded state for search */
-    .hero-tabs.expanded {
-      padding: 6px 6px 6px 18px;
-      gap: 12px;
-    }
-
-    .hero-tab {
-      padding: 12px 26px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 500;
-      text-decoration: none;
-      color: #5a5a56;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-
-    .hero-tab.active {
-      background: #1a1a18;
-      color: #faf8f5;
-    }
-
-    .hero-tab:not(.active):hover {
-      color: #1a1a18;
-    }
-
-    .hero-tab-icons {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      margin-left: 4px;
-      padding-left: 10px;
-      border-left: 1px solid rgba(0, 0, 0, 0.08);
-      transition: all 0.2s;
-    }
-
-    .hero-tab-icons i {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #5a5a56;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .hero-tab-icons i:hover {
-      background: #f2f0ec;
-      color: #1a1a18;
-    }
-
-    /* search input inside tabs */
-    .hero-search-wrap {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: #f2f0ec;
-      border-radius: 999px;
-      padding: 0 6px 0 14px;
-      height: 44px;
-      transition: all 0.2s;
-      border: 1px solid transparent;
-    }
-
-    .hero-search-wrap:focus-within {
-      border-color: #1a1a18;
-      background: #fff;
-    }
-
-    .hero-search-wrap input {
-      border: none;
-      background: transparent;
-      font-size: 14px;
-      font-weight: 400;
-      color: #1a1a18;
-      padding: 8px 0;
-      width: 160px;
-      outline: none;
-      font-family: 'Outfit', sans-serif;
-    }
-
-    .hero-search-wrap input::placeholder {
-      color: #9a9a96;
-    }
-
-    .hero-search-wrap button {
-      background: #1a1a18;
-      border: none;
-      color: #fff;
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 0.2s;
-      font-size: 13px;
-    }
-
-    .hero-search-wrap button:hover {
-      background: #3a3a38;
-    }
-
-    .search-toggle-btn {
-      background: transparent;
-      border: none;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #5a5a56;
-      cursor: pointer;
-      transition: background 0.2s;
-      font-size: 16px;
-    }
-
-    .search-toggle-btn:hover {
-      background: #f2f0ec;
-      color: #1a1a18;
-    }
-
-    /* hide tabs when search expanded? we keep both, but can hide text tabs if needed */
-    .hero-tabs.expanded .hero-tab:not(.active) {
+    /* auth state */
+    .nav-links a[data-auth="protected"],
+    .cta-btn[data-auth="protected"] {
       display: none;
     }
 
-    .hero-tabs.expanded .hero-tab.active {
-      padding: 12px 18px;
+    body.logged-in .nav-links a[data-auth="protected"],
+    body.logged-in .cta-btn[data-auth="protected"] {
+      display: inline-block;
     }
 
-    .hero-tabs.expanded .hero-tab-icons {
-      border-left: none;
-      padding-left: 0;
-      margin-left: 0;
+    body.logged-in .nav-links a[data-auth="guest"],
+    body.logged-in .cta-btn[data-auth="guest"] {
+      display: none;
     }
 
-    /* -- floating eco badge card, overlapping bottom-left of the hero -- */
-    .hero-float-card {
-      position: absolute;
-      left: 28px;
-      bottom: -46px;
-      z-index: 3;
+    /* ===== VIDEO HERO SECTION ===== */
+    .video-section {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      background: var(--color-dark);
+      color: var(--color-cream);
       display: flex;
       align-items: center;
-      gap: 14px;
-      background: linear-gradient(135deg, #e9f5ea 0%, #d8ecda 100%);
-      border-radius: 18px;
-      padding: 16px 18px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-      max-width: 240px;
+      justify-content: center;
     }
 
-    .hero-float-icon {
+    .video-wrapper,
+    .full-screen-video-component,
+    .full-screen-video-component .video-wrapper {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .video-section video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .overlay-component {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(75, 83, 32, 0.65) 0%, rgba(0, 0, 0, 0.4) 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* hero content */
+    .opening-with-search {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 80px 48px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .lp-container {
+      max-width: 900px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lp-title-group {
+      margin-bottom: 48px;
+    }
+
+    .opening-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      line-height: 1.05;
+      margin: 0;
+      color: var(--color-cream);
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+      letter-spacing: -0.02em;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .opening-title .gold-accent {
+      color: var(--color-gold);
+      display: block;
+    }
+
+    .opening-eyebrow {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .opening-description {
+      font-size: 1.1rem;
+      color: var(--color-cream);
+      opacity: 0.92;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      line-height: 1.5;
+      max-width: 600px;
+    }
+
+    .opening-description p {
+      margin: 0;
+    }
+
+    /* search bar – working input */
+    .search-bar-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      width: min(100%, 680px);
+      padding: 18px 28px;
+      border-radius: 0;
+      background: rgba(247, 245, 240, 0.08);
+      border: 1.5px solid rgba(247, 245, 240, 0.25);
+      color: var(--color-cream);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      margin: 0 auto;
+    }
+
+    .search-bar-wrap:hover {
+      background: rgba(247, 245, 240, 0.14);
+      border-color: rgba(201, 162, 39, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .search-bar-wrap .icons {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      font-size: 1.05rem;
+      color: var(--color-cream);
+      letter-spacing: 0.3px;
+      font-weight: 400;
+      font-family: var(--font-body);
+      outline: none;
+      min-width: 0;
+    }
+
+    .search-input::placeholder {
+      color: rgba(247, 245, 240, 0.6);
+    }
+
+    .icon-holder {
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: #1a1a18;
-      color: #faf8f5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
+      background: rgba(201, 162, 39, 0.15);
+      display: grid;
+      place-items: center;
+      color: var(--color-cream);
       flex-shrink: 0;
+      transition: all 0.2s;
+      border: 1px solid rgba(201, 162, 39, 0.3);
     }
 
-    .hero-float-text {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+    .search-bar-wrap:hover .icon-holder {
+      background: rgba(201, 162, 39, 0.25);
+      border-color: rgba(201, 162, 39, 0.6);
     }
 
-    .hero-float-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: #1a1a18;
+    .lp-input-icon--aim {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: currentColor;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2'/%3E%3Cpath d='M12 20v2'/%3E%3Cpath d='M2 12h2'/%3E%3Cpath d='M20 12h2'/%3E%3C/svg%3E") no-repeat center;
+      mask-size: contain;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2'/%3E%3Cpath d='M12 20v2'/%3E%3Cpath d='M2 12h2'/%3E%3Cpath d='M20 12h2'/%3E%3C/svg%3E") no-repeat center;
+      -webkit-mask-size: contain;
     }
 
-    .hero-float-sub {
-      font-size: 12px;
-      color: #4a6b4c;
-    }
-
-    .hero-float-expand {
-      margin-left: auto;
-      border: none;
-      background: rgba(255, 255, 255, 0.6);
-      width: 28px;
-      height: 28px;
+    .search-button {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
       border-radius: 50%;
-      display: flex;
+      background: var(--color-gold);
+      color: var(--color-text);
+      border: none;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      color: #1a1a18;
-      cursor: pointer;
-      flex-shrink: 0;
-      font-size: 11px;
-    }
-
-    /* ===== SECTION HEAD ===== */
-    .section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 36px;
-    }
-
-    .section-title {
-      font-size: 28px;
-      font-weight: 600;
-      letter-spacing: -0.5px;
-      font-family: 'Outfit', sans-serif;
-      color: #1a1a18;
-    }
-
-    .view-all {
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      color: #5a5a56;
-      text-decoration: none;
-      transition: color 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .view-all:hover {
-      color: #1a1a18;
-    }
-
-    /* ===== HOMES GRID ===== */
-    .homes-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-      margin-bottom: 80px;
-    }
-
-    .home-card {
-      background: #fff;
-      border: 1px solid rgba(0, 0, 0, 0.05);
-      border-radius: 0;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      color: inherit;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
       transition: all 0.2s;
-      min-height: 100%;
-    }
-
-    .home-card:hover {
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-      border-color: rgba(0, 0, 0, 0.1);
-    }
-
-    .home-label {
-      display: inline-flex;
-      align-items: center;
-      align-self: flex-start;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: #fff;
-      background: #dc2626;
-      font-family: 'Barlow Condensed', sans-serif;
-    }
-
-    .home-label.sale { background: #16a34a; }
-    .home-label.rent { background: #2563eb; }
-    .home-label.featured { background: #7c3aed; }
-
-    .property-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .property-pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 5px 10px;
-      border-radius: 999px;
-      background: #eff6ff;
-      color: #1d4ed8;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .property-pill.green { background: #ecfdf5; color: #047857; }
-    .property-pill.red { background: #fef2f2; color: #b91c1c; }
-
-    .home-image {
-      width: 100%;
-      aspect-ratio: 1/1;
-      background: #e8e6e1;
-      border-radius: 14px;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .home-card:nth-child(1) .home-image {
-      background-image: url('https://images.unsplash.com/photo-1570129477492-45a003537e1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');
-    }
-    .home-card:nth-child(2) .home-image {
-      background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');
-    }
-    .home-card:nth-child(3) .home-image {
-      background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');
-    }
-    .home-card:nth-child(4) .home-image {
-      background-image: url('https://images.unsplash.com/photo-1572120471610-0ecae6ca6a0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');
-    }
-
-    .home-info {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .home-name {
-      font-size: 16px;
-      font-weight: 700;
-      color: #1a1a18;
-      line-height: 1.35;
-    }
-
-    .home-details {
-      font-size: 13px;
-      color: #5a5a56;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .home-details i {
-      color: #1a1a18;
-      margin-right: 4px;
-    }
-
-    .home-price {
-      font-size: 15px;
-      font-weight: 700;
-      color: #1a1a18;
-      margin-top: 4px;
-      font-family: 'DM Mono', monospace;
-    }
-
-    .property-note {
-      font-size: 12px;
-      color: #5a5a56;
-      font-weight: 600;
-    }
-
-    .property-location {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      color: #5a5a56;
-    }
-
-    .btn-view {
-      background: transparent;
-      border: 1px solid #1a1a18;
-      color: #1a1a18;
-      padding: 8px 12px;
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
-      border-radius: 0;
-      transition: all 0.2s;
-      margin-top: auto;
-      align-self: flex-start;
-      font-family: 'Outfit', sans-serif;
-    }
-    .btn-view:hover {
-      background: #1a1a18;
-      color: #faf8f5;
-    }
-
-    /* ===== SUCCESS PROJECTS ===== */
-    .success-projects {
-      margin: 0 0 72px;
-    }
-
-    .success-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 22px;
-    }
-
-    .success-card {
-      background: #fff;
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 12px 28px rgba(15, 59, 94, 0.08);
-    }
-
-    .success-card:hover {
-      transform: translateY(-4px);
-      transition: transform 0.2s ease;
-    }
-
-    .success-badge {
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      background: #b91c1c;
-      color: #fff;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      border-radius: 999px;
-      padding: 6px 10px;
-      z-index: 2;
-    }
-
-    .success-image {
-      position: relative;
-      height: 220px;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .success-body {
-      padding: 18px;
-    }
-
-    .success-body h4 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #1a1a18;
-      margin-bottom: 8px;
-    }
-
-    .success-body p {
-      font-size: 14px;
-      color: #5a5a56;
-      margin-bottom: 14px;
-    }
-
-    .success-meta {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 8px;
-      font-size: 12px;
-      color: #5a5a56;
-      font-weight: 600;
-    }
-
-    /* ===== VIDEO WALKTHROUGHS ===== */
-    .video-walkthroughs {
-      margin: 0 0 72px;
-    }
-
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 22px;
-    }
-
-    .video-card {
-      background: #fff;
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 12px 28px rgba(15, 59, 94, 0.08);
-    }
-
-    .video-frame {
-      position: relative;
-      aspect-ratio: 16 / 9;
-      background: #111;
-    }
-
-    .video-frame iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    .video-card-body {
-      padding: 18px;
-    }
-
-    .video-card-body h4 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #1a1a18;
-      margin-bottom: 8px;
-    }
-
-    .video-card-body p {
-      font-size: 14px;
-      color: #5a5a56;
-    }
-
-    /* ===== LARGE IMAGE SECTION ===== */
-    .large-image-section {
-      position: relative;
-      height: 400px;
-      background: url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80');
-      background-size: cover;
-      background-position: center;
-      margin-bottom: 80px;
-      border-radius: 0;
-      overflow: hidden;
-      display: flex;
-      align-items: flex-end;
-    }
-
-    .large-image-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
-    }
-
-    .image-overlay-text {
-      position: relative;
-      z-index: 2;
-      color: #fff;
-      padding: 40px;
-      font-size: 24px;
-      font-weight: 600;
-      max-width: 600px;
-      line-height: 1.3;
-    }
-
-    /* ===== INFO BOXES ===== */
-    .info-section {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
-      margin-bottom: 80px;
-    }
-
-    .info-box {
-      background: #fff;
-      border: 1px solid rgba(0, 0, 0, 0.05);
-      padding: 32px;
-      border-radius: 0;
-      display: flex;
-      gap: 18px;
-      align-items: flex-start;
-    }
-
-    .info-box i {
-      font-size: 28px;
-      color: #1a1a18;
       flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .info-content h3 {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #1a1a18;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-family: 'Barlow Condensed', sans-serif;
-    }
-
-    .info-content p {
-      font-size: 14px;
-      color: #5a5a56;
-      line-height: 1.6;
-    }
-
-    /* ===== FOOTER ===== */
-    .footer-section {
-      border-top: 1px solid rgba(0, 0, 0, 0.06);
-      padding: 48px 0;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr) auto;
-      gap: 40px;
-      margin-bottom: 24px;
-    }
-
-    .footer-col h4 {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: #1a1a18;
-      margin-bottom: 16px;
-      font-family: 'Barlow Condensed', sans-serif;
-    }
-
-    .footer-col ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .footer-col a {
-      font-size: 13px;
-      color: #5a5a56;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer-col a:hover {
-      color: #1a1a18;
-    }
-
-    .footer-badge {
-      background: #1a1a18;
-      color: #faf8f5;
-      padding: 12px 20px;
-      border-radius: 0;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'Barlow Condensed', sans-serif;
-      align-self: flex-start;
-    }
-
-    .footer-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 20px;
-      border-top: 1px solid rgba(0, 0, 0, 0.06);
-      font-size: 12px;
-      color: #9a9a96;
-    }
-
-    .social {
-      display: flex;
-      gap: 16px;
-    }
-
-    .social i {
-      color: #5a5a56;
       cursor: pointer;
-      transition: color 0.2s;
-      font-size: 14px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%231A1810' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 20px;
+      padding: 0;
     }
 
-    .social i:hover {
-      color: #1a1a18;
+    .search-button:hover {
+      background-color: #dab71c;
+      transform: scale(1.05);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .search-button:active {
+      transform: scale(0.98);
     }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 1024px) {
-      .container { padding: 0 24px; }
-      .homes-grid { grid-template-columns: repeat(2, 1fr); }
-      .success-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .video-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .info-section { grid-template-columns: 1fr; }
-      .footer-section { grid-template-columns: repeat(2, 1fr); }
-      .hero-text h1 { font-size: 44px; }
+      .container {
+        padding: 0 36px;
+      }
+
+      .navbar {
+        gap: 32px;
+      }
+
+      .nav-links {
+        gap: 28px;
+      }
+
+      .search-box {
+        width: 120px;
+      }
+
+      .search-box:focus {
+        width: 160px;
+      }
+
+      .opening-with-search {
+        padding: 60px 36px 80px;
+      }
     }
-    @media (max-width: 700px) {
-      .container { padding: 0 20px; }
-      .navbar { flex-wrap: wrap; gap: 16px; }
-      .nav-links { display: none; }
-      .hamburger { display: block; }
-      .search-box { display: none; }
 
-      .hero { min-height: 560px; margin: 24px 0 150px; border-radius: 14px; }
-      .hero-overlay { padding: 20px 20px 30px; }
-      .hero-text h1 { font-size: 32px; }
-      .hero-text p { max-width: 100%; }
-      .hero-gallery { display: none; }
-      .hero-icon-actions { flex-direction: row; }
-      .hero-bottom { flex-direction: column; align-items: flex-start; gap: 16px; }
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 24px;
+      }
 
-      .hero-tabs { bottom: -28px; padding: 5px; flex-wrap: nowrap; overflow-x: auto; max-width: 95vw; }
-      .hero-tab { padding: 10px 16px; font-size: 13px; }
-      .hero-tab-icons { display: flex; }
-      .hero-float-card { left: 16px; right: 16px; max-width: none; bottom: -70px; }
+      .navbar {
+        gap: 16px;
+        padding: 16px 0;
+      }
 
-      .homes-grid { grid-template-columns: 1fr; gap: 16px; }
-      .success-grid,
-      .video-grid { grid-template-columns: 1fr; gap: 16px; }
-      .footer-section { grid-template-columns: 1fr; gap: 24px; }
-      .section-title { font-size: 22px; }
-      .info-box { padding: 20px; }
-      .large-image-section { height: 300px; }
+      .logo-area {
+        order: 1;
+      }
 
-      .hero-search-wrap input { width: 100px; }
+      .nav-actions {
+        order: 2;
+        gap: 12px;
+      }
+
+      .search-box {
+        width: 80px;
+        font-size: 12px;
+      }
+
+      .search-box:focus {
+        width: 120px;
+      }
+
+      .hamburger {
+        display: flex;
+        order: 3;
+      }
+
+      .brand {
+        font-size: 14px;
+        letter-spacing: 2px;
+      }
+
+      .cta-btn {
+        padding: 8px 16px;
+        font-size: 12px;
+      }
+
+      .nav-links {
+        display: none !important;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0 !important;
+        background: var(--color-cream);
+        border-top: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border);
+        padding: 16px 24px !important;
+        z-index: 999;
+      }
+
+      .nav-links.open {
+        display: flex !important;
+      }
+
+      .nav-links a {
+        padding: 10px 0;
+        width: 100%;
+        border-bottom: 1px solid var(--color-border);
+        color: var(--color-text) !important;
+      }
+
+      .nav-links a:last-child {
+        border-bottom: none;
+      }
+
+      .nav-links a.active {
+        border-bottom: none;
+        font-weight: 600;
+        color: var(--color-accent) !important;
+      }
+
+      .nav-links a:hover {
+        color: var(--color-accent) !important;
+      }
+
+      .opening-title {
+        font-size: clamp(2.2rem, 10vw, 3.5rem);
+      }
+
+      .opening-description {
+        font-size: 1rem;
+      }
+
+      .opening-with-search {
+        padding: 40px 24px;
+      }
+
+      .search-bar-wrap {
+        padding: 14px 20px;
+        gap: 12px;
+        width: 100%;
+        flex-direction: row;
+      }
+
+      .search-input {
+        font-size: 0.95rem;
+      }
+
+      .icon-holder {
+        width: 36px;
+        height: 36px;
+      }
+
+      .search-button {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        background-size: 18px;
+      }
+
+      /* ===== PROPERTY CARDS CENTERED ON MOBILE ===== */
+      .properties-grid,
+      .latest-properties-grid {
+        grid-template-columns: 1fr;
+        justify-items: stretch;
+      }
+
+      .property-card,
+      .latest-property-card {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .properties-section {
+        padding: 60px 24px;
+      }
+
+      .latest-properties-section {
+        padding: 60px 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 16px;
+      }
+
+      .navbar {
+        padding: 12px 0;
+        gap: 8px;
+      }
+
+      .brand {
+        font-size: 12px;
+        letter-spacing: 1.5px;
+      }
+
+      .nav-actions {
+        gap: 8px;
+      }
+
+      .search-box {
+        width: 60px;
+        font-size: 11px;
+      }
+
+      .search-box:focus {
+        width: 100px;
+      }
+
+      .opening-title {
+        font-size: clamp(1.8rem, 12vw, 2.6rem);
+        margin-bottom: 12px;
+      }
+
+      .opening-description {
+        font-size: 0.95rem;
+      }
+
+      .opening-with-search {
+        padding: 30px 16px;
+      }
+
+      .lp-title-group {
+        margin-bottom: 32px;
+      }
+
+      .search-bar-wrap {
+        padding: 12px 16px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-input {
+        font-size: 0.9rem;
+        width: 100%;
+      }
+
+      .search-bar-wrap .icons {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .icon-holder {
+        width: 32px;
+        height: 32px;
+      }
+
+      .search-button {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        background-size: 16px;
+      }
+
+      .properties-section {
+        padding: 40px 16px;
+      }
+
+      .latest-properties-section {
+        padding: 40px 16px;
+      }
+
+      .property-card {
+        max-width: 100%;
+      }
+
+      .latest-property-card {
+        max-width: 100%;
+      }
+    }
+
+    /* ===== PROPERTIES SECTION ===== */
+    .properties-section {
+      padding: 120px 48px;
+      background: var(--color-cream);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 80px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .section-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      color: var(--color-text);
+      margin-bottom: 16px;
+    }
+
+    .section-description {
+      font-size: 1.05rem;
+      color: var(--color-neutral);
+      line-height: 1.6;
+    }
+
+    /* Properties Grid Container */
+    .properties-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      gap: 32px;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Individual Property Card */
+    .property-card {
+      background: #ffffff;
+      border-radius: 0;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+      border: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .property-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Card Image Section */
+    .card-image {
+      position: relative;
+      overflow: hidden;
+      background-color: #f0f0f0;
+      aspect-ratio: 16 / 10;
+    }
+
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .property-card:hover .card-image img {
+      transform: scale(1.04);
+    }
+
+    /* Badges on Card Image */
+    .card-badges {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      padding: 6px 12px;
+      border-radius: 0;
+      text-transform: uppercase;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .badge.exclusive {
+      background: var(--color-accent);
+      color: #ffffff;
+    }
+
+    .badge.for-sale {
+      background: var(--color-text);
+      color: #ffffff;
+    }
+
+    /* Card Content */
+    .card-content {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Category */
+    .card-category {
+      margin-bottom: 12px;
+    }
+
+    .card-category a {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      color: var(--color-accent);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s ease;
+    }
+
+    .card-category a:hover {
+      color: var(--color-text);
+    }
+
+    /* Card Title */
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 500;
+      line-height: 1.35;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+
+    .card-title a {
+      color: var(--color-text);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .card-title a:hover {
+      color: var(--color-accent);
+    }
+
+    /* Card Price */
+    .card-price {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-accent);
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    /* Card Meta Information */
+    .card-meta {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .card-meta li {
+      font-size: 13px;
+      color: var(--color-neutral);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-meta li i {
+      color: var(--color-accent);
+      font-size: 12px;
+      width: 12px;
+    }
+
+    /* ===== LATEST PROPERTIES SECTION ===== */
+    .latest-properties-section {
+      padding: 120px 48px;
+      background: var(--color-cream);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .section-header-with-btn {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 48px;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .header-content h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.1;
+      color: var(--color-text);
+      margin-bottom: 8px;
+    }
+
+    .header-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-label i {
+      font-size: 6px;
+    }
+
+    .view-all-link {
+      background: var(--color-accent);
+      color: var(--color-cream) !important;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 12px 28px;
+      border-radius: 0;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .view-all-link:hover {
+      background: var(--color-text);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Property Tabs */
+    .property-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 10px 28px;
+      border: 1.5px solid var(--color-border);
+      background: transparent;
+      border-radius: 0;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--color-neutral);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-body);
+      text-transform: capitalize;
+    }
+
+    .tab-btn:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    .tab-btn.active {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      color: var(--color-cream);
+    }
+
+    /* Properties Grid */
+    .latest-properties-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      gap: 32px;
+      margin-bottom: 40px;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .latest-property-card {
+      background: #ffffff;
+      border-radius: 0;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+      border: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      animation: fadeIn 0.5s ease;
+      min-width: 0;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .latest-property-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Card Image */
+    .latest-card-image {
+      position: relative;
+      overflow: hidden;
+      background: #f0f0f0;
+      aspect-ratio: 16 / 10;
+    }
+
+    .latest-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .latest-property-card:hover .latest-card-image img {
+      transform: scale(1.04);
+    }
+
+    /* Card Badges */
+    .latest-card-badges {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .latest-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      padding: 5px 12px;
+      border-radius: 0;
+      text-transform: uppercase;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .latest-badge.for-sale {
+      background: var(--color-accent);
+      color: var(--color-cream);
+    }
+
+    .latest-badge.for-rent {
+      background: #D97757;
+      color: var(--color-cream);
+    }
+
+    .latest-badge.sold {
+      background: var(--color-text);
+      color: var(--color-cream);
+    }
+
+    /* Card Price Badge */
+    .latest-card-price {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: rgba(0, 0, 0, 0.8);
+      color: var(--color-cream);
+      font-size: 16px;
+      font-weight: 700;
+      padding: 8px 16px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    /* Card Content */
+    .latest-card-content {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .latest-card-category {
+      margin-bottom: 12px;
+    }
+
+    .latest-card-category a {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      color: var(--color-accent);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .latest-card-category a:hover {
+      color: var(--color-text);
+    }
+
+    .latest-card-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1.3;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+
+    .latest-card-title a {
+      color: var(--color-text);
+      text-decoration: none;
+      transition: color 0.2s;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .latest-card-title a:hover {
+      color: var(--color-accent);
+    }
+
+    .latest-card-meta {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .latest-card-meta li {
+      font-size: 13px;
+      color: var(--color-neutral);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .latest-card-meta li i {
+      color: var(--color-accent);
+      font-size: 12px;
+      width: 14px;
+    }
+
+    .listing-id {
+      font-size: 12px !important;
+      color: var(--color-neutral) !important;
+    }
+
+    .listing-id b {
+      color: var(--color-text);
+      font-weight: 600;
+    }
+
+    /* Property Features */
+    .latest-property-features {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .latest-property-features li {
+      font-size: 13px;
+      color: var(--color-text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+    }
+
+    .latest-property-features li i {
+      color: var(--color-accent);
+      font-size: 13px;
+      width: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .properties-grid,
+      .latest-properties-grid {
+        grid-template-columns: minmax(0, 1fr);
+        justify-items: stretch;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .property-card,
+      .latest-property-card {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+      }
+
+      .properties-section,
+      .latest-properties-section {
+        padding: 60px 24px;
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+    }
+
+    /* Load More Button */
+    .load-more-container {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .load-more-btn {
+      padding: 12px 40px;
+      background: transparent;
+      color: var(--color-accent);
+      border: 1.5px solid var(--color-accent);
+      border-radius: 0;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .load-more-btn:hover:not(:disabled) {
+      background: var(--color-accent);
+      color: var(--color-cream);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(45, 95, 63, 0.2);
+    }
+
+    .load-more-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* ===== VIDEO WALKTHROUGHS SECTION ===== */
+    .video-walkthroughs-section {
+      padding: 120px 48px;
+      background: var(--color-cream);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .walkthroughs-header {
+      text-align: center;
+      margin-bottom: 80px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .walkthroughs-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      color: var(--color-text);
+      margin-bottom: 16px;
+    }
+
+    .walkthroughs-description {
+      font-size: 1.05rem;
+      color: var(--color-neutral);
+      line-height: 1.6;
+    }
+
+    /* Video Walkthroughs Grid */
+    .walkthroughs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .walkthrough-card {
+      background: #ffffff;
+      border-radius: 0;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+      border: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .walkthrough-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .video-thumbnail {
+      position: relative;
+      overflow: hidden;
+      background: #000;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .video-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .walkthrough-card:hover .video-thumbnail img {
+      transform: scale(1.04);
+    }
+
+    .play-button {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--color-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
+
+    .play-button:hover {
+      transform: scale(1.1);
+      background: #dab71c;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .play-button i {
+      font-size: 28px;
+      color: var(--color-text);
+      margin-left: 4px;
+    }
+
+    .walkthrough-info {
+      padding: 28px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .walkthrough-category {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      color: var(--color-accent);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .walkthrough-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 1.35;
+      color: var(--color-text);
+      margin-bottom: 12px;
+      flex: 1;
+    }
+
+    .walkthrough-duration {
+      font-size: 13px;
+      color: var(--color-neutral);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .walkthrough-duration i {
+      color: var(--color-accent);
+      font-size: 13px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--color-accent);
+      color: var(--color-cream);
+      padding: 80px 48px 40px;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer-column h3 {
+      font-family: var(--font-display);
+      font-size: 18px;
+      margin-bottom: 24px;
+      font-weight: 600;
+      color: var(--color-cream);
+    }
+
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-column li {
+      margin-bottom: 12px;
+    }
+
+    .footer-column a {
+      color: rgba(247, 245, 240, 0.8);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-column a:hover {
+      color: var(--color-gold);
+    }
+
+    .footer-column p {
+      color: rgba(247, 245, 240, 0.8);
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .footer-logo {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(247, 245, 240, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-cream);
+      border: 1px solid rgba(247, 245, 240, 0.2);
+      transition: all 0.2s ease;
+    }
+
+    .social-links a:hover {
+      background: var(--color-gold);
+      color: var(--color-text);
+      border-color: var(--color-gold);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(247, 245, 240, 0.1);
+      padding-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-bottom p {
+      font-size: 13px;
+      color: rgba(247, 245, 240, 0.7);
+      margin: 0;
+    }
+
+    .footer-bottom-links {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .footer-bottom-links a {
+      font-size: 13px;
+      color: rgba(247, 245, 240, 0.7);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-bottom-links a:hover {
+      color: var(--color-gold);
+    }
+
+    /* Responsive Footer & Video Walkthroughs */
+    @media (max-width: 1024px) {
+      .video-walkthroughs-section {
+        padding: 80px 36px;
+      }
+
+      .walkthroughs-grid {
+        gap: 32px;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      }
+
+      footer {
+        padding: 60px 36px 30px;
+      }
+
+      .footer-content {
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .video-walkthroughs-section {
+        padding: 60px 24px;
+      }
+
+      .walkthroughs-header {
+        margin-bottom: 60px;
+      }
+
+      .walkthroughs-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 24px;
+      }
+
+      footer {
+        padding: 40px 24px 24px;
+      }
+
+      .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+        margin-bottom: 32px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-bottom-links {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .video-walkthroughs-section {
+        padding: 40px 16px;
+      }
+
+      .walkthroughs-title {
+        font-size: clamp(1.8rem, 5vw, 2.4rem);
+      }
+
+      .walkthroughs-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      footer {
+        padding: 32px 16px 20px;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        margin-bottom: 24px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .footer-column h3 {
+        font-size: 16px;
+        margin-bottom: 16px;
+      }
+
+      .footer-column a {
+        font-size: 13px;
+      }
     }
   </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const isOpen = navLinks.classList.toggle('open');
+          hamburger.setAttribute('aria-expanded', isOpen);
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+            navLinks.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+          }
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+              navLinks.classList.remove('open');
+              hamburger.setAttribute('aria-expanded', 'false');
+            }
+          });
+        });
+
+        window.addEventListener('resize', function() {
+          if (window.innerWidth > 768) {
+            navLinks.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      // Auth state
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      if (isLoggedIn) {
+        document.body.classList.add('logged-in');
+      }
+
+      document.querySelectorAll('[data-action="logout"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          localStorage.removeItem('isLoggedIn');
+          document.body.classList.remove('logged-in');
+          window.location.href = 'login.html';
+        });
+      });
+
+      // Video lazy loading
+      const video = document.querySelector('.video-section video');
+      if (video) {
+        const sources = video.querySelectorAll('source[data-src]');
+        if (sources.length) {
+          sources.forEach(source => {
+            const dataSrc = source.getAttribute('data-src');
+            if (dataSrc) {
+              source.setAttribute('src', dataSrc);
+              source.removeAttribute('data-src');
+            }
+          });
+          video.load();
+          video.play().catch(() => {
+            // Autoplay blocked, poster will show
+          });
+        }
+      }
+
+      // Search functionality - filters cards on this page
+      const searchInput = document.getElementById('heroSearchInput');
+      const searchButton = document.getElementById('heroSearchButton');
+
+      function performSearch() {
+        const query = searchInput.value.trim().toLowerCase();
+
+        const allCards = document.querySelectorAll('.property-card, .latest-property-card');
+        let matchCount = 0;
+
+        allCards.forEach(card => {
+          const title = card.querySelector('.card-title, .latest-card-title')?.textContent.toLowerCase() || '';
+          const location = card.querySelector('.card-meta, .latest-card-meta')?.textContent.toLowerCase() || '';
+          const isMatch = query === '' || title.includes(query) || location.includes(query);
+          card.style.display = isMatch ? '' : 'none';
+          if (isMatch) matchCount++;
+        });
+
+        // Scroll down to the results
+        const target = document.querySelector('.properties-section');
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+
+        // Show a "no results" message if nothing matched
+        let msg = document.getElementById('noResultsMsg');
+        if (matchCount === 0 && query !== '') {
+          if (!msg) {
+            msg = document.createElement('p');
+            msg.id = 'noResultsMsg';
+            msg.style.textAlign = 'center';
+            msg.style.color = 'var(--color-neutral)';
+            msg.style.margin = '20px 0';
+            document.querySelector('.properties-grid').insertAdjacentElement('beforebegin', msg);
+          }
+          msg.textContent = `No properties found matching "${searchInput.value}"`;
+        } else if (msg) {
+          msg.remove();
+        }
+      }
+
+      if (searchInput) {
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            performSearch();
+          }
+        });
+      }
+
+      if (searchButton) {
+        searchButton.addEventListener('click', function(e) {
+          e.preventDefault();
+          performSearch();
+        });
+      }
+    });
+  </script>
 </head>
 <body>
-
-<div id="navbar-root"></div>
-
-<!-- HERO -->
-<div class="container">
-  <section class="hero">
-    <div class="hero-overlay">
-
-      <div class="hero-top">
-        <div class="hero-location">
-          <span class="pin-icon"><i class="fas fa-map-marker-alt"></i></span>
-          Kigali, Rwanda
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo-area">
+          <a href="index.html" class="brand">HOMELINE</a>
         </div>
-        <div class="hero-gallery">
-          <div class="gallery-thumb" style="background-image:url('https://images.unsplash.com/photo-1570129477492-45a003537e1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80')"></div>
-          <div class="gallery-thumb" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80')"></div>
-          <div class="gallery-thumb" style="background-image:url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80')"></div>
-          <div class="gallery-thumb" style="background-image:url('https://images.unsplash.com/photo-1572120471610-0ecae6ca6a0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80')"></div>
-          <span class="gallery-more">+5</span>
+
+        <div class="nav-links" id="navLinks">
+          <a href="index.html" class="active">Home</a>
+          <a href="buy.html">Buy</a>
+          <a href="rent.html">Rent</a>
+          <a href="sell.html">Sell</a>
+          <a href="property.html">Properties</a>
+          <a href="contact.html">Contact</a>
+          <a href="create-post.html" data-auth="protected">Create Post</a>
+          <a href="login.html" data-auth="guest">Login</a>
+          <a href="index.html" data-action="logout" data-auth="protected">Logout</a>
+        </div>
+
+        <div class="nav-actions">
+          <input type="text" class="search-box" placeholder="Search...">
+          <div class="nav-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <a href="login.html" class="cta-btn" data-auth="guest">Sign in</a>
+          <button class="hamburger" id="hamburger" type="button" aria-label="Toggle navigation" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section id="hero" class="video-section">
+    <div class="video-wrapper">
+      <div class="full-screen-video-component">
+        <div class="video-wrapper">
+          <video
+            poster="https://res.cloudinary.com/luxuryp/videos/f_auto,q_auto/so_0,eo_0/pwoki3qvfwc99mavpzek/-f4b4-4b35-bf4e-0ab7785839b1.jpg"
+            style="height:100%;"
+            loop
+            muted
+            autoplay
+            playsinline>
+            <source data-src="https://res.cloudinary.com/luxuryp/videos/f_webm,vc_vp9,q_auto,w_1280,c_limit/pwoki3qvfwc99mavpzek/-f4b4-4b35-bf4e-0ab7785839b1.webm" type="video/webm;codecs=vp9">
+            <source data-src="https://res.cloudinary.com/luxuryp/videos/f_mp4,vc_h265,q_auto,w_1280,c_limit/pwoki3qvfwc99mavpzek/-f4b4-4b35-bf4e-0ab7785839b1.mp4" type="video/mp4;codecs=hvc1">
+            <source data-src="https://res.cloudinary.com/luxuryp/videos/f_mp4,vc_h264,q_auto,w_1280,c_limit/pwoki3qvfwc99mavpzek/-f4b4-4b35-bf4e-0ab7785839b1.mp4" type="video/mp4">
+          </video>
         </div>
       </div>
+    </div>
 
-      <div class="hero-bottom">
-        <div class="hero-text">
-          <div class="hero-label">New Collection 2026</div>
-          <h1>Discover <em>Premium</em> Homes<br>for a Greener Future</h1>
-          <p>Explore thoughtfully curated homes and property listings crafted for modern, sustainable living.</p>
-          <div class="rating">
-            <div class="stars">
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
+    <div class="overlay-component"></div>
+
+    <div class="opening-with-search">
+      <div class="lp-container">
+        <div class="lp-title-group">
+          <span class="opening-eyebrow">Visuals That Sell Spaces</span>
+          <h1 class="opening-title">
+            Find Your Next
+            <span class="gold-accent">Home</span>
+          </h1>
+          <div class="opening-description">
+            <p>Premium photography and videography that highlights the beauty, value, and potential of every property</p>
+          </div>
+        </div>
+
+        <div class="search-bar-wrap" role="search">
+          <input 
+            type="text" 
+            class="search-input" 
+            id="heroSearchInput"
+            placeholder="Search properties, neighborhoods, agents..." 
+            aria-label="Search properties"
+            autocomplete="off"
+          >
+          <div class="icons">
+            <div class="icon-holder" aria-hidden="true">
+              <span class="lp-input-icon lp-input-icon--aim"></span>
             </div>
-            <span>4.9 • 1,942 Happy Buyers</span>
+            <button class="search-button" id="heroSearchButton" type="button" aria-label="Search"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Properties Section -->
+  <section class="properties-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Featured Listings</div>
+        <h2 class="section-title">Discover Premium Properties</h2>
+        <p class="section-description">Handpicked homes and investments in Kigali's most sought-after neighborhoods</p>
+      </div>
+
+      <div class="properties-grid">
+        <!-- Property Card 1 -->
+        <div class="property-card">
+          <div class="card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2025/09/QUICK-photo-400x240.webp" alt="Brand-New Duplex with Rebero Views">
+            <div class="card-badges">
+              <span class="badge exclusive">Exclusive</span>
+              <span class="badge for-sale">For Sale</span>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-category">
+              <a href="property.html">Houses</a>
+            </div>
+            <h3 class="card-title">
+              <a href="property.html">Brand-New Duplex with Rebero Views</a>
+            </h3>
+            <div class="card-price">390M Fr</div>
+            <ul class="card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Gahanga</li>
+            </ul>
           </div>
         </div>
 
-        <div class="hero-icon-actions">
-          <button class="icon-float" aria-label="Save"><i class="far fa-star"></i></button>
-          <button class="icon-float" aria-label="Share"><i class="fas fa-share-alt"></i></button>
+        <!-- Property Card 2 -->
+        <div class="property-card">
+          <div class="card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2026/01/quick-photo_-15-400x240.webp" alt="6 Prime Residential Plots in Kagarama">
+            <div class="card-badges">
+              <span class="badge exclusive">Exclusive</span>
+              <span class="badge for-sale">For Sale</span>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-category">
+              <a href="property.html">Land</a>
+            </div>
+            <h3 class="card-title">
+              <a href="property.html">6 Prime Residential Plots in Kagarama</a>
+            </h3>
+            <div class="card-price">77M Fr</div>
+            <ul class="card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Kicukiro</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Property Card 3 -->
+        <div class="property-card">
+          <div class="card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2025/12/QUICK-photo_6-400x240.webp" alt="Stylish 3Bedroom Apartment">
+            <div class="card-badges">
+              <span class="badge exclusive">Exclusive</span>
+              <span class="badge for-sale">For Sale</span>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-category">
+              <a href="property.html">Apartments</a>
+            </div>
+            <h3 class="card-title">
+              <a href="property.html">Stylish 3-Bedroom Apartment in Busanza</a>
+            </h3>
+            <div class="card-price">95M Fr</div>
+            <ul class="card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Busanza</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Property Card 4 -->
+        <div class="property-card">
+          <div class="card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2025/12/quick-photo_-3-400x240.webp" alt="Fully Furnished Modern Home in Kabeza">
+            <div class="card-badges">
+              <span class="badge exclusive">Exclusive</span>
+              <span class="badge for-sale">For Sale</span>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-category">
+              <a href="property.html">Houses</a>
+            </div>
+            <h3 class="card-title">
+              <a href="property.html">Fully Furnished Modern Home in Kabeza</a>
+            </h3>
+            <div class="card-price">195M Fr</div>
+            <ul class="card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Kabeza</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Property Card 5 -->
+        <div class="property-card">
+          <div class="card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2025/11/QUICK-photo_1-3-400x240.webp" alt="Modern Comfort in Kibagabaga">
+            <div class="card-badges">
+              <span class="badge exclusive">Exclusive</span>
+              <span class="badge for-sale">For Sale</span>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-category">
+              <a href="property.html">Houses</a>
+            </div>
+            <h3 class="card-title">
+              <a href="property.html">Modern Comfort Meets Convenience in Kibagabaga</a>
+            </h3>
+            <div class="card-price">450M Fr</div>
+            <ul class="card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Kibagabaga</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Property Card 6 -->
+        <div class="property-card">
+          <div class="card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2025/10/DSC02088-1-400x240.webp" alt="3 Bedrooms Affordable Apartment">
+            <div class="card-badges">
+              <span class="badge exclusive">Exclusive</span>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-category">
+              <a href="property.html">Apartments</a>
+            </div>
+            <h3 class="card-title">
+              <a href="property.html">3-Bedroom Apartment in Citizen Residential Estate</a>
+            </h3>
+            <div class="card-price">95M Fr</div>
+            <ul class="card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Busanza</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Property Card 7 -->
+        <div class="property-card">
+          <div class="card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2025/04/untitled-00984-400x240.jpg" alt="City Lights Villas Luxury Living">
+            <div class="card-badges">
+              <span class="badge exclusive">Exclusive</span>
+              <span class="badge for-sale">For Sale</span>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-category">
+              <a href="property.html">Villa</a>
+            </div>
+            <h3 class="card-title">
+              <a href="property.html">City Lights Villas – Luxury Living with Rooftop Views</a>
+            </h3>
+            <div class="card-price">1.029B Fr</div>
+            <ul class="card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Kiyovu</li>
+            </ul>
+          </div>
         </div>
       </div>
-
     </div>
+  </section>
 
-    <!-- floating tab bar overlapping the bottom edge WITH SEARCH -->
-    <div class="hero-tabs" id="heroTabs">
-      <a href="#" class="hero-tab active">Explore</a>
-      <a href="#" class="hero-tab">Inspiration</a>
-      
-      <!-- search container -->
-      <div class="hero-search-wrap" id="heroSearchWrap">
-        <input type="text" placeholder="Search homes..." id="heroSearchInput">
-        <button id="heroSearchBtn"><i class="fas fa-arrow-right"></i></button>
+  <!-- Latest Properties Section -->
+  <section class="latest-properties-section">
+    <div class="container">
+      <div class="section-header-with-btn">
+        <div class="header-content">
+          <div class="header-label"><i class="fas fa-circle"></i> Latest Listings</div>
+          <h2>Browse Available Properties</h2>
+        </div>
+        <a href="buy.html" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
       </div>
 
-      <div class="hero-tab-icons">
-        <button class="search-toggle-btn" id="searchToggleBtn" aria-label="Toggle search">
-          <i class="fas fa-search"></i>
+      <!-- Property Tabs -->
+      <div class="property-tabs">
+        <button class="tab-btn active" data-filter="all">All Properties</button>
+        <button class="tab-btn" data-filter="sale">For Sale</button>
+        <button class="tab-btn" data-filter="rent">For Rent</button>
+      </div>
+
+      <!-- Properties Grid -->
+      <div class="latest-properties-grid" id="propertiesGrid">
+
+        <!-- Card 1: For Sale -->
+        <div class="latest-property-card" data-type="sale">
+          <div class="latest-card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2026/07/SUBIRA-RESIDENCE-TWO-BEDROOM-DESIGN_page-0008Quick-320x226.webp" alt="SUBIRA 2 Bedroom Apartment">
+            <div class="latest-card-badges">
+              <span class="latest-badge for-sale">For Sale</span>
+            </div>
+            <div class="latest-card-price">867M Fr</div>
+          </div>
+          <div class="latest-card-content">
+            <div class="latest-card-category"><a href="property.html">Apartments</a></div>
+            <h3 class="latest-card-title"><a href="property.html">SUBIRA 2-Bedroom Apartment Nyarutarama</a></h3>
+            <ul class="latest-card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Nyarutarama, Kigali</li>
+              <li class="listing-id"><b>Listing ID:</b> AP26-001728</li>
+            </ul>
+            <ul class="latest-property-features">
+              <li><i class="fas fa-bed"></i> 3 Bd</li>
+              <li><i class="fas fa-bath"></i> 3 Ba</li>
+              <li><i class="fas fa-arrows-alt"></i> 232 Sqm</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 2: For Sale -->
+        <div class="latest-property-card" data-type="sale">
+          <div class="latest-card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2026/07/quick-photo-1-21-320x213.webp" alt="Abby's Apartments">
+            <div class="latest-card-badges">
+              <span class="latest-badge for-sale">For Sale</span>
+            </div>
+            <div class="latest-card-price">219.3M Fr</div>
+          </div>
+          <div class="latest-card-content">
+            <div class="latest-card-category"><a href="property.html">Apartments</a></div>
+            <h3 class="latest-card-title"><a href="property.html">Abby's Apartments in Gacuriro</a></h3>
+            <ul class="latest-card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Gacuriro, Kigali</li>
+              <li class="listing-id"><b>Listing ID:</b> AP26-001828</li>
+            </ul>
+            <ul class="latest-property-features">
+              <li><i class="fas fa-bed"></i> 5 Bd</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 3: For Sale -->
+        <div class="latest-property-card" data-type="sale">
+          <div class="latest-card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2026/06/quick-photo-1-5-4-320x213.webp" alt="4 in1 Residential Property">
+            <div class="latest-card-badges">
+              <span class="latest-badge for-sale">For Sale</span>
+            </div>
+            <div class="latest-card-price">550M Fr</div>
+          </div>
+          <div class="latest-card-content">
+            <div class="latest-card-category"><a href="property.html">Houses</a></div>
+            <h3 class="latest-card-title"><a href="property.html">Fully Furnished 4 in1 Property in Kanombe</a></h3>
+            <ul class="latest-card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Kanombe, Kigali</li>
+              <li class="listing-id"><b>Listing ID:</b> HS26-006728</li>
+            </ul>
+            <ul class="latest-property-features">
+              <li><i class="fas fa-bed"></i> 3 Bd</li>
+              <li><i class="fas fa-bath"></i> 2 Ba</li>
+              <li><i class="fas fa-arrows-alt"></i> 700 Sqm</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 4: For Sale -->
+        <div class="latest-property-card" data-type="sale">
+          <div class="latest-card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2026/06/quick-photo-1-20-1-320x213.webp" alt="Elegant Home in Kibagabaga">
+            <div class="latest-card-badges">
+              <span class="latest-badge for-sale">For Sale</span>
+            </div>
+            <div class="latest-card-price">500M Fr</div>
+          </div>
+          <div class="latest-card-content">
+            <div class="latest-card-category"><a href="property.html">Houses</a></div>
+            <h3 class="latest-card-title"><a href="property.html">Elegant Home in Prime Kibagabaga</a></h3>
+            <ul class="latest-card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Kibagabaga, Kigali</li>
+              <li class="listing-id"><b>Listing ID:</b> HS26-006228</li>
+            </ul>
+            <ul class="latest-property-features">
+              <li><i class="fas fa-bed"></i> 8 Bd</li>
+              <li><i class="fas fa-bath"></i> 8 Ba</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 5: For Sale -->
+        <div class="latest-property-card" data-type="sale">
+          <div class="latest-card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2026/06/quick-photo-1-47-1-320x213.webp" alt="Elegant Home in Gisozi">
+            <div class="latest-card-badges">
+              <span class="latest-badge for-sale">For Sale</span>
+            </div>
+            <div class="latest-card-price">290M Fr</div>
+          </div>
+          <div class="latest-card-content">
+            <div class="latest-card-category"><a href="property.html">Houses</a></div>
+            <h3 class="latest-card-title"><a href="property.html">Elegant Home for Sale in Gisozi</a></h3>
+            <ul class="latest-card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Gisozi, Kigali</li>
+              <li class="listing-id"><b>Listing ID:</b> HS26-006628</li>
+            </ul>
+            <ul class="latest-property-features">
+              <li><i class="fas fa-bed"></i> 4 Bd</li>
+              <li><i class="fas fa-bath"></i> 3 Ba</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 6: For Sale -->
+        <div class="latest-property-card" data-type="sale">
+          <div class="latest-card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2026/06/untitled-1-2-320x213.webp" alt="Modern Family Home in Rusororo">
+            <div class="latest-card-badges">
+              <span class="latest-badge for-sale">For Sale</span>
+            </div>
+            <div class="latest-card-price">135M Fr</div>
+          </div>
+          <div class="latest-card-content">
+            <div class="latest-card-category"><a href="property.html">Houses</a></div>
+            <h3 class="latest-card-title"><a href="property.html">Modern Family Home in Rusororo</a></h3>
+            <ul class="latest-card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Rusororo, Kigali</li>
+              <li class="listing-id"><b>Listing ID:</b> HS26-004328</li>
+            </ul>
+            <ul class="latest-property-features">
+              <li><i class="fas fa-bed"></i> 4 Bd</li>
+              <li><i class="fas fa-bath"></i> 2 Ba</li>
+              <li><i class="fas fa-arrows-alt"></i> 351 Sqm</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 7: For Sale -->
+        <div class="latest-property-card" data-type="sale">
+          <div class="latest-card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2026/06/untitled-07344-320x180.webp" alt="Prime Development Plot in Kimironko">
+            <div class="latest-card-badges">
+              <span class="latest-badge for-sale">For Sale</span>
+            </div>
+            <div class="latest-card-price">230M Fr</div>
+          </div>
+          <div class="latest-card-content">
+            <div class="latest-card-category"><a href="property.html">Land</a></div>
+            <h3 class="latest-card-title"><a href="property.html">Prime Development Plot in Kimironko, Zindiro</a></h3>
+            <ul class="latest-card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Kimironko, Kigali</li>
+              <li class="listing-id"><b>Listing ID:</b> PL26-003328</li>
+            </ul>
+            <ul class="latest-property-features">
+              <li><i class="fas fa-arrows-alt"></i> 1927 Sqm</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 8: For Sale -->
+        <div class="latest-property-card" data-type="sale">
+          <div class="latest-card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2025/09/QUICK-photo-400x240.webp" alt="Brand-New Duplex">
+            <div class="latest-card-badges">
+              <span class="latest-badge for-sale">For Sale</span>
+            </div>
+            <div class="latest-card-price">390M Fr</div>
+          </div>
+          <div class="latest-card-content">
+            <div class="latest-card-category"><a href="property.html">Houses</a></div>
+            <h3 class="latest-card-title"><a href="property.html">Brand-New Duplex with Rebero Views</a></h3>
+            <ul class="latest-card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Gahanga, Kigali</li>
+              <li class="listing-id"><b>Listing ID:</b> HS25-005728</li>
+            </ul>
+            <ul class="latest-property-features">
+              <li><i class="fas fa-bed"></i> 8 Bd</li>
+              <li><i class="fas fa-bath"></i> 6 Ba</li>
+              <li><i class="fas fa-arrows-alt"></i> 300 Sqm</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 9: For Rent -->
+        <div class="latest-property-card" data-type="rent">
+          <div class="latest-card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2025/11/QUICK-photo_5-6-400x240.webp" alt="Modern Furnished House for Rent">
+            <div class="latest-card-badges">
+              <span class="latest-badge for-rent">For Rent</span>
+            </div>
+            <div class="latest-card-price">878K Fr</div>
+          </div>
+          <div class="latest-card-content">
+            <div class="latest-card-category"><a href="property.html">Houses</a></div>
+            <h3 class="latest-card-title"><a href="property.html">Modern Furnished House for Rent in Kabeza</a></h3>
+            <ul class="latest-card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Kabeza, Kigali</li>
+              <li class="listing-id"><b>Listing ID:</b> HS25-007928</li>
+            </ul>
+            <ul class="latest-property-features">
+              <li><i class="fas fa-bed"></i> 2 Bd</li>
+              <li><i class="fas fa-bath"></i> 2 Ba</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 10: For Rent -->
+        <div class="latest-property-card" data-type="rent">
+          <div class="latest-card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2024/10/house-6-of-17-400x240.jpg" alt="Spacious Home for Rent">
+            <div class="latest-card-badges">
+              <span class="latest-badge for-rent">For Rent</span>
+            </div>
+            <div class="latest-card-price">2.07M Fr</div>
+          </div>
+          <div class="latest-card-content">
+            <div class="latest-card-category"><a href="property.html">Houses</a></div>
+            <h3 class="latest-card-title"><a href="property.html">Spacious 5-Bedroom Home for Rent in Rusororo</a></h3>
+            <ul class="latest-card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Rusororo, Kigali</li>
+              <li class="listing-id"><b>Listing ID:</b> HS24-007828</li>
+            </ul>
+            <ul class="latest-property-features">
+              <li><i class="fas fa-bed"></i> 5 Bd</li>
+              <li><i class="fas fa-bath"></i> 6 Ba</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 11: Sold -->
+        <div class="latest-property-card" data-type="sale">
+          <div class="latest-card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2026/02/quick-photo_-2-400x240.webp" alt="Modern Home in Muyange">
+            <div class="latest-card-badges">
+              <span class="latest-badge sold">Sold</span>
+            </div>
+            <div class="latest-card-price">190M Fr</div>
+          </div>
+          <div class="latest-card-content">
+            <div class="latest-card-category"><a href="property.html">Houses</a></div>
+            <h3 class="latest-card-title"><a href="property.html">Modern Home for Sale in Muyange-Kicukiro</a></h3>
+            <ul class="latest-card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Kicukiro, Kigali</li>
+              <li class="listing-id"><b>Listing ID:</b> HS26-001328</li>
+            </ul>
+            <ul class="latest-property-features">
+              <li><i class="fas fa-bed"></i> 4 Bd</li>
+              <li><i class="fas fa-bath"></i> 3 Ba</li>
+              <li><i class="fas fa-arrows-alt"></i> 300 Sqm</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 12: For Sale (Hidden) -->
+        <div class="latest-property-card" data-type="sale">
+          <div class="latest-card-image">
+            <img src="https://www.quick.rw/wp-content/uploads/classified-listing/2026/02/quick-photo_-400x240.webp" alt="Prestigious Kibagabaga Home">
+            <div class="latest-card-badges">
+              <span class="latest-badge for-sale">For Sale</span>
+            </div>
+            <div class="latest-card-price">380M Fr</div>
+          </div>
+          <div class="latest-card-content">
+            <div class="latest-card-category"><a href="property.html">Houses</a></div>
+            <h3 class="latest-card-title"><a href="property.html">Prestigious Kibagabaga Home with Excellent Access</a></h3>
+            <ul class="latest-card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> Kibagabaga, Kigali</li>
+              <li class="listing-id"><b>Listing ID:</b> HS26-001528</li>
+            </ul>
+            <ul class="latest-property-features">
+              <li><i class="fas fa-bed"></i> 6 Bd</li>
+              <li><i class="fas fa-bath"></i> 8 Ba</li>
+              <li><i class="fas fa-arrows-alt"></i> 340 Sqm</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Load More Button -->
+      <div class="load-more-container">
+        <button class="load-more-btn" onclick="loadMoreProperties()">
+          <i class="fas fa-plus-circle"></i> Load More Properties
         </button>
-        <i class="fas fa-sliders-h"></i>
-        <i class="fas fa-user"></i>
       </div>
-    </div>
-
-    <!-- floating eco badge -->
- 
-  </section>
-</div>
-
-<!-- HOMES SHOWCASE -->
-<div class="container">
-  <div class="section-head">
-    <h3 class="section-title">Main Property Directory Listing</h3>
-    <a href="#" class="view-all">Explore Category <i class="fas fa-arrow-right"></i></a>
-  </div>
-  <div class="homes-grid" id="homesGrid">
-    <!-- cards will be filtered by search -->
-    <article class="home-card" data-title="Brand-New Duplex with Rebero Views — Gahanga" data-location="Gahanga">
-      <span class="home-label">Exclusive</span>
-      <div class="home-image" style="background-image: url('https://images.unsplash.com/photo-1570129477492-45a003537e1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');"></div>
-      <div class="property-meta">
-        <span class="property-pill red">For Sale</span>
-        <span class="property-pill">House</span>
-      </div>
-      <div class="home-info">
-        <h4 class="home-name">Brand-New Duplex with Rebero Views — Gahanga</h4>
-        <div class="home-details">
-          <span><i class="fas fa-bed"></i>4 bed</span>
-          <span><i class="fas fa-bath"></i>3 bath</span>
-        </div>
-        <div class="home-price">RWF 390,000,000</div>
-        <div class="property-note">Price Type: Fixed</div>
-        <div class="property-location"><i class="fas fa-map-marker-alt"></i> Gahanga, Kigali</div>
-      </div>
-      <a href="property.html" class="btn-view">View Listing</a>
-    </article>
-
-    <article class="home-card" data-title="City Light Apartment with Rooftop Access" data-location="Kacyiru">
-      <span class="home-label rent">Featured</span>
-      <div class="home-image" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');"></div>
-      <div class="property-meta">
-        <span class="property-pill">For Rent</span>
-        <span class="property-pill green">Apartment</span>
-      </div>
-      <div class="home-info">
-        <h4 class="home-name">City Light Apartment with Rooftop Access</h4>
-        <div class="home-details">
-          <span><i class="fas fa-bed"></i>2 bed</span>
-          <span><i class="fas fa-bath"></i>2 bath</span>
-        </div>
-        <div class="home-price">RWF 1,200,000 / month</div>
-        <div class="property-note">Price Type: Monthly</div>
-        <div class="property-location"><i class="fas fa-map-marker-alt"></i> Kacyiru, Kigali</div>
-      </div>
-      <a href="property.html" class="btn-view">View Listing</a>
-    </article>
-
-    <article class="home-card" data-title="Sunny Garden Villa Near the Hillside" data-location="Nyarutarama">
-      <span class="home-label featured">New Offer</span>
-      <div class="home-image" style="background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');"></div>
-      <div class="property-meta">
-        <span class="property-pill green">For Sale</span>
-        <span class="property-pill">Villa</span>
-      </div>
-      <div class="home-info">
-        <h4 class="home-name">Sunny Garden Villa Near the Hillside</h4>
-        <div class="home-details">
-          <span><i class="fas fa-bed"></i>5 bed</span>
-          <span><i class="fas fa-bath"></i>4 bath</span>
-        </div>
-        <div class="home-price">RWF 720,000,000</div>
-        <div class="property-note">Price Type: Fixed</div>
-        <div class="property-location"><i class="fas fa-map-marker-alt"></i> Nyarutarama, Kigali</div>
-      </div>
-      <a href="property.html" class="btn-view">View Listing</a>
-    </article>
-
-    <article class="home-card" data-title="Contemporary Townhouse with Family Lounge" data-location="Nyabugogo">
-      <span class="home-label sale">Open House</span>
-      <div class="home-image" style="background-image: url('https://images.unsplash.com/photo-1572120471610-0ecae6ca6a0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');"></div>
-      <div class="property-meta">
-        <span class="property-pill">For Rent</span>
-        <span class="property-pill green">Townhouse</span>
-      </div>
-      <div class="home-info">
-        <h4 class="home-name">Contemporary Townhouse with Family Lounge</h4>
-        <div class="home-details">
-          <span><i class="fas fa-bed"></i>3 bed</span>
-          <span><i class="fas fa-bath"></i>2 bath</span>
-        </div>
-        <div class="home-price">RWF 950,000 / month</div>
-        <div class="property-note">Price Type: Monthly</div>
-        <div class="property-location"><i class="fas fa-map-marker-alt"></i> Nyabugogo, Kigali</div>
-      </div>
-      <a href="property.html" class="btn-view">View Listing</a>
-    </article>
-  </div>
-</div>
-
-<!-- SUCCESS PROJECTS -->
-<div class="container">
-  <section class="success-projects">
-    <div class="section-head">
-      <h3 class="section-title">Success Projects</h3>
-      <a href="buy.html" class="view-all">Browse sold homes <i class="fas fa-arrow-right"></i></a>
-    </div>
-    <div class="success-grid">
-      <article class="success-card">
-        <div class="success-image" style="background-image: url('https://images.unsplash.com/photo-1570129477492-45a003537e1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80');">
-          <span class="success-badge">Sold Out</span>
-        </div>
-        <div class="success-body">
-          <h4>Rebero Residences</h4>
-          <p>Delivered as a premium duplex with panoramic city views and a fully finished master suite.</p>
-          <div class="success-meta">
-            <span>4 bed • 3 bath</span>
-            <span>Gahanga</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="success-card">
-        <div class="success-image" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80');">
-          <span class="success-badge">Sold Out</span>
-        </div>
-        <div class="success-body">
-          <h4>Hillcrest Family Villa</h4>
-          <p>Completed and sold quickly thanks to its open-plan layout, green courtyard, and smart design.</p>
-          <div class="success-meta">
-            <span>5 bed • 4 bath</span>
-            <span>Nyarutarama</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="success-card">
-        <div class="success-image" style="background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80');">
-          <span class="success-badge">Sold Out</span>
-        </div>
-        <div class="success-body">
-          <h4>Urban View Apartments</h4>
-          <p>Fully occupied project with mixed-use appeal, modern interiors, and a strong rental return.</p>
-          <div class="success-meta">
-            <span>3 bed • 2 bath</span>
-            <span>Kacyiru</span>
-          </div>
-        </div>
-      </article>
     </div>
   </section>
-</div>
 
-<!-- VIDEO WALKTHROUGHS -->
-<div class="container">
-  <section class="video-walkthroughs">
-    <div class="section-head">
-      <h3 class="section-title">Watch full video walkthroughs</h3>
-      <a href="contact.html" class="view-all">Request a private tour <i class="fas fa-arrow-right"></i></a>
-    </div>
-    <div class="video-grid">
-      <article class="video-card">
-        <div class="video-frame">
-          <iframe src="https://www.youtube.com/embed/ScMzIvxBSi4?start=25&rel=0" title="Modern villa walkthrough" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        </div>
-        <div class="video-card-body">
-          <h4>Luxury Villa Walkthrough</h4>
-          <p>Preview the bright interiors, terrace living, and elegant finishing touches.</p>
-        </div>
-      </article>
+  <!-- Video Walkthroughs Section -->
+  <section class="video-walkthroughs-section">
+    <div class="container">
+      <div class="walkthroughs-header">
+        <h2 class="walkthroughs-title">Watch Full Video Walkthroughs</h2>
+        <p class="walkthroughs-description">Explore stunning properties with immersive 3D tours and detailed video walkthroughs. Get a complete view of every room, feature, and detail from the comfort of your home.</p>
+      </div>
 
-      <article class="video-card">
-        <div class="video-frame">
-          <iframe src="https://www.youtube.com/embed/k1QH9EEO5Ro?start=15&rel=0" title="Contemporary apartment walkthrough" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      <div class="walkthroughs-grid">
+        <!-- Video Card 1 -->
+        <div class="walkthrough-card">
+          <div class="video-thumbnail">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500&q=80" alt="Luxury Villa Walkthrough">
+            <div class="play-button">
+              <i class="fas fa-play"></i>
+            </div>
+          </div>
+          <div class="walkthrough-info">
+            <div class="walkthrough-category">Luxury Villa</div>
+            <h3 class="walkthrough-title">Stunning Kiyovu Mansion Tour</h3>
+            <div class="walkthrough-duration">
+              <i class="fas fa-video"></i> 8:42
+            </div>
+          </div>
         </div>
-        <div class="video-card-body">
-          <h4>Contemporary Apartment Tour</h4>
-          <p>See the open-plan kitchen, lounge flow, and premium home details in a quick preview.</p>
+
+        <!-- Video Card 2 -->
+        <div class="walkthrough-card">
+          <div class="video-thumbnail">
+            <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&q=80" alt="Modern Apartment Tour">
+            <div class="play-button">
+              <i class="fas fa-play"></i>
+            </div>
+          </div>
+          <div class="walkthrough-info">
+            <div class="walkthrough-category">Modern Apartment</div>
+            <h3 class="walkthrough-title">Contemporary Living in Nyarutarama</h3>
+            <div class="walkthrough-duration">
+              <i class="fas fa-video"></i> 5:23
+            </div>
+          </div>
         </div>
-      </article>
+
+        <!-- Video Card 3 -->
+        <div class="walkthrough-card">
+          <div class="video-thumbnail">
+            <img src="https://images.unsplash.com/photo-1560576673-b8a63e348d70?w=500&q=80" alt="Family Home Walkthrough">
+            <div class="play-button">
+              <i class="fas fa-play"></i>
+            </div>
+          </div>
+          <div class="walkthrough-info">
+            <div class="walkthrough-category">Family Home</div>
+            <h3 class="walkthrough-title">Beautiful Kibagabaga Residence</h3>
+            <div class="walkthrough-duration">
+              <i class="fas fa-video"></i> 10:15
+            </div>
+          </div>
+        </div>
+
+        <!-- Video Card 4 -->
+        <div class="walkthrough-card">
+          <div class="video-thumbnail">
+            <img src="https://images.unsplash.com/photo-1512917774080-9b274b3f0327?w=500&q=80" alt="Investment Property Tour">
+            <div class="play-button">
+              <i class="fas fa-play"></i>
+            </div>
+          </div>
+          <div class="walkthrough-info">
+            <div class="walkthrough-category">Investment Property</div>
+            <h3 class="walkthrough-title">Prime Commercial Space in Gacuriro</h3>
+            <div class="walkthrough-duration">
+              <i class="fas fa-video"></i> 6:50
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
-</div>
 
-<!-- LARGE IMAGE SECTION -->
-<div class="large-image-section">
-  <div class="image-overlay-text">
-    We help you buy, sell, and grow with property solutions you can trust for years to come
-  </div>
-</div>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <!-- About Column -->
+        <div class="footer-column">
+          <span class="footer-logo">HOMELINE</span>
+          <p>Premium real estate platform offering exceptional properties and immersive experiences through stunning photography and video walkthroughs.</p>
+          <div class="social-links">
+            <a href="https://www.facebook.com/" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://x.com/" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
 
-<!-- FOOTER -->
-<div class="container">
-  <footer class="footer-section">
-    <div class="footer-col">
-      <h4>Company</h4>
-      <ul>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Careers</a></li>
-        <li><a href="#">Press</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Support</h4>
-      <ul>
-        <li><a href="#">Help</a></li>
-        <li><a href="#">Returns</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Legal</h4>
-      <ul>
-        <li><a href="#">Privacy</a></li>
-        <li><a href="#">Terms</a></li>
-      </ul>
-    </div>
-    <div class="footer-badge">
-      HOMELINE · 11MEDIA
+        <!-- Quick Links Column -->
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="buy.html"><i class="fas fa-chevron-right"></i> Browse Properties</a></li>
+            <li><a href="create-post.html"><i class="fas fa-chevron-right"></i> List Your Property</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Investment Guides</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Market Insights</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Blog</a></li>
+          </ul>
+        </div>
+
+        <!-- Services Column -->
+        <div class="footer-column">
+          <h3>Our Services</h3>
+          <ul>
+            <li><a href="buy.html"><i class="fas fa-chevron-right"></i> Buy Property</a></li>
+            <li><a href="rent.html"><i class="fas fa-chevron-right"></i> Rent Property</a></li>
+            <li><a href="sell.html"><i class="fas fa-chevron-right"></i> Sell Property</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Property Management</a></li>
+            <li><a href="property.html"><i class="fas fa-chevron-right"></i> Virtual Tours</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact Column -->
+        <div class="footer-column">
+          <h3>Contact Us</h3>
+          <ul>
+            <li><a href="tel:+250788123456"><i class="fas fa-phone"></i> +250 (0)788 123 456</a></li>
+            <li><a href="mailto:info@homeline.rw"><i class="fas fa-envelope"></i> info@homeline.rw</a></li>
+            <li><a href="contact.html"><i class="fas fa-map-marker-alt"></i> Kigali, Rwanda</a></li>
+          </ul>
+          <p><strong>Business Hours:</strong><br>Mon - Fri: 8:00 AM - 6:00 PM<br>Sat: 9:00 AM - 4:00 PM</p>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <p>&copy; 2026 HOMELINE. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="contact.html">Privacy Policy</a>
+          <a href="contact.html">Terms of Service</a>
+          <a href="contact.html">Cookie Policy</a>
+          <a href="buy.html">Sitemap</a>
+        </div>
+      </div>
     </div>
   </footer>
 
-  <div class="footer-meta">
-    <span>© 2026 HOMELINE — designed with care</span>
-    <div class="social">
-      <i class="fab fa-instagram"></i>
-      <i class="fab fa-pinterest"></i>
-    </div>
-  </div>
-</div>
-
-<script src="app.js"></script>
-<script>
-  (function() {
-    const tabsContainer = document.getElementById('heroTabs');
-    const searchToggle = document.getElementById('searchToggleBtn');
-    const searchWrap = document.getElementById('heroSearchWrap');
-    const searchInput = document.getElementById('heroSearchInput');
-    const searchBtn = document.getElementById('heroSearchBtn');
-    const homesGrid = document.getElementById('homesGrid');
-    const homeCards = homesGrid.querySelectorAll('.home-card');
-
-    // Toggle expanded state on search icon click
-    searchToggle.addEventListener('click', function(e) {
-      e.stopPropagation();
-      tabsContainer.classList.toggle('expanded');
-      if (tabsContainer.classList.contains('expanded')) {
-        searchInput.focus();
-      } else {
-        searchInput.value = '';
-        filterHomes('');
-      }
+  <script>
+    document.querySelectorAll('.property-card, .latest-property-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function(event) {
+        if (event.target.closest('a, button, input, select, textarea')) {
+          return;
+        }
+        window.location.href = 'property.html';
+      });
     });
 
-    // Filter function
-    function filterHomes(query) {
-      const q = query.toLowerCase().trim();
-      homeCards.forEach(card => {
-        const title = (card.getAttribute('data-title') || '').toLowerCase();
-        const location = (card.getAttribute('data-location') || '').toLowerCase();
-        const match = title.includes(q) || location.includes(q);
-        card.style.display = match ? 'flex' : 'none';
+    // Tab Filtering
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+
+        const filter = this.dataset.filter;
+        document.querySelectorAll('.latest-property-card').forEach((card, idx) => {
+          if (filter === 'all' || card.dataset.type === filter) {
+            card.style.display = 'block';
+            card.style.animation = `fadeIn 0.5s ease ${idx * 0.05}s`;
+          } else {
+            card.style.display = 'none';
+          }
+        });
       });
+    });
+
+    // Load More
+    function loadMoreProperties() {
+      const hidden = document.querySelectorAll('.latest-property-card[style*="display: none"]');
+      let count = 0;
+      hidden.forEach(card => {
+        if (count < 3) {
+          card.style.display = 'block';
+          card.style.animation = 'fadeIn 0.5s ease';
+          count++;
+        }
+      });
+
+      const stillHidden = document.querySelectorAll('.latest-property-card[style*="display: none"]');
+      if (stillHidden.length === 0) {
+        const btn = document.querySelector('.load-more-btn');
+        btn.textContent = 'All Properties Loaded';
+        btn.disabled = true;
+      }
     }
 
-    // Real-time filter on input
-    searchInput.addEventListener('input', function() {
-      filterHomes(this.value);
+    // Initial hide
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.latest-property-card').forEach((card, idx) => {
+        if (idx >= 9) card.style.display = 'none';
+      });
     });
-
-    // Search button click
-    searchBtn.addEventListener('click', function() {
-      filterHomes(searchInput.value);
-    });
-
-    // Enter key in input
-    searchInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        filterHomes(this.value);
-      }
-    });
-
-    // Click outside to collapse? Optional: click outside closes expanded state
-    document.addEventListener('click', function(e) {
-      if (tabsContainer.classList.contains('expanded')) {
-        const isClickInside = tabsContainer.contains(e.target);
-        if (!isClickInside) {
-          tabsContainer.classList.remove('expanded');
-          searchInput.value = '';
-          filterHomes('');
-        }
-      }
-    });
-
-    // Prevent clicks inside from closing
-    tabsContainer.addEventListener('click', function(e) {
-      e.stopPropagation();
-    });
-
-    // ensure initial state: not expanded
-    tabsContainer.classList.remove('expanded');
-  })();
-</script>
+  </script>
 </body>
 </html>

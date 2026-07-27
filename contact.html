@@ -6,19 +6,36 @@
   <title>HOMELINE · Contact</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=EB+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* ===== RESET & BASE ===== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    :root {
+      --color-cream: #F7F5F0;
+      --color-text: #1A1810;
+      --color-accent: #4B5320;
+      --color-accent-light: #EFEEE7;
+      --color-gold: #C9A227;
+      --color-neutral: #8B8680;
+      --color-border: #E8E5E0;
+      --color-dark: #000;
+      --color-overlay: rgba(0, 0, 0, 0.25);
+
+      --font-display: 'EB Garamond', serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'Barlow Condensed', sans-serif;
+    }
+
     body {
-      font-family: 'Outfit', sans-serif;
-      background: #faf8f5;
-      color: #1a1a18;
+      font-family: var(--font-body);
+      background: var(--color-cream);
+      color: var(--color-text);
       line-height: 1.6;
     }
 
@@ -29,90 +46,155 @@
     }
 
     /* ===== HEADER / NAV ===== */
+    header {
+      background: var(--color-accent);
+      border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
     .navbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 28px 0 24px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 20px 0;
+      gap: 48px;
     }
 
     .logo-area {
       display: flex;
       align-items: center;
-      gap: 12px;
+      flex-shrink: 0;
     }
 
     .brand {
-      font-size: 20px;
+      font-family: var(--font-mono);
+      font-size: 16px;
       font-weight: 700;
-      letter-spacing: 2px;
-      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 3px;
       text-transform: uppercase;
-      color: #1a1a18;
+      color: var(--color-gold);
       text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .brand:hover {
+      color: var(--color-cream);
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 48px;
+      gap: 40px;
+      flex: 1;
       font-size: 14px;
       font-weight: 500;
-      letter-spacing: 0.5px;
-      color: #5a5a56;
-    }
-
-    .hamburger {
-      display: none;
-      border: none;
-      background: transparent;
-      color: #1a1a18;
-      font-size: 22px;
-      cursor: pointer;
+      letter-spacing: 0.3px;
+      color: rgba(247, 245, 240, 0.8);
     }
 
     .nav-links a {
       text-decoration: none;
       color: inherit;
-      transition: color 0.2s;
-      text-transform: capitalize;
+      transition: color 0.2s, border-color 0.2s;
+      position: relative;
+      padding-bottom: 2px;
     }
-    .nav-links a:hover,
+
+    .nav-links a:hover {
+      color: var(--color-gold);
+    }
+
     .nav-links a.active {
-      color: #1a1a18;
+      color: var(--color-gold);
       font-weight: 600;
+      border-bottom: 2px solid var(--color-gold);
     }
 
     .nav-actions {
       display: flex;
       align-items: center;
       gap: 24px;
-    }
-
-    .nav-actions i {
-      font-size: 18px;
-      color: #5a5a56;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-
-    .nav-actions i:hover {
-      color: #1a1a18;
+      flex-shrink: 0;
     }
 
     .search-box {
       background: transparent;
       border: none;
-      border-bottom: 1px solid #5a5a56;
-      color: #5a5a56;
-      padding: 4px 0;
+      border-bottom: 1.5px solid rgba(247, 245, 240, 0.4);
+      color: var(--color-cream);
+      padding: 6px 0;
       font-size: 13px;
-      width: 140px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      width: 160px;
+      transition: all 0.3s ease;
     }
 
     .search-box::placeholder {
-      color: #9a9a96;
+      color: rgba(247, 245, 240, 0.5);
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-bottom-color: var(--color-gold);
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(247, 245, 240, 0.7);
+      cursor: pointer;
+      transition: color 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .nav-icon:hover {
+      color: var(--color-gold);
+      transform: scale(1.08);
+    }
+
+    .cta-btn {
+      display: none;
+      background: var(--color-gold);
+      color: #1A1810 !important;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 10px 22px;
+      border-radius: 2px;
+      white-space: nowrap;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .cta-btn:hover {
+      background: var(--color-text);
+      color: var(--color-cream) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .hamburger {
+      display: none;
+      border: none;
+      background: transparent;
+      color: var(--color-cream);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+
+    .hamburger:hover {
+      color: var(--color-gold);
     }
 
     /* ===== HERO BANNER ===== */
@@ -120,7 +202,6 @@
       margin: 40px 0 48px;
       overflow: hidden;
       position: relative;
-      background: #e8e6e1;
       min-height: 240px;
       background-image: url('https://images.unsplash.com/photo-1475855581690-80accde3ae2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
       background-size: cover;
@@ -130,7 +211,7 @@
     }
 
     .hero-banner .overlay {
-      background: linear-gradient(90deg, rgba(0,0,0,0.4) 10%, rgba(0,0,0,0.05) 80%);
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.45) 10%, rgba(0, 0, 0, 0.05) 80%);
       width: 100%;
       height: 100%;
       padding: 48px 52px;
@@ -141,20 +222,20 @@
 
     .hero-banner h1 {
       color: #fff;
-      font-size: 38px;
-      font-weight: 300;
-      letter-spacing: -1px;
-      text-shadow: 0 4px 14px rgba(0,0,0,0.2);
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      text-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
       margin-bottom: 4px;
-      font-family: 'Outfit', sans-serif;
     }
 
     .hero-banner p {
-      color: rgba(255,255,255,0.9);
-      font-size: 16px;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 17px;
       font-weight: 400;
       max-width: 480px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
 
     /* ===== CONTACT GRID ===== */
@@ -168,14 +249,14 @@
     /* FORM CARD */
     .form-card {
       background: #ffffff;
-      padding: 40px 44px;
-      border: 1px solid rgba(0, 0, 0, 0.05);
+      padding: 44px 48px;
+      border: 1px solid var(--color-border);
     }
 
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      gap: 24px;
     }
 
     .form-group {
@@ -187,69 +268,74 @@
       font-size: 12px;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #1a1a18;
+      letter-spacing: 0.8px;
+      color: var(--color-text);
       margin-bottom: 6px;
-      font-family: 'Barlow Condensed', sans-serif;
+      font-family: var(--font-mono);
     }
 
     .form-group input,
     .form-group textarea {
       width: 100%;
-      padding: 12px 16px;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      font-family: 'Outfit', sans-serif;
+      padding: 14px 16px;
+      border: 1px solid var(--color-border);
+      font-family: var(--font-body);
       font-size: 14px;
-      background: #faf8f5;
+      background: var(--color-cream);
       outline: none;
       transition: border 0.2s, background 0.2s;
-      color: #1a1a18;
+      color: var(--color-text);
       border-radius: 0;
     }
 
     .form-group input:focus,
     .form-group textarea:focus {
-      border-color: #1a1a18;
+      border-color: var(--color-accent);
       background: #ffffff;
     }
 
     .form-group textarea {
-      min-height: 130px;
+      min-height: 140px;
       resize: vertical;
     }
 
     .btn-primary {
-      background: #1a1a18;
-      color: #faf8f5;
+      background: var(--color-accent);
+      color: var(--color-cream);
       border: none;
-      padding: 14px 32px;
-      font-weight: 500;
+      padding: 16px 36px;
+      font-weight: 600;
       font-size: 13px;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
       cursor: pointer;
-      transition: background 0.2s;
-      font-family: 'Outfit', sans-serif;
+      transition: all 0.25s;
+      font-family: var(--font-mono);
       text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       margin-top: 4px;
     }
 
     .btn-primary i {
-      margin-right: 8px;
+      font-size: 14px;
     }
 
     .btn-primary:hover {
-      background: #3a3a38;
+      background: var(--color-text);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
     }
 
     /* INFO SIDE */
     .info-side {
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 28px;
     }
 
     .map-card {
-      background: #e8e6e1;
+      background: var(--color-accent-light);
       min-height: 180px;
       background-image: url('https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
       background-size: cover;
@@ -259,11 +345,11 @@
       justify-content: center;
       color: #fff;
       position: relative;
-      border: 1px solid rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--color-border);
     }
 
     .map-card .map-overlay {
-      background: rgba(0,0,0,0.3);
+      background: rgba(0, 0, 0, 0.3);
       width: 100%;
       height: 100%;
       display: flex;
@@ -272,173 +358,469 @@
       flex-direction: column;
       padding: 20px;
       text-align: center;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
     }
 
     .map-card i {
       font-size: 32px;
       margin-bottom: 8px;
+      color: var(--color-gold);
     }
 
     .map-card span {
       font-weight: 500;
-      font-size: 14px;
-      letter-spacing: 0.5px;
+      font-size: 15px;
+      letter-spacing: 0.3px;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
 
     .details-card {
       background: #ffffff;
-      padding: 28px 30px;
-      border: 1px solid rgba(0, 0, 0, 0.05);
+      padding: 28px 32px;
+      border: 1px solid var(--color-border);
     }
 
     .details-card .meta {
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      font-size: 14px;
+      gap: 16px;
+      font-size: 15px;
     }
 
     .details-card .meta span {
       display: flex;
       align-items: center;
       gap: 14px;
-      color: #5a5a56;
+      color: var(--color-neutral);
     }
 
     .details-card .meta i {
-      width: 20px;
-      color: #1a1a18;
+      width: 22px;
+      color: var(--color-accent);
       font-size: 16px;
     }
 
     .details-card .social-icons {
       display: flex;
       gap: 18px;
-      font-size: 18px;
-      color: #5a5a56;
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      font-size: 20px;
+      color: var(--color-neutral);
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--color-border);
     }
 
     .details-card .social-icons i {
       cursor: pointer;
-      transition: color 0.2s;
+      transition: color 0.2s, transform 0.2s;
     }
 
     .details-card .social-icons i:hover {
-      color: #1a1a18;
+      color: var(--color-accent);
+      transform: scale(1.08);
     }
 
     /* ===== FOOTER ===== */
-    .footer-section {
-      border-top: 1px solid rgba(0, 0, 0, 0.06);
-      padding: 48px 0;
+    footer {
+      background: var(--color-accent);
+      color: var(--color-cream);
+      padding: 80px 48px 40px;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(3, 1fr) auto;
-      gap: 40px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer-column h3 {
+      font-family: var(--font-display);
+      font-size: 18px;
       margin-bottom: 24px;
-    }
-
-    .footer-col h4 {
-      font-size: 12px;
       font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: #1a1a18;
-      margin-bottom: 16px;
-      font-family: 'Barlow Condensed', sans-serif;
+      color: var(--color-cream);
     }
 
-    .footer-col ul {
+    .footer-column ul {
       list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      padding: 0;
+      margin: 0;
     }
 
-    .footer-col a {
-      font-size: 13px;
-      color: #5a5a56;
+    .footer-column li {
+      margin-bottom: 12px;
+    }
+
+    .footer-column a {
+      color: rgba(247, 245, 240, 0.8);
       text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer-col a:hover {
-      color: #1a1a18;
-    }
-
-    .footer-badge {
-      background: #1a1a18;
-      color: #faf8f5;
-      padding: 12px 20px;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      display: inline-flex;
+      font-size: 14px;
+      transition: color 0.2s ease;
+      display: flex;
       align-items: center;
-      gap: 8px;
-      font-family: 'Barlow Condensed', sans-serif;
-      align-self: flex-start;
+      gap: 6px;
     }
 
-    .footer-meta {
+    .footer-column a:hover {
+      color: var(--color-gold);
+    }
+
+    .footer-column p {
+      color: rgba(247, 245, 240, 0.8);
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .footer-logo {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(247, 245, 240, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-cream);
+      border: 1px solid rgba(247, 245, 240, 0.2);
+      transition: all 0.2s ease;
+    }
+
+    .social-links a:hover {
+      background: var(--color-gold);
+      color: var(--color-text);
+      border-color: var(--color-gold);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(247, 245, 240, 0.1);
+      padding-top: 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 20px;
-      border-top: 1px solid rgba(0, 0, 0, 0.06);
-      font-size: 12px;
-      color: #9a9a96;
+      flex-wrap: wrap;
+      gap: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
-    .social {
+    .footer-bottom p {
+      font-size: 13px;
+      color: rgba(247, 245, 240, 0.7);
+      margin: 0;
+    }
+
+    .footer-bottom-links {
       display: flex;
-      gap: 16px;
+      gap: 32px;
+      flex-wrap: wrap;
     }
 
-    .social i {
-      color: #5a5a56;
-      cursor: pointer;
-      transition: color 0.2s;
-      font-size: 14px;
+    .footer-bottom-links a {
+      font-size: 13px;
+      color: rgba(247, 245, 240, 0.7);
+      text-decoration: none;
+      transition: color 0.2s ease;
     }
 
-    .social i:hover {
-      color: #1a1a18;
+    .footer-bottom-links a:hover {
+      color: var(--color-gold);
     }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 1024px) {
-      .container { padding: 0 24px; }
-      .contact-grid { grid-template-columns: 1fr; }
-      .footer-section { grid-template-columns: repeat(2, 1fr); }
+      .container {
+        padding: 0 36px;
+      }
+      .navbar {
+        gap: 32px;
+      }
+      .nav-links {
+        gap: 28px;
+      }
+      .search-box {
+        width: 120px;
+      }
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .form-card {
+        padding: 32px 32px;
+      }
+      footer {
+        padding: 60px 36px 30px;
+      }
+      .footer-content {
+        gap: 40px;
+        margin-bottom: 40px;
+      }
     }
 
-    @media (max-width: 760px) {
-      .container { padding: 0 20px; }
-      .navbar { flex-wrap: wrap; gap: 16px; }
-      .nav-links { display: none; }
-      .hamburger { display: block; }
-      .search-box { display: none; }
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 24px;
+      }
 
-      .hero-banner { min-height: 180px; margin: 24px 0 32px; }
-      .hero-banner .overlay { padding: 28px 24px; }
-      .hero-banner h1 { font-size: 28px; }
+      .navbar {
+        gap: 16px;
+        padding: 16px 0;
+      }
 
-      .form-card { padding: 24px 20px; }
-      .form-row { grid-template-columns: 1fr; }
-      .contact-grid { margin-bottom: 48px; }
-      .footer-section { grid-template-columns: 1fr; gap: 24px; }
-      .btn-primary { width: 100%; text-align: center; }
+      .logo-area {
+        order: 1;
+      }
+
+      .nav-actions {
+        order: 2;
+        gap: 12px;
+      }
+
+      .search-box {
+        width: 80px;
+        font-size: 12px;
+      }
+
+      .search-box:focus {
+        width: 120px;
+      }
+
+      .hamburger {
+        display: flex;
+        order: 3;
+      }
+
+      .brand {
+        font-size: 14px;
+        letter-spacing: 2px;
+      }
+
+      .nav-links {
+        display: none !important;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0 !important;
+        background: var(--color-cream);
+        border-top: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border);
+        padding: 16px 24px !important;
+        z-index: 999;
+      }
+
+      .nav-links.open {
+        display: flex !important;
+      }
+
+      .nav-links a {
+        padding: 10px 0;
+        width: 100%;
+        border-bottom: 1px solid var(--color-border);
+        color: var(--color-text) !important;
+      }
+
+      .nav-links a:last-child {
+        border-bottom: none;
+      }
+
+      .nav-links a.active {
+        border-bottom: none;
+        font-weight: 600;
+        color: var(--color-accent) !important;
+      }
+
+      .nav-links a:hover {
+        color: var(--color-accent) !important;
+      }
+
+      .hero-banner {
+        min-height: 180px;
+        margin: 24px 0 32px;
+      }
+
+      .hero-banner .overlay {
+        padding: 28px 24px;
+      }
+
+      .hero-banner h1 {
+        font-size: 30px;
+      }
+
+      .form-card {
+        padding: 24px 20px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .contact-grid {
+        margin-bottom: 60px;
+      }
+
+      .btn-primary {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .details-card {
+        padding: 22px 24px;
+      }
+
+      footer {
+        padding: 40px 24px 24px;
+      }
+
+      .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+        margin-bottom: 32px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 16px;
+      }
+
+      .navbar {
+        padding: 12px 0;
+        gap: 8px;
+      }
+
+      .brand {
+        font-size: 12px;
+        letter-spacing: 1.5px;
+      }
+
+      .nav-actions {
+        gap: 8px;
+      }
+
+      .search-box {
+        width: 60px;
+        font-size: 11px;
+      }
+
+      .search-box:focus {
+        width: 100px;
+      }
+
+      .hero-banner h1 {
+        font-size: 26px;
+      }
+
+      .hero-banner p {
+        font-size: 14px;
+      }
+
+      .form-card {
+        padding: 18px 14px;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        padding: 12px 14px;
+        font-size: 13px;
+      }
+
+      .details-card .meta {
+        font-size: 14px;
+        gap: 14px;
+      }
+
+      footer {
+        padding: 32px 16px 20px;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        margin-bottom: 24px;
+      }
+
+      .footer-column h3 {
+        font-size: 16px;
+        margin-bottom: 16px;
+      }
+
+      .footer-column a {
+        font-size: 13px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 12px;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo-area">
+          <a href="index.html" class="brand">HOMELINE</a>
+        </div>
 
-  <div id="navbar-root"></div>
+        <div class="nav-links" id="navLinks">
+          <a href="index.html">Home</a>
+          <a href="buy.html">Buy</a>
+          <a href="rent.html">Rent</a>
+          <a href="sell.html">Sell</a>
+          <a href="property.html">Properties</a>
+          <a href="contact.html" class="active">Contact</a>
+          <a href="create-post.html" data-auth="protected">Create Post</a>
+          <a href="login.html" data-auth="guest">Login</a>
+          <a href="index.html" data-action="logout" data-auth="protected">Logout</a>
+        </div>
 
+        <div class="nav-actions">
+          <input type="text" class="search-box" placeholder="Search...">
+          <div class="nav-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <a href="login.html" class="cta-btn" data-auth="guest">Sign in</a>
+          <button class="hamburger" id="hamburger" type="button" aria-label="Toggle navigation" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== MAIN ===== -->
   <main class="container">
     <!-- HERO BANNER -->
     <div class="hero-banner">
@@ -498,64 +880,137 @@
     </div>
   </main>
 
-  <!-- FOOTER -->
-  <div class="container">
-    <footer class="footer-section">
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Press</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Support</h4>
-        <ul>
-          <li><a href="#">Help</a></li>
-          <li><a href="#">Returns</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <ul>
-          <li><a href="#">Privacy</a></li>
-          <li><a href="#">Terms</a></li>
-        </ul>
-      </div>
-      <div class="footer-badge">
-        HOMELINE · 11MEDIA
-      </div>
-    </footer>
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <span class="footer-logo">HOMELINE</span>
+          <p>Premium real estate platform offering exceptional properties and immersive experiences through stunning photography and video walkthroughs.</p>
+          <div class="social-links">
+            <a href="https://www.facebook.com/" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://x.com/" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
 
-    <div class="footer-meta">
-      <span>© 2026 HOMELINE — designed with care</span>
-      <div class="social">
-        <i class="fab fa-instagram"></i>
-        <i class="fab fa-pinterest"></i>
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="buy.html"><i class="fas fa-chevron-right"></i> Browse Properties</a></li>
+            <li><a href="create-post.html"><i class="fas fa-chevron-right"></i> List Your Property</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Investment Guides</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Market Insights</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Blog</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>Our Services</h3>
+          <ul>
+            <li><a href="buy.html"><i class="fas fa-chevron-right"></i> Buy Property</a></li>
+            <li><a href="rent.html"><i class="fas fa-chevron-right"></i> Rent Property</a></li>
+            <li><a href="sell.html"><i class="fas fa-chevron-right"></i> Sell Property</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Property Management</a></li>
+            <li><a href="property.html"><i class="fas fa-chevron-right"></i> Virtual Tours</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>Contact Us</h3>
+          <ul>
+            <li><a href="tel:+250788123456"><i class="fas fa-phone"></i> +250 (0)788 123 456</a></li>
+            <li><a href="mailto:info@homeline.rw"><i class="fas fa-envelope"></i> info@homeline.rw</a></li>
+            <li><a href="contact.html"><i class="fas fa-map-marker-alt"></i> Kigali, Rwanda</a></li>
+          </ul>
+          <p><strong>Business Hours:</strong><br>Mon - Fri: 8:00 AM - 6:00 PM<br>Sat: 9:00 AM - 4:00 PM</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 HOMELINE. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="contact.html">Privacy Policy</a>
+          <a href="contact.html">Terms of Service</a>
+          <a href="contact.html">Cookie Policy</a>
+          <a href="buy.html">Sitemap</a>
+        </div>
       </div>
     </div>
-  </div>
+  </footer>
 
   <script>
-    // Contact form handling
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const name = document.getElementById('contactName').value;
-      const email = document.getElementById('contactEmail').value;
-      const message = document.getElementById('contactMessage').value;
+    // ===== NAV HAMBURGER =====
+    document.addEventListener('DOMContentLoaded', function() {
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
 
-      if (name && email && message) {
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const isOpen = navLinks.classList.toggle('open');
+          hamburger.setAttribute('aria-expanded', isOpen);
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+            navLinks.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+          }
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+              navLinks.classList.remove('open');
+              hamburger.setAttribute('aria-expanded', 'false');
+            }
+          });
+        });
+
+        window.addEventListener('resize', function() {
+          if (window.innerWidth > 768) {
+            navLinks.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      // ===== AUTH STATE =====
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      if (isLoggedIn) {
+        document.body.classList.add('logged-in');
+      }
+
+      document.querySelectorAll('[data-action="logout"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          localStorage.removeItem('isLoggedIn');
+          document.body.classList.remove('logged-in');
+          window.location.href = 'login.html';
+        });
+      });
+
+      // ===== CONTACT FORM =====
+      const contactForm = document.getElementById('contactForm');
+
+      contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('contactName').value.trim();
+        const email = document.getElementById('contactEmail').value.trim();
+        const message = document.getElementById('contactMessage').value.trim();
+
+        if (!name || !email || !message) {
+          alert('❌ Please fill in all fields.');
+          return;
+        }
+
         alert('✅ Message sent successfully! We\'ll get back to you soon.');
         this.reset();
-      } else {
-        alert('❌ Please fill in all fields.');
-      }
+      });
     });
   </script>
-
-  <script src="app.js"></script>
 </body>
 </html>
