@@ -68,6 +68,7 @@
       justify-content: space-between;
       padding: 20px 0;
       gap: 48px;
+      position: relative;
     }
 
     /* logo & brand */
@@ -531,6 +532,14 @@
 
       .nav-links.open {
         display: flex !important;
+        flex-direction: column !important;
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        right: 0;
+        z-index: 1001;
+        border-radius: 0;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
       }
 
       .nav-links a {
@@ -1714,8 +1723,9 @@
       const searchButton = document.getElementById('heroSearchButton');
 
       function performSearch() {
-        const query = searchInput.value.trim().toLowerCase();
+        if (!searchInput) return;
 
+        const query = searchInput.value.trim().toLowerCase();
         const allCards = document.querySelectorAll('.property-card, .latest-property-card');
         let matchCount = 0;
 
@@ -1727,11 +1737,9 @@
           if (isMatch) matchCount++;
         });
 
-        // Scroll down to the results
         const target = document.querySelector('.properties-section');
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-        // Show a "no results" message if nothing matched
         let msg = document.getElementById('noResultsMsg');
         if (matchCount === 0 && query !== '') {
           if (!msg) {
@@ -1740,7 +1748,8 @@
             msg.style.textAlign = 'center';
             msg.style.color = 'var(--color-neutral)';
             msg.style.margin = '20px 0';
-            document.querySelector('.properties-grid').insertAdjacentElement('beforebegin', msg);
+            const grid = document.querySelector('.properties-grid');
+            if (grid) grid.insertAdjacentElement('beforebegin', msg);
           }
           msg.textContent = `No properties found matching "${searchInput.value}"`;
         } else if (msg) {
