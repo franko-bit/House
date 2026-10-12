@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <script>
-    // ── Apply auth state BEFORE render ──
     (function applyAuthState() {
       const isLoggedIn = Boolean(
         localStorage.getItem('token') ||
@@ -26,16 +25,17 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --color-cream: #F7F5F0;
+      --color-cream: #E9E4D1;
+      --color-cream-soft: #F7F5F0;
+      --color-card: #EEEADC;
       --color-text: #1A1810;
-      --color-accent: #255837;
+      --color-accent: #4A6449;
+      --color-accent-dark: #3A5039;
       --color-accent-light: #EFEEE7;
       --color-gold: #C9A227;
       --color-neutral: #8B8680;
-      --color-border: #E8E5E0;
+      --color-border: #D9D2BC;
       --color-dark: #000;
-      --color-overlay: rgba(0, 0, 0, 0.25);
-
       --font-display: 'EB Garamond', serif;
       --font-body: 'Inter', sans-serif;
       --font-mono: 'Barlow Condensed', sans-serif;
@@ -53,12 +53,11 @@
       flex-direction: column;
     }
 
-    .container {
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 0 48px;
-      width: 100%;
-    }
+    /* ===== GLOBAL: no underlines anywhere ===== */
+    a { text-decoration: none !important; }
+    a:hover, a:focus, a:active { text-decoration: none !important; }
+
+    .container { max-width: 1440px; margin: 0 auto; padding: 0 48px; width: 100%; }
 
     /* ===== HEADER / NAV ===== */
     header {
@@ -71,29 +70,34 @@
 
     .navbar {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 0; gap: 48px;
+      padding: 14px 0; gap: 48px;
     }
 
     .logo-area { display: flex; align-items: center; flex-shrink: 0; }
 
     .brand {
-      font-family: var(--font-mono);
-      font-size: 16px; font-weight: 700;
-      letter-spacing: 3px; text-transform: uppercase;
-      color: var(--color-gold); text-decoration: none;
-      transition: color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      transition: opacity 0.2s;
     }
-    .brand:hover { color: var(--color-cream); }
+    .brand:hover { opacity: 0.85; }
+
+    .brand-logo {
+      height: 52px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
 
     .nav-links {
       display: flex; align-items: center; gap: 40px;
       flex: 1; font-size: 14px; font-weight: 500;
-      letter-spacing: 0.3px; color: rgba(247, 245, 240, 0.8);
+      letter-spacing: 0.3px; color: rgba(247, 245, 240, 0.85);
     }
-
     .nav-links a {
       text-decoration: none; color: inherit;
-      transition: color 0.2s, border-color 0.2s;
+      transition: color 0.2s;
       position: relative; padding-bottom: 2px;
     }
     .nav-links a:hover { color: var(--color-gold); }
@@ -112,7 +116,7 @@
 
     .search-box {
       background: transparent; border: none;
-      color: var(--color-cream); padding: 6px 0;
+      color: var(--color-cream-soft); padding: 6px 0;
       font-size: 13px; font-family: var(--font-body);
       font-weight: 400; width: 160px;
       transition: all 0.3s ease;
@@ -142,17 +146,16 @@
     }
     .cta-btn:hover {
       background: var(--color-text);
-      color: var(--color-cream) !important;
+      color: var(--color-cream-soft) !important;
       transform: translateY(-1px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     }
 
     .hamburger {
       display: none; border: none; background: transparent;
-      color: var(--color-cream); font-size: 20px;
+      color: var(--color-cream-soft); font-size: 20px;
       cursor: pointer; padding: 4px; flex-shrink: 0;
     }
-    .hamburger:hover { color: var(--color-gold); }
 
     /* ===== AUTH STATE ===== */
     html:not(.logged-in) [data-auth="protected"] { display: none !important; }
@@ -171,7 +174,7 @@
 
     .login-card {
       width: min(440px, 100%);
-      background: #ffffff;
+      background: var(--color-card);
       padding: 44px 48px;
       border: 1px solid var(--color-border);
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
@@ -222,7 +225,7 @@
       border: 1px solid var(--color-border);
       padding: 14px 16px;
       font-size: 14px; font-family: var(--font-body);
-      background: var(--color-cream);
+      background: #ffffff;
       outline: none;
       transition: border 0.2s, background 0.2s;
       color: var(--color-text);
@@ -236,7 +239,7 @@
       width: 100%;
       border: none;
       background: var(--color-accent);
-      color: var(--color-cream);
+      color: var(--color-cream-soft);
       padding: 16px 28px;
       font-weight: 600; font-size: 14px;
       letter-spacing: 0.8px; cursor: pointer;
@@ -246,7 +249,7 @@
       margin-top: 4px;
     }
     .btn-primary:hover:not(:disabled) {
-      background: var(--color-text);
+      background: var(--color-accent-dark);
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
     }
@@ -260,20 +263,12 @@
       font-weight: 500;
     }
 
-    .login-success {
-      margin-top: 14px;
-      color: var(--color-accent);
-      font-size: 13px;
-      min-height: 22px;
-      font-weight: 500;
-    }
-
     .hint {
       margin-top: 24px;
       font-size: 12px;
       color: var(--color-neutral);
       padding-top: 18px;
-      border-top: 1px solid var(--color-border);
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
       font-family: var(--font-mono);
       letter-spacing: 0.3px;
     }
@@ -287,11 +282,13 @@
       margin-right: 8px;
       color: var(--color-accent);
     }
+    .hint a { color: var(--color-accent); font-weight: 600; }
+    .hint a:hover { color: var(--color-accent-dark); }
 
     /* ===== FOOTER ===== */
     footer {
       background: var(--color-accent);
-      color: var(--color-cream);
+      color: var(--color-cream-soft);
       padding: 40px 48px 24px;
       margin-top: auto;
     }
@@ -306,7 +303,7 @@
     .footer-column h3 {
       font-family: var(--font-display);
       font-size: 16px; margin-bottom: 16px;
-      font-weight: 600; color: var(--color-cream);
+      font-weight: 600; color: var(--color-cream-soft);
     }
 
     .footer-column ul { list-style: none; padding: 0; margin: 0; }
@@ -320,11 +317,13 @@
     .footer-column a:hover { color: var(--color-gold); }
 
     .footer-logo {
-      font-family: var(--font-mono);
-      font-size: 14px; font-weight: 700;
-      letter-spacing: 2px; text-transform: uppercase;
-      color: var(--color-gold);
-      margin-bottom: 12px; display: inline-block;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+    .footer-logo img {
+      height: 44px;
+      width: auto;
+      display: block;
     }
 
     .footer-bottom {
@@ -351,17 +350,17 @@
       .container { padding: 0 36px; }
       .navbar { gap: 32px; }
       .nav-links { gap: 28px; }
-      .search-box { width: 120px; }
     }
 
     @media (max-width: 768px) {
       .container { padding: 0 24px; }
-      .navbar { gap: 16px; padding: 16px 0; }
+      .navbar { gap: 16px; padding: 12px 0; }
       .logo-area { order: 1; }
       .nav-actions { order: 2; gap: 12px; }
       .search-form { display: none; }
       .hamburger { display: flex; order: 3; }
-      .brand { font-size: 14px; letter-spacing: 2px; }
+
+      .brand-logo { height: 42px; }
 
       .nav-links {
         display: none !important;
@@ -405,9 +404,8 @@
 
     @media (max-width: 480px) {
       .container { padding: 0 16px; }
-      .navbar { padding: 12px 0; gap: 8px; }
-      .brand { font-size: 12px; letter-spacing: 1.5px; }
-      .nav-actions { gap: 8px; }
+      .navbar { padding: 10px 0; gap: 8px; }
+      .brand-logo { height: 38px; }
 
       .login-card { padding: 24px 18px; }
       .login-card h1 { font-size: 22px; }
@@ -420,6 +418,7 @@
       .footer-column h3 { font-size: 15px; margin-bottom: 12px; }
       .footer-column a { font-size: 12px; }
       .footer-bottom { flex-direction: column; gap: 12px; }
+      .footer-logo img { height: 38px; }
     }
   </style>
 </head>
@@ -429,15 +428,19 @@
     <div class="container">
       <nav class="navbar">
         <div class="logo-area">
-          <a href="index.html" class="brand">HOMELINE</a>
+          <a href="index.html" class="brand" aria-label="HOMELINE Home">
+            <img
+              class="brand-logo"
+              src="https://res.cloudinary.com/wlc4k0yr/image/upload/v1791810743/Noble_house_page-0001_1.png"
+              alt="HOMELINE"
+            >
+          </a>
         </div>
 
         <div class="nav-links" id="navLinks">
           <a href="index.html">Home</a>
           <a href="buy.html">Buy</a>
           <a href="rent.html">Rent</a>
-          <a href="sell.html">Sell</a>
-          <a href="property.html">Properties</a>
           <a href="contact.html">Contact</a>
           <a href="dashboard.html" data-auth="protected">Dashboard</a>
           <a href="create-post.html" data-auth="protected">Create Post</a>
@@ -486,7 +489,7 @@
 
       <div class="hint">
         <i class="fas fa-key"></i>
-        Need an account? <a href="contact.html" style="color:var(--color-accent);font-weight:600;text-decoration:none;">Contact us</a>
+        Need an account? <a href="contact.html">Contact us</a>
       </div>
     </div>
   </div>
@@ -496,7 +499,12 @@
     <div class="container">
       <div class="footer-content">
         <div class="footer-column">
-          <span class="footer-logo">HOMELINE</span>
+          <a href="index.html" class="footer-logo" aria-label="HOMELINE">
+            <img
+              src="https://res.cloudinary.com/wlc4k0yr/image/upload/v1791810743/Noble_house_page-0001_1.png"
+              alt="HOMELINE"
+            >
+          </a>
           <p style="color: rgba(247,245,240,0.7); font-size: 13px; line-height: 1.6;">Premium real estate platform offering exceptional properties and immersive experiences.</p>
         </div>
         <div class="footer-column">
@@ -531,7 +539,6 @@
   <script src="app.js"></script>
 
   <script>
-    // ── Sync auth state ──
     (function syncAuthClass() {
       const isLoggedIn = Boolean(
         localStorage.getItem('token') ||
@@ -541,7 +548,6 @@
       document.documentElement.classList.toggle('logged-in', isLoggedIn);
     })();
 
-    // ── Logout handler ──
     document.querySelectorAll('[data-action="logout"]').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -554,7 +560,6 @@
       });
     });
 
-    // ── Hamburger ──
     (function setupHamburger() {
       const hamburger = document.getElementById('hamburger');
       const navLinks = document.getElementById('navLinks');
@@ -590,7 +595,6 @@
       });
     })();
 
-    // ── Navbar search ──
     (function setupSearch() {
       const input = document.getElementById('pageSearchInput');
       const btn = document.getElementById('pageSearchButton');
@@ -606,12 +610,22 @@
       });
     })();
 
-    // ── Helpers ──
     function getQueryParam(name) {
       return new URLSearchParams(window.location.search).get(name);
     }
 
-    // ── Login flow ──
+    function safeReturnTo(value) {
+      if (!value) return null;
+      try {
+        const url = new URL(value, window.location.origin);
+        if (url.origin !== window.location.origin) return null;
+        if (value.startsWith('//')) return null;
+        return url.pathname + url.search + url.hash;
+      } catch {
+        return null;
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       const form = document.getElementById('loginForm');
       const errorEl = document.getElementById('loginError');
@@ -646,7 +660,6 @@
         submitBtn.textContent = 'Signing in...';
 
         try {
-          // Prefer API client, fall back to direct fetch
           let result;
           if (typeof API !== 'undefined' && typeof API.login === 'function') {
             result = await API.login(email, password);
@@ -666,7 +679,6 @@
 
           if (!token) throw new Error('No token returned by server');
 
-          // Store token (use the key(s) the rest of the site reads)
           localStorage.setItem('token', token);
           localStorage.setItem('authToken', token);
           if (agent) {
@@ -676,7 +688,6 @@
 
           document.documentElement.classList.add('logged-in');
 
-          // Optional: use Auth.login if available for consistency
           if (typeof Auth !== 'undefined' && typeof Auth.login === 'function') {
             try { Auth.login(token, agent); } catch (_) {}
           }
@@ -691,22 +702,6 @@
         }
       });
     });
-
-    // ── Prevent open-redirect via returnTo ──
-    function safeReturnTo(value) {
-      if (!value) return null;
-      try {
-        // Only allow same-origin relative paths — reject anything with a scheme or host
-        const url = new URL(value, window.location.origin);
-        if (url.origin !== window.location.origin) return null;
-        // Also reject protocol-relative URLs like //evil.com
-        if (value.startsWith('//')) return null;
-        // Return just the path + query + hash
-        return url.pathname + url.search + url.hash;
-      } catch {
-        return null;
-      }
-    }
   </script>
 </body>
 </html>

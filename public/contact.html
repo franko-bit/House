@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <script>
-    // ── Apply auth state BEFORE render ──
     (function applyAuthState() {
       const isLoggedIn = Boolean(
         localStorage.getItem('token') ||
@@ -26,16 +25,17 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --color-cream: #F7F5F0;
+      --color-cream: #E9E4D1;
+      --color-cream-soft: #F7F5F0;
+      --color-card: #EEEADC;
       --color-text: #1A1810;
-      --color-accent: #255837;
+      --color-accent: #4A6449;
+      --color-accent-dark: #3A5039;
       --color-accent-light: #EFEEE7;
       --color-gold: #C9A227;
       --color-neutral: #8B8680;
-      --color-border: #E8E5E0;
+      --color-border: #D9D2BC;
       --color-dark: #000;
-      --color-overlay: rgba(0, 0, 0, 0.25);
-
       --font-display: 'EB Garamond', serif;
       --font-body: 'Inter', sans-serif;
       --font-mono: 'Barlow Condensed', sans-serif;
@@ -50,6 +50,10 @@
       line-height: 1.6;
     }
 
+    /* ===== GLOBAL: no underlines anywhere ===== */
+    a { text-decoration: none !important; }
+    a:hover, a:focus, a:active { text-decoration: none !important; }
+
     .container { max-width: 1440px; margin: 0 auto; padding: 0 48px; }
 
     /* ===== HEADER / NAV ===== */
@@ -63,29 +67,34 @@
 
     .navbar {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 0; gap: 48px;
+      padding: 14px 0; gap: 48px;
     }
 
     .logo-area { display: flex; align-items: center; flex-shrink: 0; }
 
     .brand {
-      font-family: var(--font-mono);
-      font-size: 16px; font-weight: 700;
-      letter-spacing: 3px; text-transform: uppercase;
-      color: var(--color-gold); text-decoration: none;
-      transition: color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      transition: opacity 0.2s;
     }
-    .brand:hover { color: var(--color-cream); }
+    .brand:hover { opacity: 0.85; }
+
+    .brand-logo {
+      height: 52px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
 
     .nav-links {
       display: flex; align-items: center; gap: 40px;
       flex: 1; font-size: 14px; font-weight: 500;
-      letter-spacing: 0.3px; color: rgba(247, 245, 240, 0.8);
+      letter-spacing: 0.3px; color: rgba(247, 245, 240, 0.85);
     }
-
     .nav-links a {
       text-decoration: none; color: inherit;
-      transition: color 0.2s, border-color 0.2s;
+      transition: color 0.2s;
       position: relative; padding-bottom: 2px;
     }
     .nav-links a:hover { color: var(--color-gold); }
@@ -104,7 +113,7 @@
 
     .search-box {
       background: transparent; border: none;
-      color: var(--color-cream); padding: 6px 0;
+      color: var(--color-cream-soft); padding: 6px 0;
       font-size: 13px; font-family: var(--font-body);
       font-weight: 400; width: 160px;
       transition: all 0.3s ease;
@@ -134,17 +143,16 @@
     }
     .cta-btn:hover {
       background: var(--color-text);
-      color: var(--color-cream) !important;
+      color: var(--color-cream-soft) !important;
       transform: translateY(-1px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     }
 
     .hamburger {
       display: none; border: none; background: transparent;
-      color: var(--color-cream); font-size: 20px;
+      color: var(--color-cream-soft); font-size: 20px;
       cursor: pointer; padding: 4px; flex-shrink: 0;
     }
-    .hamburger:hover { color: var(--color-gold); }
 
     /* ===== AUTH STATE ===== */
     html:not(.logged-in) [data-auth="protected"] { display: none !important; }
@@ -164,7 +172,7 @@
     }
 
     .hero-banner .overlay {
-      background: linear-gradient(90deg, rgba(0, 0, 0, 0.45) 10%, rgba(0, 0, 0, 0.05) 80%);
+      background: linear-gradient(90deg, rgba(74, 100, 73, 0.55) 10%, rgba(0, 0, 0, 0.1) 80%);
       width: 100%; height: 100%;
       padding: 48px 52px;
       display: flex; flex-direction: column; justify-content: center;
@@ -194,7 +202,7 @@
 
     /* FORM CARD */
     .form-card {
-      background: #ffffff;
+      background: var(--color-card);
       padding: 44px 48px;
       border: 1px solid var(--color-border);
     }
@@ -214,7 +222,7 @@
       width: 100%; padding: 14px 16px;
       border: 1px solid var(--color-border);
       font-family: var(--font-body); font-size: 14px;
-      background: var(--color-cream); outline: none;
+      background: #ffffff; outline: none;
       transition: border 0.2s, background 0.2s;
       color: var(--color-text); border-radius: 0;
     }
@@ -229,7 +237,7 @@
 
     .btn-primary {
       background: var(--color-accent);
-      color: var(--color-cream);
+      color: var(--color-cream-soft);
       border: none; padding: 16px 36px;
       font-weight: 600; font-size: 13px;
       letter-spacing: 0.8px; cursor: pointer;
@@ -240,8 +248,8 @@
       margin-top: 4px;
     }
     .btn-primary i { font-size: 14px; }
-    .btn-primary:hover {
-      background: var(--color-text);
+    .btn-primary:hover:not(:disabled) {
+      background: var(--color-accent-dark);
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
     }
@@ -298,7 +306,7 @@
     }
 
     .details-card {
-      background: #ffffff;
+      background: var(--color-card);
       padding: 28px 32px;
       border: 1px solid var(--color-border);
     }
@@ -325,7 +333,7 @@
       display: flex; gap: 18px;
       font-size: 20px; color: var(--color-neutral);
       margin-top: 18px; padding-top: 18px;
-      border-top: 1px solid var(--color-border);
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
     }
 
     .details-card .social-icons a {
@@ -340,26 +348,22 @@
     /* ===== FOOTER ===== */
     footer {
       background: var(--color-accent);
-      color: var(--color-cream);
+      color: var(--color-cream-soft);
       padding: 80px 48px 40px;
     }
-
     .footer-content {
       max-width: 1400px; margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 60px; margin-bottom: 60px;
     }
-
     .footer-column h3 {
       font-family: var(--font-display);
       font-size: 18px; margin-bottom: 24px;
-      font-weight: 600; color: var(--color-cream);
+      font-weight: 600; color: var(--color-cream-soft);
     }
-
     .footer-column ul { list-style: none; padding: 0; margin: 0; }
     .footer-column li { margin-bottom: 12px; }
-
     .footer-column a {
       color: rgba(247, 245, 240, 0.8);
       text-decoration: none; font-size: 14px;
@@ -367,26 +371,25 @@
       display: flex; align-items: center; gap: 6px;
     }
     .footer-column a:hover { color: var(--color-gold); }
-
     .footer-column p {
       color: rgba(247, 245, 240, 0.8);
       font-size: 14px; line-height: 1.6; margin: 0;
     }
-
     .footer-logo {
-      font-family: var(--font-mono);
-      font-size: 16px; font-weight: 700;
-      letter-spacing: 3px; text-transform: uppercase;
-      color: var(--color-gold);
-      margin-bottom: 16px; display: inline-block;
+      display: inline-block;
+      margin-bottom: 16px;
     }
-
+    .footer-logo img {
+      height: 44px;
+      width: auto;
+      display: block;
+    }
     .social-links { display: flex; gap: 16px; margin-top: 20px; }
     .social-links a {
       width: 40px; height: 40px; border-radius: 50%;
       background: rgba(247, 245, 240, 0.1);
       display: flex; align-items: center; justify-content: center;
-      color: var(--color-cream);
+      color: var(--color-cream-soft);
       border: 1px solid rgba(247, 245, 240, 0.2);
       transition: all 0.2s ease;
     }
@@ -394,18 +397,16 @@
       background: var(--color-gold); color: var(--color-text);
       border-color: var(--color-gold);
     }
-
     .footer-bottom {
+      max-width: 1400px; margin: 0 auto;
       border-top: 1px solid rgba(247, 245, 240, 0.1);
       padding-top: 40px;
       display: flex; justify-content: space-between;
-      align-items: center; flex-wrap: wrap;
-      gap: 20px; max-width: 1400px; margin: 0 auto;
+      align-items: center; flex-wrap: wrap; gap: 20px;
     }
     .footer-bottom p {
       font-size: 13px; color: rgba(247, 245, 240, 0.7); margin: 0;
     }
-
     .footer-bottom-links { display: flex; gap: 32px; flex-wrap: wrap; }
     .footer-bottom-links a {
       font-size: 13px; color: rgba(247, 245, 240, 0.7);
@@ -418,7 +419,6 @@
       .container { padding: 0 36px; }
       .navbar { gap: 32px; }
       .nav-links { gap: 28px; }
-      .search-box { width: 120px; }
       .contact-grid { grid-template-columns: 1fr; gap: 32px; }
       .form-card { padding: 32px 32px; }
       footer { padding: 60px 36px 30px; }
@@ -427,12 +427,13 @@
 
     @media (max-width: 768px) {
       .container { padding: 0 24px; }
-      .navbar { gap: 16px; padding: 16px 0; }
+      .navbar { gap: 16px; padding: 12px 0; }
       .logo-area { order: 1; }
       .nav-actions { order: 2; gap: 12px; }
       .search-form { display: none; }
       .hamburger { display: flex; order: 3; }
-      .brand { font-size: 14px; letter-spacing: 2px; }
+
+      .brand-logo { height: 42px; }
 
       .nav-links {
         display: none !important;
@@ -483,9 +484,8 @@
 
     @media (max-width: 480px) {
       .container { padding: 0 16px; }
-      .navbar { padding: 12px 0; gap: 8px; }
-      .brand { font-size: 12px; letter-spacing: 1.5px; }
-      .nav-actions { gap: 8px; }
+      .navbar { padding: 10px 0; gap: 8px; }
+      .brand-logo { height: 38px; }
 
       .hero-banner h1 { font-size: 26px; }
       .hero-banner p { font-size: 14px; }
@@ -501,6 +501,7 @@
       .footer-column h3 { font-size: 16px; margin-bottom: 16px; }
       .footer-column a { font-size: 13px; }
       .footer-bottom { flex-direction: column; gap: 12px; }
+      .footer-logo img { height: 38px; }
     }
   </style>
 </head>
@@ -510,15 +511,19 @@
     <div class="container">
       <nav class="navbar">
         <div class="logo-area">
-          <a href="index.html" class="brand">HOMELINE</a>
+          <a href="index.html" class="brand" aria-label="HOMELINE Home">
+            <img
+              class="brand-logo"
+              src="https://res.cloudinary.com/wlc4k0yr/image/upload/v1791810743/Noble_house_page-0001_1.png"
+              alt="HOMELINE"
+            >
+          </a>
         </div>
 
         <div class="nav-links" id="navLinks">
           <a href="index.html">Home</a>
           <a href="buy.html">Buy</a>
           <a href="rent.html">Rent</a>
-          <a href="sell.html">Sell</a>
-          <a href="property.html">Properties</a>
           <a href="contact.html" class="active">Contact</a>
           <a href="dashboard.html" data-auth="protected">Dashboard</a>
           <a href="create-post.html" data-auth="protected">Create Post</a>
@@ -612,7 +617,12 @@
     <div class="container">
       <div class="footer-content">
         <div class="footer-column">
-          <span class="footer-logo">HOMELINE</span>
+          <a href="index.html" class="footer-logo" aria-label="HOMELINE">
+            <img
+              src="https://res.cloudinary.com/wlc4k0yr/image/upload/v1791810743/Noble_house_page-0001_1.png"
+              alt="HOMELINE"
+            >
+          </a>
           <p>Premium real estate platform offering exceptional properties and immersive experiences through stunning photography and video walkthroughs.</p>
           <div class="social-links">
             <a href="https://www.facebook.com/" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
@@ -638,9 +648,9 @@
           <ul>
             <li><a href="buy.html"><i class="fas fa-chevron-right"></i> Buy Property</a></li>
             <li><a href="rent.html"><i class="fas fa-chevron-right"></i> Rent Property</a></li>
-            <li><a href="sell.html"><i class="fas fa-chevron-right"></i> Sell Property</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Sell Property</a></li>
             <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Property Management</a></li>
-            <li><a href="property.html"><i class="fas fa-chevron-right"></i> Virtual Tours</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Virtual Tours</a></li>
           </ul>
         </div>
 
@@ -651,7 +661,7 @@
             <li><a href="mailto:info@homeline.rw"><i class="fas fa-envelope"></i> info@homeline.rw</a></li>
             <li><a href="contact.html"><i class="fas fa-map-marker-alt"></i> Kigali, Rwanda</a></li>
           </ul>
-          <p><strong>Business Hours:</strong><br>Mon - Fri: 8:00 AM - 6:00 PM<br>Sat: 9:00 AM - 4:00 PM</p>
+          <p style="margin-top: 16px;"><strong>Business Hours:</strong><br>Mon - Fri: 8:00 AM - 6:00 PM<br>Sat: 9:00 AM - 4:00 PM</p>
         </div>
       </div>
 
@@ -670,7 +680,6 @@
   <script src="app.js"></script>
 
   <script>
-    // ── Sync auth state ──
     (function syncAuthClass() {
       const isLoggedIn = Boolean(
         localStorage.getItem('token') ||
@@ -680,7 +689,6 @@
       document.documentElement.classList.toggle('logged-in', isLoggedIn);
     })();
 
-    // ── Logout handler ──
     document.querySelectorAll('[data-action="logout"]').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -693,7 +701,6 @@
       });
     });
 
-    // ── Hamburger ──
     (function setupHamburger() {
       const hamburger = document.getElementById('hamburger');
       const navLinks = document.getElementById('navLinks');
@@ -729,7 +736,6 @@
       });
     })();
 
-    // ── Navbar search ──
     (function setupSearch() {
       const input = document.getElementById('pageSearchInput');
       const btn = document.getElementById('pageSearchButton');
@@ -745,7 +751,6 @@
       });
     })();
 
-    // ── Contact form ──
     document.addEventListener('DOMContentLoaded', () => {
       const form = document.getElementById('contactForm');
       const messageBox = document.getElementById('contactMessageBox');
@@ -777,7 +782,6 @@
         submitBtn.disabled = true;
 
         try {
-          // Prefer API client if available, fall back to direct fetch
           if (typeof API !== 'undefined' && typeof API.sendContactMessage === 'function') {
             await API.sendContactMessage({ name, email, message });
           } else {

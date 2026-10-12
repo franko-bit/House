@@ -128,12 +128,24 @@ exports.create = async (req, res, next) => {
     const propertyId = propResult.insertId;
 
     if (req.files && req.files.length) {
-      const values = req.files.map((file, idx) => [
-        propertyId, file.path, file.originalname, idx === 0 ? 1 : 0, idx,
-      ]);
+      let labels = [];
+      try {
+        labels = req.body.image_labels ? JSON.parse(req.body.image_labels) : [];
+      } catch (_) { labels = []; }
+
+      const values = req.files.map((file, idx) => {
+        const label = labels[idx] || (idx === 0 ? 'Main' : 'Other');
+        const isFeatured = idx === 0 ? 1 : 0;
+        return [
+          propertyId, file.path, file.originalname,
+          label, label, isFeatured, idx,
+        ];
+      });
+
       await conn.query(
         `INSERT INTO property_images
-           (property_id, image_url, image_title, is_featured, display_order)
+           (property_id, image_url, image_title, image_description,
+            room_type, is_featured, display_order)
          VALUES ?`, [values]
       );
     }
@@ -225,16 +237,65 @@ exports.update = async (req, res, next) => {
         is_featured === undefined ? null : (is_featured ? 1 : 0),
         id]);
 
+    // Delete specified images
+    if (req.body.delete_image_ids) {
+      let idsToDelete = [];
+      try { idsToDelete = JSON.parse(req.body.delete_image_ids); } catch (_) {}
+      if (idsToDelete.length) {
+        const [rows] = await conn.query(
+          `SELECT id, image_url FROM property_images
+            WHERE property_id = ? AND id IN (?)`,
+          [id, idsToDelete]
+        );
+        for (const img of rows) {
+          const m = img.image_url.match(/homeline\/properties\/([^.\/]+)/);
+          if (m) cloudinary.uploader.destroy(`homeline/properties/${m[1]}`).catch(() => {});
+        }
+        await conn.query(
+          `DELETE FROM property_images WHERE property_id = ? AND id IN (?)`,
+          [id, idsToDelete]
+        );
+      }
+    }
+
+    // Set featured image
+    if (req.body.featured_image_id) {
+      await conn.query('UPDATE property_images SET is_featured = 0 WHERE property_id = ?', [id]);
+      await conn.query(
+        'UPDATE property_images SET is_featured = 1 WHERE property_id = ? AND id = ?',
+        [id, req.body.featured_image_id]
+      );
+    }
+
+    // Add new images
     if (req.files && req.files.length) {
       const [maxOrder] = await conn.query(
         'SELECT COALESCE(MAX(display_order), -1) + 1 AS next FROM property_images WHERE property_id = ?',
         [id]
       );
       const start = maxOrder[0].next;
-      const values = req.files.map((file, idx) => [id, file.path, file.originalname, 0, start + idx]);
+
+      let labels = [];
+      try {
+        labels = req.body.new_image_labels ? JSON.parse(req.body.new_image_labels) : [];
+      } catch (_) { labels = []; }
+
+      const [feat] = await conn.query(
+        'SELECT COUNT(*) AS c FROM property_images WHERE property_id = ? AND is_featured = 1',
+        [id]
+      );
+      const anyFeatured = feat[0].c > 0;
+
+      const values = req.files.map((file, idx) => {
+        const label = labels[idx] || 'Other';
+        const isFeatured = (!anyFeatured && idx === 0) ? 1 : 0;
+        return [id, file.path, file.originalname, label, label, isFeatured, start + idx];
+      });
+
       await conn.query(
         `INSERT INTO property_images
-           (property_id, image_url, image_title, is_featured, display_order)
+           (property_id, image_url, image_title, image_description,
+            room_type, is_featured, display_order)
          VALUES ?`, [values]
       );
     }
@@ -277,3 +338,5 @@ exports.removeImage = async (req, res, next) => {
     res.json({ message: 'Image deleted' });
   } catch (err) { next(err); }
 };
+
+
