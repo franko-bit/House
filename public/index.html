@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>HOMELINE – Premium Real Estate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=EB+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    (function applyAuthState() {
+      const isLoggedIn = Boolean(
+        localStorage.getItem('token') ||
+        localStorage.getItem('authToken') ||
+        sessionStorage.getItem('token')
+      );
+      if (isLoggedIn) document.documentElement.classList.add('logged-in');
+    })();
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --color-cream: #E9E4D1;
+      --color-cream-soft: #F7F5F0;
+      --color-card: #EEEADC;              /* new card background */
+      --color-text: #1A1810;
+      --color-accent: #4A6449;
+      --color-accent-dark: #3A5039;
+      --color-accent-light: #EFEEE7;
+      --color-gold: #C9A227;
+      --color-neutral: #8B8680;
+      --color-border: #D9D2BC;
+      --color-dark: #000;
+      --font-display: 'EB Garamond', serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'Barlow Condensed', sans-serif;
+    }
+
+    html, body { overflow-x: hidden; max-width: 100%; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-cream);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    /* ===== GLOBAL: no underlines anywhere ===== */
+    a { text-decoration: none !important; }
+    a:hover, a:focus, a:active { text-decoration: none !important; }
+
+    /* ===== HEADER / NAVBAR ===== */
+    header {
+      background: var(--color-accent);
+      border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+      position: sticky; top: 0; z-index: 1000;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .container { max-width: 1440px; margin: 0 auto; padding: 0 48px; }
+
+    .navbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 0; gap: 48px;
+    }
+
+    .logo-area { display: flex; align-items: center; flex-shrink: 0; }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .brand:hover { opacity: 0.85; }
+
+    .brand-logo {
+      height: 52px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 40px;
+      flex: 1; font-size: 14px; font-weight: 500;
+      letter-spacing: 0.3px; color: rgba(247, 245, 240, 0.85);
+    }
+    .nav-links a {
+      text-decoration: none; color: inherit;
+      transition: color 0.2s;
+      position: relative; padding-bottom: 2px;
+    }
+    .nav-links a:hover { color: var(--color-gold); }
+    .nav-links a.active {
+      color: var(--color-gold); font-weight: 600;
+      border-bottom: 2px solid var(--color-gold);
+    }
+
+    .nav-actions { display: flex; align-items: center; gap: 24px; flex-shrink: 0; }
+
+    .search-box {
+      background: transparent; border: none;
+      border-bottom: 1.5px solid rgba(247, 245, 240, 0.4);
+      color: var(--color-cream-soft); padding: 6px 0;
+      font-size: 13px; width: 160px;
+      transition: all 0.3s ease;
+    }
+    .search-box::placeholder { color: rgba(247, 245, 240, 0.5); }
+    .search-box:focus { outline: none; border-bottom-color: var(--color-gold); }
+
+    .nav-icon {
+      width: 20px; height: 20px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(247, 245, 240, 0.7); cursor: pointer;
+      transition: color 0.2s, transform 0.2s; flex-shrink: 0;
+    }
+    .nav-icon:hover { color: var(--color-gold); transform: scale(1.08); }
+    .nav-icon i { font-size: 16px; }
+
+    .cta-btn {
+      display: none; background: var(--color-gold);
+      color: #1A1810 !important; text-decoration: none;
+      font-size: 13px; font-weight: 600;
+      padding: 10px 22px; border-radius: 2px;
+      white-space: nowrap; transition: all 0.2s;
+    }
+    .cta-btn:hover {
+      background: var(--color-text); color: var(--color-cream-soft) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .hamburger {
+      display: none; border: none; background: transparent;
+      color: var(--color-cream-soft); font-size: 20px;
+      cursor: pointer; padding: 4px;
+    }
+
+    /* ===== AUTH STATE ===== */
+    html:not(.logged-in) [data-auth="protected"] { display: none !important; }
+    html:not(.logged-in) [data-auth="guest"]     { display: inline-block; }
+
+    html.logged-in [data-auth="protected"] { display: inline-block; }
+    html.logged-in [data-auth="guest"]     { display: none !important; }
+
+    /* ===== VIDEO HERO ===== */
+    .video-section {
+      position: relative; min-height: 100vh; overflow: hidden;
+      background: var(--color-dark); color: var(--color-cream-soft);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .video-wrapper { position: absolute; inset: 0; z-index: 1; }
+    .video-section video {
+      width: 100%; height: 100%; object-fit: cover;
+      object-position: center; display: block;
+    }
+
+    .overlay-component {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(74, 100, 73, 0.65) 0%, rgba(0, 0, 0, 0.4) 100%);
+      z-index: 2; pointer-events: none;
+    }
+
+    .opening-with-search {
+      position: relative; z-index: 3;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; min-height: 100vh;
+      padding: 80px 48px; width: 100%; text-align: center;
+    }
+
+    .lp-container {
+      max-width: 900px; width: 100%;
+      display: flex; flex-direction: column; align-items: center;
+    }
+
+    .lp-title-group { margin-bottom: 48px; }
+
+    .opening-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      line-height: 1.05; margin: 0;
+      color: var(--color-cream-soft);
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+      letter-spacing: -0.02em; font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .opening-title .gold-accent { color: var(--color-gold); display: block; }
+
+    .opening-eyebrow {
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--color-gold); margin-bottom: 16px;
+      display: block;
+    }
+
+    .opening-description {
+      font-size: 1.1rem; color: var(--color-cream-soft);
+      opacity: 0.92; font-weight: 400;
+      letter-spacing: 0.5px; line-height: 1.5;
+      max-width: 600px;
+    }
+
+    .search-bar-wrap {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; width: min(100%, 680px);
+      padding: 18px 28px;
+      background: rgba(247, 245, 240, 0.08);
+      border: 1.5px solid rgba(247, 245, 240, 0.25);
+      color: var(--color-cream-soft);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      margin: 0 auto;
+    }
+    .search-bar-wrap:hover {
+      background: rgba(247, 245, 240, 0.14);
+      border-color: rgba(201, 162, 39, 0.6);
+      transform: translateY(-2px);
+    }
+    .search-bar-wrap .icons {
+      display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+    }
+
+    .search-input {
+      flex: 1; background: transparent; border: none;
+      font-size: 1.05rem; color: var(--color-cream-soft);
+      letter-spacing: 0.3px; font-weight: 400;
+      font-family: var(--font-body); outline: none; min-width: 0;
+    }
+    .search-input::placeholder { color: rgba(247, 245, 240, 0.6); }
+
+    .icon-holder {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(201, 162, 39, 0.15);
+      display: grid; place-items: center;
+      color: var(--color-cream-soft); flex-shrink: 0;
+      border: 1px solid rgba(201, 162, 39, 0.3);
+    }
+
+    .lp-input-icon--aim {
+      display: inline-block; width: 16px; height: 16px;
+      background: currentColor;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2'/%3E%3Cpath d='M12 20v2'/%3E%3Cpath d='M2 12h2'/%3E%3Cpath d='M20 12h2'/%3E%3C/svg%3E") no-repeat center;
+      mask-size: contain;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2'/%3E%3Cpath d='M12 20v2'/%3E%3Cpath d='M2 12h2'/%3E%3Cpath d='M20 12h2'/%3E%3C/svg%3E") no-repeat center;
+      -webkit-mask-size: contain;
+    }
+
+    .search-button {
+      width: 44px; height: 44px; min-width: 44px;
+      border-radius: 50%; background: var(--color-gold);
+      border: none; display: inline-flex;
+      align-items: center; justify-content: center;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+      transition: all 0.2s; flex-shrink: 0; cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%231A1810' stroke-width='2.4'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center; background-size: 20px;
+      padding: 0;
+    }
+    .search-button:hover {
+      background-color: #dab71c; transform: scale(1.05);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    /* ===== PROPERTIES SECTION ===== */
+    .properties-section { padding: 120px 48px; background: var(--color-cream); }
+
+    .section-header {
+      text-align: center; margin-bottom: 80px;
+      max-width: 600px; margin-left: auto; margin-right: auto;
+    }
+    .section-eyebrow {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--color-gold); margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      line-height: 1.1; color: var(--color-text);
+      margin-bottom: 16px;
+    }
+    .section-description {
+      font-size: 1.05rem; color: var(--color-neutral);
+      line-height: 1.6;
+    }
+
+    .properties-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      gap: 32px; max-width: 1400px;
+      width: 100%; margin: 0 auto;
+    }
+
+    /* Card — new background, no underline anywhere */
+    .property-card {
+      background: var(--color-card);
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s ease;
+      border: 1px solid var(--color-border);
+      display: flex; flex-direction: column;
+      min-width: 0;
+      color: inherit;
+      text-decoration: none;
+    }
+    .property-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .card-image {
+      position: relative; overflow: hidden;
+      background-color: #f0f0f0; aspect-ratio: 16 / 10;
+    }
+    .card-image img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; transition: transform 0.3s ease;
+    }
+    .property-card:hover .card-image img { transform: scale(1.04); }
+
+    .card-badges {
+      position: absolute; top: 16px; left: 16px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .badge {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.8px; padding: 6px 12px;
+      text-transform: uppercase;
+      display: inline-block; width: fit-content;
+    }
+    .badge.exclusive { background: var(--color-accent); color: #fff; }
+    .badge.for-sale  { background: var(--color-text);   color: #fff; }
+    .badge.for-rent  { background: #D97757;             color: #fff; }
+    .badge.sold      { background: #8B8680;             color: #fff; }
+
+    .card-content {
+      padding: 24px; flex: 1;
+      display: flex; flex-direction: column;
+      background: var(--color-card);
+    }
+    .card-category { margin-bottom: 12px; }
+    .card-category span {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.8px; color: var(--color-accent);
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 26px; font-weight: 500;
+      line-height: 1.35; margin-bottom: 16px; flex: 1;
+      color: var(--color-text);
+      text-decoration: none;
+    }
+    .property-card:hover .card-title { color: var(--color-accent); }
+
+    .card-price {
+      font-size: 18px; font-weight: 700;
+      color: var(--color-accent);
+      margin-bottom: 16px; letter-spacing: -0.5px;
+    }
+
+    .card-meta {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-wrap: wrap; gap: 12px;
+      padding-top: 16px; border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .card-meta li {
+      font-size: 13px; color: var(--color-neutral);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .card-meta li i {
+      color: var(--color-accent);
+      font-size: 12px; width: 12px;
+    }
+
+    .state-msg {
+      grid-column: 1 / -1; text-align: center;
+      padding: 60px 20px; color: var(--color-neutral);
+      font-size: 15px;
+    }
+    .state-msg.error { color: #b42318; }
+
+    /* ===== LATEST PROPERTIES SECTION ===== */
+    .latest-properties-section {
+      padding: 120px 48px; background: var(--color-cream);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .section-header-with-btn {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; margin-bottom: 48px;
+      gap: 32px; flex-wrap: wrap;
+    }
+    .header-content h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.1; color: var(--color-text);
+      margin-bottom: 8px;
+    }
+    .header-label {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--color-gold); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .view-all-link {
+      background: var(--color-accent);
+      color: var(--color-cream-soft) !important;
+      font-size: 13px;
+      font-weight: 600; padding: 12px 28px;
+      transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 8px;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+    .view-all-link:hover {
+      background: var(--color-accent-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .property-tabs {
+      display: flex; gap: 12px;
+      margin-bottom: 40px; flex-wrap: wrap;
+    }
+    .tab-btn {
+      padding: 10px 28px;
+      border: 1.5px solid var(--color-border);
+      background: transparent; font-size: 13px;
+      font-weight: 600; letter-spacing: 0.5px;
+      color: var(--color-neutral); cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-body);
+    }
+    .tab-btn:hover { border-color: var(--color-accent); color: var(--color-accent); }
+    .tab-btn.active {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      color: var(--color-cream-soft);
+    }
+
+    .latest-properties-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      gap: 32px; margin-bottom: 40px;
+      width: 100%;
+    }
+
+    .latest-property-card {
+      background: var(--color-card);
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s ease;
+      border: 1px solid var(--color-border);
+      display: flex; flex-direction: column;
+      animation: fadeIn 0.5s ease;
+      color: inherit;
+      text-decoration: none;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .latest-property-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .latest-card-image {
+      position: relative; overflow: hidden;
+      background: #f0f0f0; aspect-ratio: 16 / 10;
+    }
+    .latest-card-image img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; transition: transform 0.3s ease;
+    }
+    .latest-property-card:hover .latest-card-image img { transform: scale(1.04); }
+
+    .latest-card-badges {
+      position: absolute; top: 16px; left: 16px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .latest-badge {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.8px; padding: 5px 12px;
+      text-transform: uppercase;
+      display: inline-block; width: fit-content;
+    }
+    .latest-badge.for-sale { background: var(--color-accent); color: var(--color-cream-soft); }
+    .latest-badge.for-rent { background: #D97757;             color: var(--color-cream-soft); }
+    .latest-badge.sold     { background: var(--color-text);   color: var(--color-cream-soft); }
+
+    .latest-card-price {
+      position: absolute; bottom: 16px; right: 16px;
+      background: rgba(0, 0, 0, 0.8);
+      color: var(--color-cream-soft);
+      font-size: 16px; font-weight: 700;
+      padding: 8px 16px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    .latest-card-content {
+      padding: 24px; flex: 1;
+      display: flex; flex-direction: column;
+      background: var(--color-card);
+    }
+    .latest-card-category { margin-bottom: 12px; }
+    .latest-card-category span {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.8px; color: var(--color-accent);
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .latest-card-title {
+      font-family: var(--font-display);
+      font-size: 22px; font-weight: 500;
+      line-height: 1.3; margin-bottom: 16px; flex: 1;
+      color: var(--color-text);
+      text-decoration: none;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .latest-property-card:hover .latest-card-title { color: var(--color-accent); }
+
+    .latest-card-meta {
+      list-style: none; padding: 0;
+      margin: 0 0 16px;
+      display: flex; flex-direction: column; gap: 8px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .latest-card-meta li {
+      font-size: 13px; color: var(--color-neutral);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .latest-card-meta li i {
+      color: var(--color-accent);
+      font-size: 12px; width: 14px;
+    }
+    .listing-id {
+      font-size: 12px !important;
+      color: var(--color-neutral) !important;
+    }
+    .listing-id b { color: var(--color-text); font-weight: 600; }
+
+    .latest-property-features {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-wrap: wrap; gap: 20px;
+    }
+    .latest-property-features li {
+      font-size: 13px; color: var(--color-text);
+      display: flex; align-items: center; gap: 6px;
+      font-weight: 500;
+    }
+    .latest-property-features li i {
+      color: var(--color-accent);
+      font-size: 13px; width: 14px;
+    }
+
+    .load-more-container {
+      text-align: center; padding-top: 20px;
+      border-top: 1px solid var(--color-border);
+    }
+    .load-more-btn {
+      padding: 12px 40px; background: transparent;
+      color: var(--color-accent);
+      border: 1.5px solid var(--color-accent);
+      font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .load-more-btn:hover:not(:disabled) {
+      background: var(--color-accent);
+      color: var(--color-cream-soft);
+      transform: translateY(-2px);
+    }
+    .load-more-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* ===== VIDEO WALKTHROUGHS ===== */
+    .video-walkthroughs-section {
+      padding: 120px 48px; background: var(--color-cream);
+      border-top: 1px solid var(--color-border);
+    }
+    .walkthroughs-header {
+      text-align: center; margin-bottom: 80px;
+      max-width: 700px;
+      margin-left: auto; margin-right: auto;
+    }
+    .walkthroughs-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      line-height: 1.1; color: var(--color-text);
+      margin-bottom: 16px;
+    }
+    .walkthroughs-description {
+      font-size: 1.05rem; color: var(--color-neutral);
+      line-height: 1.6;
+    }
+    .walkthroughs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px; max-width: 1400px; margin: 0 auto;
+    }
+    .walkthrough-card {
+      background: var(--color-card);
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s ease;
+      border: 1px solid var(--color-border);
+      display: flex; flex-direction: column;
+    }
+    .walkthrough-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+    .video-thumbnail {
+      position: relative; overflow: hidden;
+      background: #000; aspect-ratio: 16 / 9;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+    }
+    .video-thumbnail img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .walkthrough-card:hover .video-thumbnail img { transform: scale(1.04); }
+    .play-button {
+      position: absolute; width: 70px; height: 70px;
+      border-radius: 50%; background: var(--color-gold);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
+    .play-button i {
+      font-size: 28px; color: var(--color-text); margin-left: 4px;
+    }
+    .walkthrough-info {
+      padding: 28px; flex: 1;
+      display: flex; flex-direction: column;
+      background: var(--color-card);
+    }
+    .walkthrough-category {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.8px; color: var(--color-accent);
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+    .walkthrough-title {
+      font-family: var(--font-display);
+      font-size: 24px; font-weight: 500;
+      line-height: 1.35; color: var(--color-text);
+      margin-bottom: 12px; flex: 1;
+    }
+    .walkthrough-duration {
+      font-size: 13px; color: var(--color-neutral);
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--color-accent);
+      color: var(--color-cream-soft);
+      padding: 80px 48px 40px;
+    }
+    .footer-content {
+      max-width: 1400px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 60px; margin-bottom: 60px;
+    }
+    .footer-column h3 {
+      font-family: var(--font-display);
+      font-size: 18px; margin-bottom: 24px;
+      font-weight: 600; color: var(--color-cream-soft);
+    }
+    .footer-column ul { list-style: none; padding: 0; margin: 0; }
+    .footer-column li { margin-bottom: 12px; }
+    .footer-column a {
+      color: rgba(247, 245, 240, 0.8);
+      font-size: 14px;
+      display: flex; align-items: center; gap: 6px;
+      text-decoration: none;
+    }
+    .footer-column a:hover { color: var(--color-gold); }
+    .footer-column p {
+      color: rgba(247, 245, 240, 0.8);
+      font-size: 14px; line-height: 1.6; margin: 0;
+    }
+    .footer-logo {
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .footer-logo img {
+      height: 44px;
+      width: auto;
+      display: block;
+    }
+    .social-links { display: flex; gap: 16px; margin-top: 20px; }
+    .social-links a {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(247, 245, 240, 0.1);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-cream-soft);
+      border: 1px solid rgba(247, 245, 240, 0.2);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .social-links a:hover {
+      background: var(--color-gold); color: var(--color-text);
+      border-color: var(--color-gold);
+    }
+    .footer-bottom {
+      border-top: 1px solid rgba(247, 245, 240, 0.1);
+      padding-top: 40px;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap;
+      gap: 20px; max-width: 1400px; margin: 0 auto;
+    }
+    .footer-bottom p {
+      font-size: 13px; color: rgba(247, 245, 240, 0.7); margin: 0;
+    }
+    .footer-bottom-links { display: flex; gap: 32px; flex-wrap: wrap; }
+    .footer-bottom-links a {
+      font-size: 13px; color: rgba(247, 245, 240, 0.7);
+      text-decoration: none;
+    }
+    .footer-bottom-links a:hover { color: var(--color-gold); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .container { padding: 0 36px; }
+      .navbar { gap: 32px; }
+      .nav-links { gap: 28px; }
+      .properties-section, .latest-properties-section,
+      .video-walkthroughs-section { padding: 80px 36px; }
+      footer { padding: 60px 36px 30px; }
+      .footer-content { gap: 40px; margin-bottom: 40px; }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 24px; }
+      .navbar { gap: 16px; padding: 12px 0; }
+      .logo-area { order: 1; }
+      .nav-actions { order: 2; gap: 12px; }
+      .search-box { display: none; }
+      .hamburger { display: flex; order: 3; }
+
+      .brand-logo { height: 42px; }
+
+      .nav-links {
+        display: none !important;
+        position: absolute; top: 60px; left: 0; right: 0;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0 !important;
+        background: var(--color-cream);
+        border-top: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border);
+        padding: 16px 24px !important;
+        z-index: 999;
+      }
+      .nav-links.open { display: flex !important; }
+      .nav-links a {
+        padding: 10px 0; width: 100%;
+        border-bottom: 1px solid var(--color-border);
+        color: var(--color-text) !important;
+      }
+      .nav-links a:last-child { border-bottom: none; }
+      .nav-links a.active {
+        border-bottom: none; font-weight: 600;
+        color: var(--color-accent) !important;
+      }
+
+      html:not(.logged-in) .nav-links [data-auth="protected"] { display: none !important; }
+      html.logged-in .nav-links [data-auth="protected"] { display: block !important; }
+      html.logged-in .nav-links [data-auth="guest"] { display: none !important; }
+
+      .opening-title { font-size: clamp(2.2rem, 10vw, 3.5rem); }
+      .opening-description { font-size: 1rem; }
+      .opening-with-search { padding: 40px 24px; }
+      .search-bar-wrap { padding: 14px 20px; gap: 12px; width: 100%; }
+
+      .properties-section, .latest-properties-section,
+      .video-walkthroughs-section { padding: 60px 24px; }
+      .properties-grid, .latest-properties-grid {
+        grid-template-columns: 1fr;
+      }
+      .walkthroughs-grid { grid-template-columns: 1fr; }
+
+      footer { padding: 40px 24px 24px; }
+      .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px; margin-bottom: 32px;
+      }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 16px; }
+      .navbar { padding: 10px 0; gap: 8px; }
+      .brand-logo { height: 38px; }
+
+      .opening-title { font-size: clamp(1.8rem, 12vw, 2.6rem); margin-bottom: 12px; }
+      .opening-with-search { padding: 30px 16px; }
+      .lp-title-group { margin-bottom: 32px; }
+      .search-bar-wrap { padding: 12px 16px; flex-direction: column; align-items: stretch; }
+
+      .properties-section, .latest-properties-section,
+      .video-walkthroughs-section { padding: 40px 16px; }
+      .card-content, .latest-card-content { padding: 16px; }
+      .card-title { font-size: 18px; }
+      .card-price { font-size: 16px; }
+
+      footer { padding: 32px 16px 20px; }
+      .footer-content { grid-template-columns: 1fr; gap: 24px; }
+      .footer-bottom { flex-direction: column; gap: 16px; }
+      .footer-logo img { height: 38px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo-area">
+          <a href="index.html" class="brand" aria-label="HOMELINE Home">
+            <img
+              class="brand-logo"
+              src="https://res.cloudinary.com/wlc4k0yr/image/upload/v1791810743/Noble_house_page-0001_1.png"
+              alt="HOMELINE"
+            >
+          </a>
+        </div>
+
+        <!-- Updated navbar links -->
+        <div class="nav-links" id="navLinks">
+          <a href="index.html" class="active">Home</a>
+          <a href="buy.html">Buy</a>
+          <a href="rent.html">Rent</a>
+          <a href="contact.html">Contact</a>
+          <a href="dashboard.html" data-auth="protected">Dashboard</a>
+          <a href="create-post.html" data-auth="protected">Create Post</a>
+          <a href="login.html" data-auth="guest">Login</a>
+          <a href="index.html" data-action="logout" data-auth="protected">Logout</a>
+        </div>
+
+        <div class="nav-actions">
+          <input type="text" class="search-box" placeholder="Search...">
+          <div class="nav-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <a href="login.html" class="cta-btn" data-auth="guest">Sign in</a>
+          <button class="hamburger" id="hamburger" type="button" aria-label="Toggle navigation" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section id="hero" class="video-section">
+    <div class="video-wrapper">
+      <video
+        poster="https://res.cloudinary.com/luxuryp/videos/f_auto,q_auto/so_0,eo_0/pwoki3qvfwc99mavpzek/-f4b4-4b35-bf4e-0ab7785839b1.jpg"
+        style="height:100%;"
+        loop muted autoplay playsinline>
+        <source src="https://res.cloudinary.com/luxuryp/videos/f_webm,vc_vp9,q_auto,w_1280,c_limit/pwoki3qvfwc99mavpzek/-f4b4-4b35-bf4e-0ab7785839b1.webm" type="video/webm;codecs=vp9">
+        <source src="https://res.cloudinary.com/luxuryp/videos/f_mp4,vc_h265,q_auto,w_1280,c_limit/pwoki3qvfwc99mavpzek/-f4b4-4b35-bf4e-0ab7785839b1.mp4" type="video/mp4;codecs=hvc1">
+        <source src="https://res.cloudinary.com/luxuryp/videos/f_mp4,vc_h264,q_auto,w_1280,c_limit/pwoki3qvfwc99mavpzek/-f4b4-4b35-bf4e-0ab7785839b1.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <div class="overlay-component"></div>
+
+    <div class="opening-with-search">
+      <div class="lp-container">
+        <div class="lp-title-group">
+          <span class="opening-eyebrow">Visuals That Sell Spaces</span>
+          <h1 class="opening-title">
+            Find Your Next
+            <span class="gold-accent">Home</span>
+          </h1>
+          <div class="opening-description">
+            <p>Premium photography and videography that highlights the beauty, value, and potential of every property</p>
+          </div>
+        </div>
+
+        <div class="search-bar-wrap" role="search">
+          <input
+            type="text"
+            class="search-input"
+            id="heroSearchInput"
+            placeholder="Search properties, neighborhoods, agents..."
+            aria-label="Search properties"
+            autocomplete="off"
+          >
+          <div class="icons">
+            <div class="icon-holder" aria-hidden="true">
+              <span class="lp-input-icon lp-input-icon--aim"></span>
+            </div>
+            <button class="search-button" id="heroSearchButton" type="button" aria-label="Search"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURED PROPERTIES ===== -->
+  <section class="properties-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Featured Listings</div>
+        <h2 class="section-title">Discover Premium Properties</h2>
+        <p class="section-description">Handpicked homes and investments in Kigali's most sought-after neighborhoods</p>
+      </div>
+
+      <div class="properties-grid" id="featuredGrid">
+        <p class="state-msg">Loading featured properties...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LATEST PROPERTIES ===== -->
+  <section class="latest-properties-section">
+    <div class="container">
+      <div class="section-header-with-btn">
+        <div class="header-content">
+          <div class="header-label"><i class="fas fa-circle"></i> Latest Listings</div>
+          <h2>Browse Available Properties</h2>
+        </div>
+        <a href="buy.html" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="property-tabs">
+        <button class="tab-btn active" data-filter="all">All Properties</button>
+        <button class="tab-btn" data-filter="sale">For Sale</button>
+        <button class="tab-btn" data-filter="rent">For Rent</button>
+      </div>
+
+      <div class="latest-properties-grid" id="latestGrid">
+        <p class="state-msg">Loading listings...</p>
+      </div>
+
+      <div class="load-more-container" style="display:none;">
+        <button class="load-more-btn" disabled>
+          <i class="fas fa-check-circle"></i> All Properties Loaded
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VIDEO WALKTHROUGHS ===== -->
+  <section class="video-walkthroughs-section">
+    <div class="container">
+      <div class="walkthroughs-header">
+        <h2 class="walkthroughs-title">Watch Full Video Walkthroughs</h2>
+        <p class="walkthroughs-description">Explore stunning properties with immersive 3D tours and detailed video walkthroughs.</p>
+      </div>
+
+      <div class="walkthroughs-grid">
+        <div class="walkthrough-card">
+          <div class="video-thumbnail">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500&q=80" alt="Luxury Villa Walkthrough">
+            <div class="play-button"><i class="fas fa-play"></i></div>
+          </div>
+          <div class="walkthrough-info">
+            <div class="walkthrough-category">Luxury Villa</div>
+            <h3 class="walkthrough-title">Stunning Kiyovu Mansion Tour</h3>
+            <div class="walkthrough-duration"><i class="fas fa-video"></i> 8:42</div>
+          </div>
+        </div>
+
+        <div class="walkthrough-card">
+          <div class="video-thumbnail">
+            <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&q=80" alt="Modern Apartment Tour">
+            <div class="play-button"><i class="fas fa-play"></i></div>
+          </div>
+          <div class="walkthrough-info">
+            <div class="walkthrough-category">Modern Apartment</div>
+            <h3 class="walkthrough-title">Contemporary Living in Nyarutarama</h3>
+            <div class="walkthrough-duration"><i class="fas fa-video"></i> 5:23</div>
+          </div>
+        </div>
+
+        <div class="walkthrough-card">
+          <div class="video-thumbnail">
+            <img src="https://images.unsplash.com/photo-1560576673-b8a63e348d70?w=500&q=80" alt="Family Home Walkthrough">
+            <div class="play-button"><i class="fas fa-play"></i></div>
+          </div>
+          <div class="walkthrough-info">
+            <div class="walkthrough-category">Family Home</div>
+            <h3 class="walkthrough-title">Beautiful Kibagabaga Residence</h3>
+            <div class="walkthrough-duration"><i class="fas fa-video"></i> 10:15</div>
+          </div>
+        </div>
+
+        <div class="walkthrough-card">
+          <div class="video-thumbnail">
+            <img src="https://images.unsplash.com/photo-1512917774080-9b274b3f0327?w=500&q=80" alt="Investment Property Tour">
+            <div class="play-button"><i class="fas fa-play"></i></div>
+          </div>
+          <div class="walkthrough-info">
+            <div class="walkthrough-category">Investment Property</div>
+            <h3 class="walkthrough-title">Prime Commercial Space in Gacuriro</h3>
+            <div class="walkthrough-duration"><i class="fas fa-video"></i> 6:50</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <a href="index.html" class="footer-logo" aria-label="HOMELINE">
+            <img
+              src="https://res.cloudinary.com/wlc4k0yr/image/upload/v1791810743/Noble_house_page-0001_1.png"
+              alt="HOMELINE"
+            >
+          </a>
+          <p>Premium real estate platform offering exceptional properties and immersive experiences through stunning photography and video walkthroughs.</p>
+          <div class="social-links">
+            <a href="https://www.facebook.com/" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://x.com/" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="buy.html"><i class="fas fa-chevron-right"></i> Browse Properties</a></li>
+            <li><a href="create-post.html"><i class="fas fa-chevron-right"></i> List Your Property</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Investment Guides</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Market Insights</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Blog</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>Our Services</h3>
+          <ul>
+            <li><a href="buy.html"><i class="fas fa-chevron-right"></i> Buy Property</a></li>
+            <li><a href="rent.html"><i class="fas fa-chevron-right"></i> Rent Property</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Sell Property</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Property Management</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Virtual Tours</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>Contact Us</h3>
+          <ul>
+            <li><a href="tel:+250788123456"><i class="fas fa-phone"></i> +250 (0)788 123 456</a></li>
+            <li><a href="mailto:info@homeline.rw"><i class="fas fa-envelope"></i> info@homeline.rw</a></li>
+            <li><a href="contact.html"><i class="fas fa-map-marker-alt"></i> Kigali, Rwanda</a></li>
+          </ul>
+          <p><strong>Business Hours:</strong><br>Mon - Fri: 8:00 AM - 6:00 PM<br>Sat: 9:00 AM - 4:00 PM</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 HOMELINE. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="contact.html">Privacy Policy</a>
+          <a href="contact.html">Terms of Service</a>
+          <a href="contact.html">Cookie Policy</a>
+          <a href="buy.html">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+
+  <script>
+    (function syncAuthClass() {
+      const isLoggedIn = Boolean(
+        localStorage.getItem('token') ||
+        localStorage.getItem('authToken') ||
+        sessionStorage.getItem('token')
+      );
+      document.documentElement.classList.toggle('logged-in', isLoggedIn);
+    })();
+
+    (function setupHamburger() {
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+      if (!hamburger || !navLinks) return;
+
+      hamburger.addEventListener('click', () => {
+        const isOpen = navLinks.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', String(isOpen));
+      });
+    })();
+
+    document.querySelectorAll('[data-action="logout"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('token');
+        localStorage.removeItem('authToken');
+        sessionStorage.removeItem('token');
+        document.documentElement.classList.remove('logged-in');
+        window.location.href = 'index.html';
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const featuredGrid = document.getElementById('featuredGrid');
+      if (featuredGrid) {
+        try {
+          const res = await fetch('/api/properties?featured=1&limit=6');
+          const { data } = await res.json();
+
+          if (!data.length) {
+            featuredGrid.innerHTML = '<p class="state-msg">No featured properties yet.</p>';
+          } else {
+            featuredGrid.innerHTML = data.map(p => renderPropertyCard(p)).join('');
+          }
+        } catch (err) {
+          console.error('Featured load failed:', err);
+          featuredGrid.innerHTML = '<p class="state-msg error">Failed to load featured properties.</p>';
+        }
+      }
+
+      const latestGrid = document.getElementById('latestGrid');
+      let allLatest = [];
+
+      if (latestGrid) {
+        try {
+          const res = await fetch('/api/properties?limit=12');
+          const { data } = await res.json();
+          allLatest = data;
+
+          if (!data.length) {
+            latestGrid.innerHTML = '<p class="state-msg">No listings yet.</p>';
+          } else {
+            latestGrid.innerHTML = data.map(p => renderLatestCard(p)).join('');
+          }
+        } catch (err) {
+          console.error('Latest load failed:', err);
+          latestGrid.innerHTML = '<p class="state-msg error">Failed to load listings.</p>';
+        }
+      }
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const filter = btn.dataset.filter;
+          document.querySelectorAll('#latestGrid .latest-property-card').forEach(card => {
+            const matches =
+              filter === 'all' ||
+              (filter === 'sale' && card.dataset.type === 'sale') ||
+              (filter === 'rent' && card.dataset.type === 'rent');
+            card.style.display = matches ? '' : 'none';
+          });
+        });
+      });
+
+      const searchInput = document.getElementById('heroSearchInput');
+      const searchButton = document.getElementById('heroSearchButton');
+
+      function performSearch() {
+        const q = (searchInput?.value || '').trim().toLowerCase();
+        document.querySelectorAll('.property-card, .latest-property-card').forEach(card => {
+          const text = card.textContent.toLowerCase();
+          card.style.display = q === '' || text.includes(q) ? '' : 'none';
+        });
+        const target = document.querySelector('.properties-section');
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      if (searchInput) {
+        searchInput.addEventListener('keydown', e => {
+          if (e.key === 'Enter') { e.preventDefault(); performSearch(); }
+        });
+      }
+      if (searchButton) {
+        searchButton.addEventListener('click', e => {
+          e.preventDefault();
+          performSearch();
+        });
+      }
+    });
+
+    function escapeHtml(str) {
+      if (str == null) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function formatPrice(price) {
+      const n = Number(price);
+      if (!isFinite(n)) return '';
+      return 'RWF ' + n.toLocaleString('en-US');
+    }
+
+    function propertyUrl(p) {
+      const id = p.listing_id || p.id;
+      return `property.html?id=${encodeURIComponent(id)}`;
+    }
+
+    function renderPropertyCard(p) {
+      const badgeClass = p.status === 'For Rent' ? 'for-rent'
+                       : p.status === 'Sold'     ? 'sold'
+                       : 'for-sale';
+      const url = propertyUrl(p);
+      return `
+        <a class="property-card" href="${url}" aria-label="View details for ${escapeHtml(p.title)}">
+          <div class="card-image">
+            <img src="${p.main_image || ''}" alt="${escapeHtml(p.title)}" loading="lazy">
+            <div class="card-badges">
+              ${p.is_featured ? '<span class="badge exclusive">Exclusive</span>' : ''}
+              <span class="badge ${badgeClass}">${escapeHtml(p.status)}</span>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-category">
+              <span>${escapeHtml(p.property_type)}</span>
+            </div>
+            <h3 class="card-title">${escapeHtml(p.title)}</h3>
+            <div class="card-price">${formatPrice(p.price)}</div>
+            <ul class="card-meta">
+              <li><i class="fas fa-bed"></i> ${p.bedrooms} Bd</li>
+              <li><i class="fas fa-bath"></i> ${p.bathrooms} Ba</li>
+              <li><i class="fas fa-arrows-alt"></i> ${p.size_sqm} m²</li>
+              <li><i class="fas fa-map-marker-alt"></i> ${escapeHtml(p.neighborhood || '')}</li>
+            </ul>
+          </div>
+        </a>
+      `;
+    }
+
+    function renderLatestCard(p) {
+      const typeKey = p.status === 'For Rent' ? 'rent' : 'sale';
+      const badgeClass = p.status === 'For Rent' ? 'for-rent'
+                       : p.status === 'Sold'     ? 'sold'
+                       : 'for-sale';
+      const url = propertyUrl(p);
+      return `
+        <a class="latest-property-card" data-type="${typeKey}" href="${url}" aria-label="View details for ${escapeHtml(p.title)}">
+          <div class="latest-card-image">
+            <img src="${p.main_image || ''}" alt="${escapeHtml(p.title)}" loading="lazy">
+            <div class="latest-card-badges">
+              <span class="latest-badge ${badgeClass}">${escapeHtml(p.status)}</span>
+            </div>
+            <div class="latest-card-price">${formatPrice(p.price)}</div>
+          </div>
+          <div class="latest-card-content">
+            <div class="latest-card-category">
+              <span>${escapeHtml(p.property_type)}</span>
+            </div>
+            <h3 class="latest-card-title">${escapeHtml(p.title)}</h3>
+            <ul class="latest-card-meta">
+              <li><i class="fas fa-map-marker-alt"></i> ${escapeHtml(p.neighborhood || '')}, ${escapeHtml(p.city || '')}</li>
+              <li class="listing-id"><b>Listing ID:</b> ${escapeHtml(p.listing_id)}</li>
+            </ul>
+            <ul class="latest-property-features">
+              <li><i class="fas fa-bed"></i> ${p.bedrooms} Bd</li>
+              <li><i class="fas fa-bath"></i> ${p.bathrooms} Ba</li>
+              <li><i class="fas fa-arrows-alt"></i> ${p.size_sqm} m²</li>
+            </ul>
+          </div>
+        </a>
+      `;
+    }
+  </script>
+</body>
+</html>

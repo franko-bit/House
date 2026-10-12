@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOMELINE · Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=EB+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    // ── Apply auth state BEFORE render ──
+    (function applyAuthState() {
+      const isLoggedIn = Boolean(
+        localStorage.getItem('token') ||
+        localStorage.getItem('authToken') ||
+        sessionStorage.getItem('token')
+      );
+      if (isLoggedIn) document.documentElement.classList.add('logged-in');
+    })();
+  </script>
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --color-cream: #F7F5F0;
+      --color-text: #1A1810;
+      --color-accent: #255837;
+      --color-accent-light: #EFEEE7;
+      --color-gold: #C9A227;
+      --color-neutral: #8B8680;
+      --color-border: #E8E5E0;
+      --color-dark: #000;
+      --color-overlay: rgba(0, 0, 0, 0.25);
+
+      --font-display: 'EB Garamond', serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'Barlow Condensed', sans-serif;
+    }
+
+    html, body { overflow-x: hidden; max-width: 100%; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-cream);
+      color: var(--color-text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 48px;
+      width: 100%;
+    }
+
+    /* ===== HEADER / NAV ===== */
+    header {
+      background: var(--color-accent);
+      border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+      position: sticky; top: 0; z-index: 1000;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .navbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 0; gap: 48px;
+    }
+
+    .logo-area { display: flex; align-items: center; flex-shrink: 0; }
+
+    .brand {
+      font-family: var(--font-mono);
+      font-size: 16px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--color-gold); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .brand:hover { color: var(--color-cream); }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 40px;
+      flex: 1; font-size: 14px; font-weight: 500;
+      letter-spacing: 0.3px; color: rgba(247, 245, 240, 0.8);
+    }
+
+    .nav-links a {
+      text-decoration: none; color: inherit;
+      transition: color 0.2s, border-color 0.2s;
+      position: relative; padding-bottom: 2px;
+    }
+    .nav-links a:hover { color: var(--color-gold); }
+    .nav-links a.active {
+      color: var(--color-gold); font-weight: 600;
+      border-bottom: 2px solid var(--color-gold);
+    }
+
+    .nav-actions { display: flex; align-items: center; gap: 24px; flex-shrink: 0; }
+
+    .search-form {
+      display: flex; align-items: center; gap: 8px;
+      border-bottom: 1.5px solid rgba(247, 245, 240, 0.4);
+      padding-bottom: 4px;
+    }
+
+    .search-box {
+      background: transparent; border: none;
+      color: var(--color-cream); padding: 6px 0;
+      font-size: 13px; font-family: var(--font-body);
+      font-weight: 400; width: 160px;
+      transition: all 0.3s ease;
+    }
+    .search-box::placeholder { color: rgba(247, 245, 240, 0.5); }
+    .search-box:focus { outline: none; }
+
+    .nav-icon {
+      width: 20px; height: 20px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(247, 245, 240, 0.7);
+      cursor: pointer;
+      transition: color 0.2s, transform 0.2s;
+      flex-shrink: 0; background: transparent; border: none;
+    }
+    .nav-icon:hover { color: var(--color-gold); transform: scale(1.08); }
+
+    .cta-btn {
+      display: none;
+      background: var(--color-gold);
+      color: #1A1810 !important;
+      text-decoration: none;
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 0.5px; padding: 10px 22px;
+      border-radius: 2px; white-space: nowrap;
+      transition: all 0.2s; flex-shrink: 0;
+    }
+    .cta-btn:hover {
+      background: var(--color-text);
+      color: var(--color-cream) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .hamburger {
+      display: none; border: none; background: transparent;
+      color: var(--color-cream); font-size: 20px;
+      cursor: pointer; padding: 4px; flex-shrink: 0;
+    }
+    .hamburger:hover { color: var(--color-gold); }
+
+    /* ===== AUTH STATE ===== */
+    html:not(.logged-in) [data-auth="protected"] { display: none !important; }
+    html:not(.logged-in) [data-auth="guest"]     { display: inline-block; }
+
+    html.logged-in [data-auth="protected"] { display: inline-block; }
+    html.logged-in [data-auth="guest"]     { display: none !important; }
+
+    /* ===== LOGIN CARD ===== */
+    .login-wrap {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding: 60px 20px 80px;
+      width: 100%;
+    }
+
+    .login-card {
+      width: min(440px, 100%);
+      background: #ffffff;
+      padding: 44px 48px;
+      border: 1px solid var(--color-border);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+    }
+
+    .login-card .brand-icon {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .login-card .brand-icon i {
+      font-size: 26px; color: var(--color-accent);
+    }
+
+    .login-card .brand-icon span {
+      font-family: var(--font-mono);
+      font-size: 16px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--color-text);
+    }
+
+    .login-card h1 {
+      font-family: var(--font-display);
+      font-size: 30px; font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+      color: var(--color-text);
+    }
+
+    .login-card p {
+      color: var(--color-neutral);
+      margin-bottom: 32px;
+      font-size: 15px;
+    }
+
+    .field { margin-bottom: 20px; }
+
+    .field label {
+      display: block; margin-bottom: 6px;
+      font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--color-text);
+      font-family: var(--font-mono);
+    }
+
+    .field input {
+      width: 100%;
+      border: 1px solid var(--color-border);
+      padding: 14px 16px;
+      font-size: 14px; font-family: var(--font-body);
+      background: var(--color-cream);
+      outline: none;
+      transition: border 0.2s, background 0.2s;
+      color: var(--color-text);
+    }
+    .field input:focus {
+      border-color: var(--color-accent);
+      background: #ffffff;
+    }
+
+    .btn-primary {
+      width: 100%;
+      border: none;
+      background: var(--color-accent);
+      color: var(--color-cream);
+      padding: 16px 28px;
+      font-weight: 600; font-size: 14px;
+      letter-spacing: 0.8px; cursor: pointer;
+      transition: all 0.25s;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: var(--color-text);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+    }
+    .btn-primary:disabled { opacity: 0.6; cursor: wait; }
+
+    .login-error {
+      margin-top: 14px;
+      color: #B42318;
+      font-size: 13px;
+      min-height: 22px;
+      font-weight: 500;
+    }
+
+    .login-success {
+      margin-top: 14px;
+      color: var(--color-accent);
+      font-size: 13px;
+      min-height: 22px;
+      font-weight: 500;
+    }
+
+    .hint {
+      margin-top: 24px;
+      font-size: 12px;
+      color: var(--color-neutral);
+      padding-top: 18px;
+      border-top: 1px solid var(--color-border);
+      font-family: var(--font-mono);
+      letter-spacing: 0.3px;
+    }
+
+    .hint strong {
+      color: var(--color-text);
+      font-weight: 600;
+    }
+
+    .hint i {
+      margin-right: 8px;
+      color: var(--color-accent);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--color-accent);
+      color: var(--color-cream);
+      padding: 40px 48px 24px;
+      margin-top: auto;
+    }
+
+    .footer-content {
+      max-width: 1400px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px; margin-bottom: 32px;
+    }
+
+    .footer-column h3 {
+      font-family: var(--font-display);
+      font-size: 16px; margin-bottom: 16px;
+      font-weight: 600; color: var(--color-cream);
+    }
+
+    .footer-column ul { list-style: none; padding: 0; margin: 0; }
+    .footer-column li { margin-bottom: 10px; }
+
+    .footer-column a {
+      color: rgba(247, 245, 240, 0.7);
+      text-decoration: none; font-size: 13px;
+      transition: color 0.2s ease;
+    }
+    .footer-column a:hover { color: var(--color-gold); }
+
+    .footer-logo {
+      font-family: var(--font-mono);
+      font-size: 14px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: 12px; display: inline-block;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(247, 245, 240, 0.1);
+      padding-top: 24px;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap;
+      gap: 16px; max-width: 1400px; margin: 0 auto;
+    }
+
+    .footer-bottom p {
+      font-size: 12px; color: rgba(247, 245, 240, 0.6); margin: 0;
+    }
+
+    .footer-bottom-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-bottom-links a {
+      font-size: 12px; color: rgba(247, 245, 240, 0.6);
+      text-decoration: none; transition: color 0.2s ease;
+    }
+    .footer-bottom-links a:hover { color: var(--color-gold); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .container { padding: 0 36px; }
+      .navbar { gap: 32px; }
+      .nav-links { gap: 28px; }
+      .search-box { width: 120px; }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 24px; }
+      .navbar { gap: 16px; padding: 16px 0; }
+      .logo-area { order: 1; }
+      .nav-actions { order: 2; gap: 12px; }
+      .search-form { display: none; }
+      .hamburger { display: flex; order: 3; }
+      .brand { font-size: 14px; letter-spacing: 2px; }
+
+      .nav-links {
+        display: none !important;
+        position: absolute; top: 60px; left: 0; right: 0;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0 !important;
+        background: var(--color-cream);
+        border-top: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border);
+        padding: 16px 24px !important;
+        z-index: 999;
+      }
+      .nav-links.open { display: flex !important; }
+      .nav-links a {
+        padding: 10px 0; width: 100%;
+        border-bottom: 1px solid var(--color-border);
+        color: var(--color-text) !important;
+      }
+      .nav-links a:last-child { border-bottom: none; }
+      .nav-links a.active {
+        border-bottom: none; font-weight: 600;
+        color: var(--color-accent) !important;
+      }
+      .nav-links a:hover { color: var(--color-accent) !important; }
+
+      html:not(.logged-in) .nav-links [data-auth="protected"] { display: none !important; }
+      html.logged-in .nav-links [data-auth="protected"] { display: block !important; }
+      html.logged-in .nav-links [data-auth="guest"] { display: none !important; }
+
+      .login-card { padding: 32px 24px; }
+      .login-card h1 { font-size: 26px; }
+
+      footer { padding: 32px 24px 20px; }
+      .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px; margin-bottom: 24px;
+      }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 16px; }
+      .navbar { padding: 12px 0; gap: 8px; }
+      .brand { font-size: 12px; letter-spacing: 1.5px; }
+      .nav-actions { gap: 8px; }
+
+      .login-card { padding: 24px 18px; }
+      .login-card h1 { font-size: 22px; }
+      .login-card p { font-size: 14px; }
+      .field input { padding: 12px 14px; font-size: 13px; }
+      .btn-primary { padding: 14px 20px; font-size: 13px; }
+
+      footer { padding: 24px 16px 16px; }
+      .footer-content { grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px; }
+      .footer-column h3 { font-size: 15px; margin-bottom: 12px; }
+      .footer-column a { font-size: 12px; }
+      .footer-bottom { flex-direction: column; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo-area">
+          <a href="index.html" class="brand">HOMELINE</a>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+          <a href="index.html">Home</a>
+          <a href="buy.html">Buy</a>
+          <a href="rent.html">Rent</a>
+          <a href="sell.html">Sell</a>
+          <a href="property.html">Properties</a>
+          <a href="contact.html">Contact</a>
+          <a href="dashboard.html" data-auth="protected">Dashboard</a>
+          <a href="create-post.html" data-auth="protected">Create Post</a>
+          <a href="login.html" class="active" data-auth="guest">Login</a>
+          <a href="index.html" data-action="logout" data-auth="protected">Logout</a>
+        </div>
+
+        <div class="nav-actions">
+          <form class="search-form" id="pageSearchForm" onsubmit="return false;">
+            <input type="text" class="search-box" id="pageSearchInput" placeholder="Search..." autocomplete="off">
+            <button type="button" class="nav-icon" id="pageSearchButton" aria-label="Search">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          <a href="login.html" class="cta-btn" data-auth="guest">Sign in</a>
+          <button class="hamburger" id="hamburger" type="button" aria-label="Toggle navigation" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== LOGIN CARD ===== -->
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="brand-icon">
+        <i class="fas fa-home"></i>
+        <span>HOMELINE</span>
+      </div>
+      <h1>Welcome Back</h1>
+      <p>Access your dashboard and manage your listings.</p>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" required />
+        </div>
+        <button class="btn-primary" type="submit" id="loginBtn">Sign in</button>
+        <div id="loginError" class="login-error" role="alert" aria-live="polite"></div>
+      </form>
+
+      <div class="hint">
+        <i class="fas fa-key"></i>
+        Need an account? <a href="contact.html" style="color:var(--color-accent);font-weight:600;text-decoration:none;">Contact us</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <span class="footer-logo">HOMELINE</span>
+          <p style="color: rgba(247,245,240,0.7); font-size: 13px; line-height: 1.6;">Premium real estate platform offering exceptional properties and immersive experiences.</p>
+        </div>
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="buy.html">Browse Properties</a></li>
+            <li><a href="create-post.html">List Your Property</a></li>
+            <li><a href="contact.html">Market Insights</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Support</h3>
+          <ul>
+            <li><a href="contact.html">Help Center</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="contact.html">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 HOMELINE. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="contact.html">Privacy</a>
+          <a href="contact.html">Terms</a>
+          <a href="contact.html">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+
+  <script>
+    // ── Sync auth state ──
+    (function syncAuthClass() {
+      const isLoggedIn = Boolean(
+        localStorage.getItem('token') ||
+        localStorage.getItem('authToken') ||
+        sessionStorage.getItem('token')
+      );
+      document.documentElement.classList.toggle('logged-in', isLoggedIn);
+    })();
+
+    // ── Logout handler ──
+    document.querySelectorAll('[data-action="logout"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('token');
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('isLoggedIn');
+        sessionStorage.removeItem('token');
+        document.documentElement.classList.remove('logged-in');
+        window.location.href = 'index.html';
+      });
+    });
+
+    // ── Hamburger ──
+    (function setupHamburger() {
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+      if (!hamburger || !navLinks) return;
+
+      hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isOpen = navLinks.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+          navLinks.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function() {
+          if (window.innerWidth <= 768) {
+            navLinks.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+          navLinks.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        }
+      });
+    })();
+
+    // ── Navbar search ──
+    (function setupSearch() {
+      const input = document.getElementById('pageSearchInput');
+      const btn = document.getElementById('pageSearchButton');
+      if (!input || !btn) return;
+
+      const go = () => {
+        const q = input.value.trim();
+        if (q) window.location.href = `buy.html?q=${encodeURIComponent(q)}`;
+      };
+      btn.addEventListener('click', e => { e.preventDefault(); go(); });
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); go(); }
+      });
+    })();
+
+    // ── Helpers ──
+    function getQueryParam(name) {
+      return new URLSearchParams(window.location.search).get(name);
+    }
+
+    // ── Login flow ──
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('loginForm');
+      const errorEl = document.getElementById('loginError');
+      const submitBtn = document.getElementById('loginBtn');
+      if (!form) return;
+
+      // Already logged in? Skip to returnTo or dashboard.
+      const alreadyIn = Boolean(
+        localStorage.getItem('token') ||
+        localStorage.getItem('authToken') ||
+        sessionStorage.getItem('token')
+      );
+      if (alreadyIn) {
+        const returnTo = safeReturnTo(getQueryParam('returnTo')) || 'dashboard.html';
+        window.location.replace(returnTo);
+        return;
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorEl.textContent = '';
+
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        if (!email || !password) {
+          errorEl.textContent = 'Please enter both email and password.';
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Signing in...';
+
+        try {
+          // Prefer API client, fall back to direct fetch
+          let result;
+          if (typeof API !== 'undefined' && typeof API.login === 'function') {
+            result = await API.login(email, password);
+          } else {
+            const res = await fetch('/api/auth/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, password }),
+            });
+            const body = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(body.message || 'Invalid credentials');
+            result = body;
+          }
+
+          const token = result.token || result.accessToken;
+          const agent = result.agent || result.user || null;
+
+          if (!token) throw new Error('No token returned by server');
+
+          // Store token (use the key(s) the rest of the site reads)
+          localStorage.setItem('token', token);
+          localStorage.setItem('authToken', token);
+          if (agent) {
+            try { localStorage.setItem('agent', JSON.stringify(agent)); } catch {}
+            if (agent.role) localStorage.setItem('userRole', agent.role);
+          }
+
+          document.documentElement.classList.add('logged-in');
+
+          // Optional: use Auth.login if available for consistency
+          if (typeof Auth !== 'undefined' && typeof Auth.login === 'function') {
+            try { Auth.login(token, agent); } catch (_) {}
+          }
+
+          const returnTo = safeReturnTo(getQueryParam('returnTo')) || 'dashboard.html';
+          window.location.replace(returnTo);
+        } catch (err) {
+          console.error('Login failed:', err);
+          errorEl.textContent = err.message || 'Login failed. Please try again.';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Sign in';
+        }
+      });
+    });
+
+    // ── Prevent open-redirect via returnTo ──
+    function safeReturnTo(value) {
+      if (!value) return null;
+      try {
+        // Only allow same-origin relative paths — reject anything with a scheme or host
+        const url = new URL(value, window.location.origin);
+        if (url.origin !== window.location.origin) return null;
+        // Also reject protocol-relative URLs like //evil.com
+        if (value.startsWith('//')) return null;
+        // Return just the path + query + hash
+        return url.pathname + url.search + url.hash;
+      } catch {
+        return null;
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOMELINE · Contact</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=EB+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    // ── Apply auth state BEFORE render ──
+    (function applyAuthState() {
+      const isLoggedIn = Boolean(
+        localStorage.getItem('token') ||
+        localStorage.getItem('authToken') ||
+        sessionStorage.getItem('token')
+      );
+      if (isLoggedIn) document.documentElement.classList.add('logged-in');
+    })();
+  </script>
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --color-cream: #F7F5F0;
+      --color-text: #1A1810;
+      --color-accent: #255837;
+      --color-accent-light: #EFEEE7;
+      --color-gold: #C9A227;
+      --color-neutral: #8B8680;
+      --color-border: #E8E5E0;
+      --color-dark: #000;
+      --color-overlay: rgba(0, 0, 0, 0.25);
+
+      --font-display: 'EB Garamond', serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'Barlow Condensed', sans-serif;
+    }
+
+    html, body { overflow-x: hidden; max-width: 100%; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-cream);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    .container { max-width: 1440px; margin: 0 auto; padding: 0 48px; }
+
+    /* ===== HEADER / NAV ===== */
+    header {
+      background: var(--color-accent);
+      border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+      position: sticky; top: 0; z-index: 1000;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .navbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 0; gap: 48px;
+    }
+
+    .logo-area { display: flex; align-items: center; flex-shrink: 0; }
+
+    .brand {
+      font-family: var(--font-mono);
+      font-size: 16px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--color-gold); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .brand:hover { color: var(--color-cream); }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 40px;
+      flex: 1; font-size: 14px; font-weight: 500;
+      letter-spacing: 0.3px; color: rgba(247, 245, 240, 0.8);
+    }
+
+    .nav-links a {
+      text-decoration: none; color: inherit;
+      transition: color 0.2s, border-color 0.2s;
+      position: relative; padding-bottom: 2px;
+    }
+    .nav-links a:hover { color: var(--color-gold); }
+    .nav-links a.active {
+      color: var(--color-gold); font-weight: 600;
+      border-bottom: 2px solid var(--color-gold);
+    }
+
+    .nav-actions { display: flex; align-items: center; gap: 24px; flex-shrink: 0; }
+
+    .search-form {
+      display: flex; align-items: center; gap: 8px;
+      border-bottom: 1.5px solid rgba(247, 245, 240, 0.4);
+      padding-bottom: 4px;
+    }
+
+    .search-box {
+      background: transparent; border: none;
+      color: var(--color-cream); padding: 6px 0;
+      font-size: 13px; font-family: var(--font-body);
+      font-weight: 400; width: 160px;
+      transition: all 0.3s ease;
+    }
+    .search-box::placeholder { color: rgba(247, 245, 240, 0.5); }
+    .search-box:focus { outline: none; }
+
+    .nav-icon {
+      width: 20px; height: 20px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(247, 245, 240, 0.7);
+      cursor: pointer;
+      transition: color 0.2s, transform 0.2s;
+      flex-shrink: 0; background: transparent; border: none;
+    }
+    .nav-icon:hover { color: var(--color-gold); transform: scale(1.08); }
+
+    .cta-btn {
+      display: none;
+      background: var(--color-gold);
+      color: #1A1810 !important;
+      text-decoration: none;
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 0.5px; padding: 10px 22px;
+      border-radius: 2px; white-space: nowrap;
+      transition: all 0.2s; flex-shrink: 0;
+    }
+    .cta-btn:hover {
+      background: var(--color-text);
+      color: var(--color-cream) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .hamburger {
+      display: none; border: none; background: transparent;
+      color: var(--color-cream); font-size: 20px;
+      cursor: pointer; padding: 4px; flex-shrink: 0;
+    }
+    .hamburger:hover { color: var(--color-gold); }
+
+    /* ===== AUTH STATE ===== */
+    html:not(.logged-in) [data-auth="protected"] { display: none !important; }
+    html:not(.logged-in) [data-auth="guest"]     { display: inline-block; }
+
+    html.logged-in [data-auth="protected"] { display: inline-block; }
+    html.logged-in [data-auth="guest"]     { display: none !important; }
+
+    /* ===== HERO BANNER ===== */
+    .hero-banner {
+      margin: 40px 0 48px;
+      overflow: hidden; position: relative;
+      min-height: 240px;
+      background-image: url('https://images.unsplash.com/photo-1475855581690-80accde3ae2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+      background-size: cover; background-position: center 30%;
+      display: flex; align-items: center;
+    }
+
+    .hero-banner .overlay {
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.45) 10%, rgba(0, 0, 0, 0.05) 80%);
+      width: 100%; height: 100%;
+      padding: 48px 52px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+
+    .hero-banner h1 {
+      color: #fff; font-family: var(--font-display);
+      font-size: 40px; font-weight: 600;
+      letter-spacing: -0.02em;
+      text-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+      margin-bottom: 4px;
+    }
+
+    .hero-banner p {
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 17px; font-weight: 400;
+      max-width: 480px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ===== CONTACT GRID ===== */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px; margin-bottom: 80px;
+    }
+
+    /* FORM CARD */
+    .form-card {
+      background: #ffffff;
+      padding: 44px 48px;
+      border: 1px solid var(--color-border);
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .form-group { margin-bottom: 20px; }
+
+    .form-group label {
+      display: block; font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--color-text); margin-bottom: 6px;
+      font-family: var(--font-mono);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%; padding: 14px 16px;
+      border: 1px solid var(--color-border);
+      font-family: var(--font-body); font-size: 14px;
+      background: var(--color-cream); outline: none;
+      transition: border 0.2s, background 0.2s;
+      color: var(--color-text); border-radius: 0;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--color-accent);
+      background: #ffffff;
+    }
+
+    .form-group textarea { min-height: 140px; resize: vertical; }
+
+    .btn-primary {
+      background: var(--color-accent);
+      color: var(--color-cream);
+      border: none; padding: 16px 36px;
+      font-weight: 600; font-size: 13px;
+      letter-spacing: 0.8px; cursor: pointer;
+      transition: all 0.25s;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-top: 4px;
+    }
+    .btn-primary i { font-size: 14px; }
+    .btn-primary:hover {
+      background: var(--color-text);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+    }
+    .btn-primary:disabled { opacity: 0.6; cursor: wait; }
+
+    .form-message {
+      margin-top: 16px; padding: 14px 20px;
+      font-size: 14px; font-weight: 500;
+      display: none;
+      border-left: 3px solid var(--color-accent);
+      background: var(--color-accent-light);
+      color: var(--color-accent);
+    }
+    .form-message.error {
+      background: #FDF0EF; color: #B42318;
+      border-left-color: #B42318;
+    }
+
+    /* INFO SIDE */
+    .info-side { display: flex; flex-direction: column; gap: 28px; }
+
+    .map-card {
+      background: var(--color-accent-light);
+      min-height: 180px;
+      background-image: url('https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+      background-size: cover; background-position: center;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; position: relative;
+      border: 1px solid var(--color-border);
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+    .map-card:hover { transform: translateY(-2px); }
+
+    .map-card .map-overlay {
+      background: rgba(0, 0, 0, 0.3);
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; padding: 20px;
+      text-align: center;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+
+    .map-card i {
+      font-size: 32px; margin-bottom: 8px;
+      color: var(--color-gold);
+    }
+
+    .map-card span {
+      font-weight: 500; font-size: 15px;
+      letter-spacing: 0.3px; color: #fff;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .details-card {
+      background: #ffffff;
+      padding: 28px 32px;
+      border: 1px solid var(--color-border);
+    }
+
+    .details-card .meta {
+      display: flex; flex-direction: column;
+      gap: 16px; font-size: 15px;
+    }
+
+    .details-card .meta span,
+    .details-card .meta a {
+      display: flex; align-items: center; gap: 14px;
+      color: var(--color-neutral);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .details-card .meta a:hover { color: var(--color-accent); }
+
+    .details-card .meta i {
+      width: 22px; color: var(--color-accent); font-size: 16px;
+    }
+
+    .details-card .social-icons {
+      display: flex; gap: 18px;
+      font-size: 20px; color: var(--color-neutral);
+      margin-top: 18px; padding-top: 18px;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .details-card .social-icons a {
+      color: inherit; text-decoration: none;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .details-card .social-icons a:hover {
+      color: var(--color-accent);
+      transform: scale(1.08);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--color-accent);
+      color: var(--color-cream);
+      padding: 80px 48px 40px;
+    }
+
+    .footer-content {
+      max-width: 1400px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 60px; margin-bottom: 60px;
+    }
+
+    .footer-column h3 {
+      font-family: var(--font-display);
+      font-size: 18px; margin-bottom: 24px;
+      font-weight: 600; color: var(--color-cream);
+    }
+
+    .footer-column ul { list-style: none; padding: 0; margin: 0; }
+    .footer-column li { margin-bottom: 12px; }
+
+    .footer-column a {
+      color: rgba(247, 245, 240, 0.8);
+      text-decoration: none; font-size: 14px;
+      transition: color 0.2s ease;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .footer-column a:hover { color: var(--color-gold); }
+
+    .footer-column p {
+      color: rgba(247, 245, 240, 0.8);
+      font-size: 14px; line-height: 1.6; margin: 0;
+    }
+
+    .footer-logo {
+      font-family: var(--font-mono);
+      font-size: 16px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: 16px; display: inline-block;
+    }
+
+    .social-links { display: flex; gap: 16px; margin-top: 20px; }
+    .social-links a {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(247, 245, 240, 0.1);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-cream);
+      border: 1px solid rgba(247, 245, 240, 0.2);
+      transition: all 0.2s ease;
+    }
+    .social-links a:hover {
+      background: var(--color-gold); color: var(--color-text);
+      border-color: var(--color-gold);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(247, 245, 240, 0.1);
+      padding-top: 40px;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap;
+      gap: 20px; max-width: 1400px; margin: 0 auto;
+    }
+    .footer-bottom p {
+      font-size: 13px; color: rgba(247, 245, 240, 0.7); margin: 0;
+    }
+
+    .footer-bottom-links { display: flex; gap: 32px; flex-wrap: wrap; }
+    .footer-bottom-links a {
+      font-size: 13px; color: rgba(247, 245, 240, 0.7);
+      text-decoration: none; transition: color 0.2s ease;
+    }
+    .footer-bottom-links a:hover { color: var(--color-gold); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .container { padding: 0 36px; }
+      .navbar { gap: 32px; }
+      .nav-links { gap: 28px; }
+      .search-box { width: 120px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+      .form-card { padding: 32px 32px; }
+      footer { padding: 60px 36px 30px; }
+      .footer-content { gap: 40px; margin-bottom: 40px; }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 24px; }
+      .navbar { gap: 16px; padding: 16px 0; }
+      .logo-area { order: 1; }
+      .nav-actions { order: 2; gap: 12px; }
+      .search-form { display: none; }
+      .hamburger { display: flex; order: 3; }
+      .brand { font-size: 14px; letter-spacing: 2px; }
+
+      .nav-links {
+        display: none !important;
+        position: absolute; top: 60px; left: 0; right: 0;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0 !important;
+        background: var(--color-cream);
+        border-top: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border);
+        padding: 16px 24px !important;
+        z-index: 999;
+      }
+      .nav-links.open { display: flex !important; }
+      .nav-links a {
+        padding: 10px 0; width: 100%;
+        border-bottom: 1px solid var(--color-border);
+        color: var(--color-text) !important;
+      }
+      .nav-links a:last-child { border-bottom: none; }
+      .nav-links a.active {
+        border-bottom: none; font-weight: 600;
+        color: var(--color-accent) !important;
+      }
+      .nav-links a:hover { color: var(--color-accent) !important; }
+
+      html:not(.logged-in) .nav-links [data-auth="protected"] { display: none !important; }
+      html.logged-in .nav-links [data-auth="protected"] { display: block !important; }
+      html.logged-in .nav-links [data-auth="guest"] { display: none !important; }
+
+      .hero-banner { min-height: 180px; margin: 24px 0 32px; }
+      .hero-banner .overlay { padding: 28px 24px; }
+      .hero-banner h1 { font-size: 30px; }
+
+      .form-card { padding: 24px 20px; }
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+      .contact-grid { margin-bottom: 60px; }
+      .btn-primary { width: 100%; justify-content: center; }
+      .details-card { padding: 22px 24px; }
+
+      footer { padding: 40px 24px 24px; }
+      .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px; margin-bottom: 32px;
+      }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 16px; }
+      .navbar { padding: 12px 0; gap: 8px; }
+      .brand { font-size: 12px; letter-spacing: 1.5px; }
+      .nav-actions { gap: 8px; }
+
+      .hero-banner h1 { font-size: 26px; }
+      .hero-banner p { font-size: 14px; }
+
+      .form-card { padding: 18px 14px; }
+      .form-group input,
+      .form-group textarea { padding: 12px 14px; font-size: 13px; }
+
+      .details-card .meta { font-size: 14px; gap: 14px; }
+
+      footer { padding: 32px 16px 20px; }
+      .footer-content { grid-template-columns: 1fr; gap: 24px; margin-bottom: 24px; }
+      .footer-column h3 { font-size: 16px; margin-bottom: 16px; }
+      .footer-column a { font-size: 13px; }
+      .footer-bottom { flex-direction: column; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo-area">
+          <a href="index.html" class="brand">HOMELINE</a>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+          <a href="index.html">Home</a>
+          <a href="buy.html">Buy</a>
+          <a href="rent.html">Rent</a>
+          <a href="sell.html">Sell</a>
+          <a href="property.html">Properties</a>
+          <a href="contact.html" class="active">Contact</a>
+          <a href="dashboard.html" data-auth="protected">Dashboard</a>
+          <a href="create-post.html" data-auth="protected">Create Post</a>
+          <a href="login.html" data-auth="guest">Login</a>
+          <a href="index.html" data-action="logout" data-auth="protected">Logout</a>
+        </div>
+
+        <div class="nav-actions">
+          <form class="search-form" id="pageSearchForm" onsubmit="return false;">
+            <input type="text" class="search-box" id="pageSearchInput" placeholder="Search..." autocomplete="off">
+            <button type="button" class="nav-icon" id="pageSearchButton" aria-label="Search">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          <a href="login.html" class="cta-btn" data-auth="guest">Sign in</a>
+          <button class="hamburger" id="hamburger" type="button" aria-label="Toggle navigation" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <main class="container">
+    <!-- HERO BANNER -->
+    <div class="hero-banner">
+      <div class="overlay">
+        <h1>Contact Us</h1>
+        <p>We're here to help — reach out anytime.</p>
+      </div>
+    </div>
+
+    <!-- CONTACT GRID -->
+    <div class="contact-grid">
+      <!-- FORM -->
+      <div class="form-card">
+        <form id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="contactName">Name</label>
+              <input id="contactName" placeholder="Your name" autocomplete="name" required />
+            </div>
+            <div class="form-group">
+              <label for="contactEmail">Email</label>
+              <input id="contactEmail" type="email" placeholder="you@example.com" autocomplete="email" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="contactMessage">Message</label>
+            <textarea id="contactMessage" placeholder="How can we help?" required></textarea>
+          </div>
+          <button class="btn-primary" type="submit" id="contactSubmitBtn">
+            <i class="fas fa-paper-plane"></i> Send
+          </button>
+          <div id="contactMessageBox" class="form-message" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+
+      <!-- INFO SIDE -->
+      <div class="info-side">
+        <!-- Map (clickable → opens Google Maps) -->
+        <a class="map-card" href="https://www.google.com/maps/search/?api=1&query=Kigali,Rwanda" target="_blank" rel="noopener noreferrer">
+          <div class="map-overlay">
+            <i class="fas fa-map-pin"></i>
+            <span>KG 7 Ave, Kigali, Rwanda</span>
+          </div>
+        </a>
+
+        <!-- Contact Details -->
+        <div class="details-card">
+          <div class="meta">
+            <a href="tel:+250788123456"><i class="fas fa-phone-alt"></i> +250 (0)788 123 456</a>
+            <a href="mailto:info@homeline.rw"><i class="fas fa-envelope"></i> info@homeline.rw</a>
+            <a href="https://www.google.com/maps/search/?api=1&query=Kigali,Rwanda" target="_blank" rel="noopener noreferrer">
+              <i class="fas fa-building"></i> KG 7 Ave, Kigali
+            </a>
+          </div>
+          <div class="social-icons">
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
+            <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <span class="footer-logo">HOMELINE</span>
+          <p>Premium real estate platform offering exceptional properties and immersive experiences through stunning photography and video walkthroughs.</p>
+          <div class="social-links">
+            <a href="https://www.facebook.com/" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://x.com/" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="buy.html"><i class="fas fa-chevron-right"></i> Browse Properties</a></li>
+            <li><a href="create-post.html"><i class="fas fa-chevron-right"></i> List Your Property</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Investment Guides</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Market Insights</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Blog</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>Our Services</h3>
+          <ul>
+            <li><a href="buy.html"><i class="fas fa-chevron-right"></i> Buy Property</a></li>
+            <li><a href="rent.html"><i class="fas fa-chevron-right"></i> Rent Property</a></li>
+            <li><a href="sell.html"><i class="fas fa-chevron-right"></i> Sell Property</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Property Management</a></li>
+            <li><a href="property.html"><i class="fas fa-chevron-right"></i> Virtual Tours</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>Contact Us</h3>
+          <ul>
+            <li><a href="tel:+250788123456"><i class="fas fa-phone"></i> +250 (0)788 123 456</a></li>
+            <li><a href="mailto:info@homeline.rw"><i class="fas fa-envelope"></i> info@homeline.rw</a></li>
+            <li><a href="contact.html"><i class="fas fa-map-marker-alt"></i> Kigali, Rwanda</a></li>
+          </ul>
+          <p><strong>Business Hours:</strong><br>Mon - Fri: 8:00 AM - 6:00 PM<br>Sat: 9:00 AM - 4:00 PM</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 HOMELINE. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="contact.html">Privacy Policy</a>
+          <a href="contact.html">Terms of Service</a>
+          <a href="contact.html">Cookie Policy</a>
+          <a href="buy.html">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+
+  <script>
+    // ── Sync auth state ──
+    (function syncAuthClass() {
+      const isLoggedIn = Boolean(
+        localStorage.getItem('token') ||
+        localStorage.getItem('authToken') ||
+        sessionStorage.getItem('token')
+      );
+      document.documentElement.classList.toggle('logged-in', isLoggedIn);
+    })();
+
+    // ── Logout handler ──
+    document.querySelectorAll('[data-action="logout"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('token');
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('isLoggedIn');
+        sessionStorage.removeItem('token');
+        document.documentElement.classList.remove('logged-in');
+        window.location.href = 'index.html';
+      });
+    });
+
+    // ── Hamburger ──
+    (function setupHamburger() {
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+      if (!hamburger || !navLinks) return;
+
+      hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isOpen = navLinks.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+          navLinks.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function() {
+          if (window.innerWidth <= 768) {
+            navLinks.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+          navLinks.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        }
+      });
+    })();
+
+    // ── Navbar search ──
+    (function setupSearch() {
+      const input = document.getElementById('pageSearchInput');
+      const btn = document.getElementById('pageSearchButton');
+      if (!input || !btn) return;
+
+      const go = () => {
+        const q = input.value.trim();
+        if (q) window.location.href = `buy.html?q=${encodeURIComponent(q)}`;
+      };
+      btn.addEventListener('click', e => { e.preventDefault(); go(); });
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); go(); }
+      });
+    })();
+
+    // ── Contact form ──
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('contactForm');
+      const messageBox = document.getElementById('contactMessageBox');
+      const submitBtn = document.getElementById('contactSubmitBtn');
+      if (!form) return;
+
+      function showMessage(text, isError = false) {
+        messageBox.textContent = text;
+        messageBox.style.display = 'block';
+        messageBox.className = 'form-message' + (isError ? ' error' : '');
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('contactName').value.trim();
+        const email = document.getElementById('contactEmail').value.trim();
+        const message = document.getElementById('contactMessage').value.trim();
+
+        if (!name || !email || !message) {
+          showMessage('❌ Please fill in all fields.', true);
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          showMessage('❌ Please enter a valid email address.', true);
+          return;
+        }
+
+        submitBtn.disabled = true;
+
+        try {
+          // Prefer API client if available, fall back to direct fetch
+          if (typeof API !== 'undefined' && typeof API.sendContactMessage === 'function') {
+            await API.sendContactMessage({ name, email, message });
+          } else {
+            const res = await fetch('/api/contact', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ name, email, message }),
+            });
+            if (!res.ok) {
+              let errMsg = 'Request failed';
+              try { const j = await res.json(); errMsg = j.message || errMsg; } catch {}
+              throw new Error(errMsg);
+            }
+          }
+
+          showMessage('✅ Message sent successfully! We\'ll get back to you soon.');
+          form.reset();
+        } catch (err) {
+          console.error('Contact send failed:', err);
+          showMessage('❌ ' + (err.message || 'Could not send message. Please try again.'), true);
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

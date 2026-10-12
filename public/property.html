@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOMELINE · Property Details</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=EB+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    // ── Apply auth state BEFORE render ──
+    (function applyAuthState() {
+      const isLoggedIn = Boolean(
+        localStorage.getItem('token') ||
+        localStorage.getItem('authToken') ||
+        sessionStorage.getItem('token')
+      );
+      if (isLoggedIn) document.documentElement.classList.add('logged-in');
+    })();
+  </script>
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --color-cream: #F7F5F0;
+      --color-text: #1A1810;
+      --color-accent: #255837;
+      --color-accent-light: #EFEEE7;
+      --color-gold: #C9A227;
+      --color-neutral: #8B8680;
+      --color-border: #E8E5E0;
+      --color-dark: #000;
+      --color-overlay: rgba(0, 0, 0, 0.25);
+
+      --font-display: 'EB Garamond', serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'Barlow Condensed', sans-serif;
+    }
+
+    html, body { overflow-x: hidden; max-width: 100%; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-cream);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    .container { max-width: 1440px; margin: 0 auto; padding: 0 48px; }
+
+    /* ===== HEADER / NAV ===== */
+    header {
+      background: var(--color-accent);
+      border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+      position: sticky; top: 0; z-index: 1000;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .navbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 0; gap: 48px;
+    }
+
+    .logo-area { display: flex; align-items: center; flex-shrink: 0; }
+
+    .brand {
+      font-family: var(--font-mono);
+      font-size: 16px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--color-gold); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .brand:hover { color: var(--color-cream); }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 40px;
+      flex: 1; font-size: 14px; font-weight: 500;
+      letter-spacing: 0.3px; color: rgba(247, 245, 240, 0.8);
+    }
+    .nav-links a {
+      text-decoration: none; color: inherit;
+      transition: color 0.2s, border-color 0.2s;
+      position: relative; padding-bottom: 2px;
+    }
+    .nav-links a:hover { color: var(--color-gold); }
+    .nav-links a.active {
+      color: var(--color-gold); font-weight: 600;
+      border-bottom: 2px solid var(--color-gold);
+    }
+
+    .nav-actions { display: flex; align-items: center; gap: 24px; flex-shrink: 0; }
+
+    .search-form {
+      display: flex; align-items: center; gap: 8px;
+      border-bottom: 1.5px solid rgba(247, 245, 240, 0.4);
+      padding-bottom: 4px;
+    }
+
+    .search-box {
+      background: transparent; border: none;
+      color: var(--color-cream); padding: 6px 0;
+      font-size: 13px; font-family: var(--font-body);
+      font-weight: 400; width: 160px;
+      transition: all 0.3s ease;
+    }
+    .search-box::placeholder { color: rgba(247, 245, 240, 0.5); }
+    .search-box:focus { outline: none; }
+
+    .nav-icon {
+      width: 20px; height: 20px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(247, 245, 240, 0.7);
+      cursor: pointer;
+      transition: color 0.2s, transform 0.2s;
+      flex-shrink: 0; background: transparent; border: none;
+    }
+    .nav-icon:hover { color: var(--color-gold); transform: scale(1.08); }
+
+    .cta-btn {
+      display: none;
+      background: var(--color-gold);
+      color: #1A1810 !important;
+      text-decoration: none;
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 0.5px; padding: 10px 22px;
+      border-radius: 2px; white-space: nowrap;
+      transition: all 0.2s; flex-shrink: 0;
+    }
+    .cta-btn:hover {
+      background: var(--color-text);
+      color: var(--color-cream) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .hamburger {
+      display: none; border: none; background: transparent;
+      color: var(--color-cream); font-size: 20px;
+      cursor: pointer; padding: 4px; flex-shrink: 0;
+    }
+    .hamburger:hover { color: var(--color-gold); }
+
+    /* ===== AUTH STATE ===== */
+    html:not(.logged-in) [data-auth="protected"] { display: none !important; }
+    html:not(.logged-in) [data-auth="guest"]     { display: inline-block; }
+
+    html.logged-in [data-auth="protected"] { display: inline-block; }
+    html.logged-in [data-auth="guest"]     { display: none !important; }
+
+    /* ===== HERO PROPERTY ===== */
+    .hero-property {
+      margin: 40px 0 48px;
+      overflow: hidden; position: relative;
+      min-height: 420px;
+      background: #e8e6e1 center 30% / cover no-repeat;
+      display: flex; align-items: flex-end;
+      transition: background-image 0.4s ease;
+    }
+
+    .hero-property .overlay {
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.0) 70%);
+      width: 100%;
+      padding: 40px 44px 32px;
+      display: flex; justify-content: space-between;
+      align-items: flex-end; flex-wrap: wrap; gap: 16px;
+    }
+
+    .hero-property .title-group h1 {
+      color: #fff; font-family: var(--font-display);
+      font-size: 38px; font-weight: 600;
+      letter-spacing: -0.02em;
+      text-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+      margin-bottom: 4px;
+    }
+
+    .hero-property .title-group .price-tag {
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 22px; font-weight: 600;
+      font-family: var(--font-mono);
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-property .badge-group {
+      display: flex; gap: 12px; flex-wrap: wrap;
+    }
+
+    .hero-property .badge-group span {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      padding: 8px 22px;
+      color: #fff; font-weight: 500; font-size: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-family: var(--font-mono);
+      letter-spacing: 0.5px; text-transform: uppercase;
+    }
+
+    .hero-property .badge-group i { margin-right: 8px; }
+
+    /* ===== DETAILS GRID ===== */
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 40px; margin-bottom: 80px;
+    }
+
+    .details-main {
+      background: #ffffff;
+      padding: 36px 40px;
+      border: 1px solid var(--color-border);
+    }
+
+    .details-main .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px 24px;
+      margin: 0 0 24px 0;
+    }
+
+    .details-main .meta-grid span {
+      font-size: 14px; color: var(--color-neutral);
+    }
+
+    .details-main .meta-grid strong {
+      color: var(--color-text);
+      font-family: var(--font-mono);
+      font-weight: 500;
+      display: block;
+      letter-spacing: 0.5px;
+    }
+
+    .details-main p {
+      line-height: 1.8; color: var(--color-neutral);
+      font-size: 15px; margin: 8px 0 0;
+    }
+
+    .details-main p + p { margin-top: 12px; }
+
+    /* ===== SIDEBAR ===== */
+    .details-side {
+      display: flex; flex-direction: column; gap: 28px;
+    }
+
+    .agent-card {
+      background: #ffffff;
+      padding: 28px 30px;
+      border: 1px solid var(--color-border);
+    }
+
+    .agent-card h4 {
+      font-size: 13px; font-weight: 600;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: var(--font-mono);
+      color: var(--color-text);
+    }
+
+    .agent-card .agent-row {
+      display: flex; align-items: center;
+      gap: 14px; margin-bottom: 16px;
+    }
+
+    .agent-card .agent-avatar {
+      width: 52px; height: 52px;
+      background: var(--color-accent-light);
+      background-image: url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80');
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+    }
+
+    .agent-card .agent-info strong {
+      display: block; font-weight: 600;
+      color: var(--color-text); font-size: 16px;
+    }
+
+    .agent-card .agent-info span {
+      font-size: 13px; color: var(--color-neutral);
+    }
+
+    .agent-phone {
+      font-size: 14px; color: var(--color-text);
+      margin-bottom: 18px;
+      font-family: var(--font-mono);
+      letter-spacing: 0.3px;
+    }
+    .agent-phone i { margin-right: 10px; color: var(--color-neutral); }
+
+    .btn-group { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--color-accent); color: var(--color-cream);
+      padding: 12px 28px; font-weight: 600; font-size: 13px;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: all 0.25s;
+      font-family: var(--font-mono);
+      letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .btn i { font-size: 13px; }
+    .btn:hover {
+      background: var(--color-text);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+    }
+
+    .btn-whatsapp { background: #25D366; color: #fff; }
+    .btn-whatsapp:hover {
+      background: #1da851;
+      box-shadow: 0 8px 20px rgba(37, 211, 102, 0.25);
+    }
+
+    .map-card {
+      background: var(--color-accent-light);
+      min-height: 160px;
+      background-image: url('https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+      background-size: cover;
+      background-position: center;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; position: relative;
+      border: 1px solid var(--color-border);
+    }
+
+    .map-card .map-overlay {
+      background: rgba(0, 0, 0, 0.3);
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; padding: 20px; text-align: center;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+
+    .map-card i {
+      font-size: 28px; margin-bottom: 6px;
+      color: var(--color-gold);
+    }
+
+    .map-card span {
+      font-weight: 500; font-size: 15px;
+      letter-spacing: 0.3px; color: #fff;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ===== SECTION HEAD ===== */
+    .section-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 36px; gap: 20px; flex-wrap: wrap;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 32px; font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .view-all {
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 0.5px; color: var(--color-neutral);
+      text-decoration: none; transition: color 0.2s;
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+    }
+    .view-all:hover { color: var(--color-accent); }
+
+    /* ===== RELATED PROPERTIES ===== */
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px; margin-bottom: 80px;
+    }
+
+    .card {
+      background: #ffffff; overflow: hidden;
+      border: 1px solid var(--color-border);
+      display: flex; flex-direction: column;
+      color: inherit; text-decoration: none;
+      transition: all 0.3s ease;
+      padding: 16px; min-width: 0;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.07);
+      border-color: var(--color-accent);
+    }
+
+    .card-img {
+      width: 100%; aspect-ratio: 1/1;
+      background: var(--color-accent-light) center / cover no-repeat;
+      margin-bottom: 14px;
+    }
+
+    .card-body { flex: 1; display: flex; flex-direction: column; }
+
+    .card-body h3 {
+      font-family: var(--font-display);
+      font-size: 18px; font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 2px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-body .price {
+      font-size: 16px; font-weight: 600;
+      color: var(--color-accent);
+      margin: 6px 0 14px;
+      font-family: var(--font-mono);
+      letter-spacing: 0.3px;
+    }
+
+    .btn-small {
+      background: transparent;
+      border: 1.5px solid var(--color-accent);
+      color: var(--color-accent);
+      padding: 8px 18px; font-size: 11px;
+      font-weight: 600; cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-block;
+      text-decoration: none;
+      margin-top: auto;
+      align-self: flex-start;
+    }
+    .btn-small:hover {
+      background: var(--color-accent);
+      color: var(--color-cream);
+    }
+
+    /* State messages */
+    .state-msg {
+      grid-column: 1 / -1; text-align: center;
+      padding: 60px 20px; color: var(--color-neutral);
+      font-size: 15px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--color-accent);
+      color: var(--color-cream);
+      padding: 80px 48px 40px;
+    }
+
+    .footer-content {
+      max-width: 1400px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 60px; margin-bottom: 60px;
+    }
+
+    .footer-column h3 {
+      font-family: var(--font-display);
+      font-size: 18px; margin-bottom: 24px;
+      font-weight: 600; color: var(--color-cream);
+    }
+
+    .footer-column ul { list-style: none; padding: 0; margin: 0; }
+    .footer-column li { margin-bottom: 12px; }
+
+    .footer-column a {
+      color: rgba(247, 245, 240, 0.8);
+      text-decoration: none; font-size: 14px;
+      transition: color 0.2s ease;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .footer-column a:hover { color: var(--color-gold); }
+
+    .footer-column p {
+      color: rgba(247, 245, 240, 0.8);
+      font-size: 14px; line-height: 1.6; margin: 0;
+    }
+
+    .footer-logo {
+      font-family: var(--font-mono);
+      font-size: 16px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--color-gold);
+      margin-bottom: 16px; display: inline-block;
+    }
+
+    .social-links { display: flex; gap: 16px; margin-top: 20px; }
+    .social-links a {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(247, 245, 240, 0.1);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-cream);
+      border: 1px solid rgba(247, 245, 240, 0.2);
+      transition: all 0.2s ease;
+    }
+    .social-links a:hover {
+      background: var(--color-gold);
+      color: var(--color-text);
+      border-color: var(--color-gold);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(247, 245, 240, 0.1);
+      padding-top: 40px;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 20px;
+      max-width: 1400px; margin: 0 auto;
+    }
+
+    .footer-bottom p {
+      font-size: 13px; color: rgba(247, 245, 240, 0.7); margin: 0;
+    }
+
+    .footer-bottom-links { display: flex; gap: 32px; flex-wrap: wrap; }
+    .footer-bottom-links a {
+      font-size: 13px; color: rgba(247, 245, 240, 0.7);
+      text-decoration: none; transition: color 0.2s ease;
+    }
+    .footer-bottom-links a:hover { color: var(--color-gold); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .container { padding: 0 36px; }
+      .navbar { gap: 32px; }
+      .nav-links { gap: 28px; }
+      .search-box { width: 120px; }
+      .details-grid { grid-template-columns: 1fr; gap: 32px; }
+      .grid-4 { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      footer { padding: 60px 36px 30px; }
+      .footer-content { gap: 40px; margin-bottom: 40px; }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 24px; }
+      .navbar { gap: 16px; padding: 16px 0; }
+      .logo-area { order: 1; }
+      .nav-actions { order: 2; gap: 12px; }
+      .search-form { display: none; }
+      .hamburger { display: flex; order: 3; }
+      .brand { font-size: 14px; letter-spacing: 2px; }
+
+      .nav-links {
+        display: none !important;
+        position: absolute; top: 60px; left: 0; right: 0;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0 !important;
+        background: var(--color-cream);
+        border-top: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border);
+        padding: 16px 24px !important;
+        z-index: 999;
+      }
+      .nav-links.open { display: flex !important; }
+      .nav-links a {
+        padding: 10px 0; width: 100%;
+        border-bottom: 1px solid var(--color-border);
+        color: var(--color-text) !important;
+      }
+      .nav-links a:last-child { border-bottom: none; }
+      .nav-links a.active {
+        border-bottom: none; font-weight: 600;
+        color: var(--color-accent) !important;
+      }
+      .nav-links a:hover { color: var(--color-accent) !important; }
+
+      /* Mobile auth rules */
+      html:not(.logged-in) .nav-links [data-auth="protected"] { display: none !important; }
+      html.logged-in .nav-links [data-auth="protected"] { display: block !important; }
+      html.logged-in .nav-links [data-auth="guest"] { display: none !important; }
+
+      .hero-property { min-height: 300px; margin: 24px 0 32px; }
+      .hero-property .overlay {
+        padding: 24px 20px;
+        flex-direction: column; align-items: flex-start;
+      }
+      .hero-property .title-group h1 { font-size: 28px; }
+      .hero-property .badge-group span { font-size: 11px; padding: 6px 14px; }
+
+      .details-main { padding: 24px 20px; }
+      .details-main .meta-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px 20px;
+      }
+
+      .grid-4 { grid-template-columns: 1fr; gap: 20px; margin-bottom: 60px; }
+      .section-title { font-size: 26px; }
+
+      .btn-group { flex-direction: column; }
+      .btn { justify-content: center; }
+
+      footer { padding: 40px 24px 24px; }
+      .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px; margin-bottom: 32px;
+      }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .footer-bottom-links { width: 100%; }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 16px; }
+      .navbar { padding: 12px 0; gap: 8px; }
+      .brand { font-size: 12px; letter-spacing: 1.5px; }
+      .nav-actions { gap: 8px; }
+
+      .hero-property .title-group h1 { font-size: 24px; }
+      .hero-property .title-group .price-tag { font-size: 18px; }
+
+      .details-main { padding: 18px 16px; }
+      .details-main .meta-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 16px;
+      }
+      .details-main .meta-grid span { font-size: 13px; }
+
+      .agent-card { padding: 20px 18px; }
+      .section-title { font-size: 22px; }
+
+      footer { padding: 32px 16px 20px; }
+      .footer-content { grid-template-columns: 1fr; gap: 24px; margin-bottom: 24px; }
+      .footer-column h3 { font-size: 16px; margin-bottom: 16px; }
+      .footer-column a { font-size: 13px; }
+      .footer-bottom { flex-direction: column; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo-area">
+          <a href="index.html" class="brand">HOMELINE</a>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+          <a href="index.html">Home</a>
+          <a href="buy.html">Buy</a>
+          <a href="rent.html">Rent</a>
+          <a href="sell.html">Sell</a>
+          <a href="property.html" class="active">Properties</a>
+          <a href="contact.html">Contact</a>
+          <a href="dashboard.html" data-auth="protected">Dashboard</a>
+          <a href="create-post.html" data-auth="protected">Create Post</a>
+          <a href="login.html" data-auth="guest">Login</a>
+          <a href="index.html" data-action="logout" data-auth="protected">Logout</a>
+        </div>
+
+        <div class="nav-actions">
+          <form class="search-form" id="pageSearchForm" onsubmit="return false;">
+            <input type="text" class="search-box" id="pageSearchInput" placeholder="Search..." autocomplete="off">
+            <button type="button" class="nav-icon" id="pageSearchButton" aria-label="Search">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          <a href="login.html" class="cta-btn" data-auth="guest">Sign in</a>
+          <button class="hamburger" id="hamburger" type="button" aria-label="Toggle navigation" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <main class="container">
+    <!-- HERO PROPERTY -->
+    <div class="hero-property" id="heroProperty">
+      <div class="overlay">
+        <div class="title-group">
+          <h1 id="heroTitle">Loading property...</h1>
+          <div class="price-tag" id="heroPrice">—</div>
+        </div>
+        <div class="badge-group" id="heroBadges"></div>
+      </div>
+    </div>
+
+    <!-- DETAILS GRID -->
+    <div class="details-grid">
+      <div class="details-main">
+        <div class="meta-grid" id="metaGrid"></div>
+        <p id="description"></p>
+      </div>
+
+      <div class="details-side">
+        <div class="agent-card">
+          <h4><i class="fas fa-user-circle" style="margin-right: 8px;"></i> Agent</h4>
+          <div class="agent-row">
+            <div class="agent-avatar"></div>
+            <div class="agent-info">
+              <strong id="agentName">HOMELINE Agent</strong>
+              <span id="agentRole">Property Advisor</span>
+            </div>
+          </div>
+          <div class="agent-phone" id="agentPhone">
+            <i class="fas fa-phone-alt"></i> —
+          </div>
+          <div class="btn-group">
+            <a class="btn" href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+            <a class="btn btn-whatsapp" id="whatsappBtn" href="#" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+          </div>
+        </div>
+
+        <div class="map-card">
+          <div class="map-overlay">
+            <i class="fas fa-map-pin"></i>
+            <span id="locationLabel">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RELATED PROPERTIES -->
+    <div class="section-head">
+      <h2 class="section-title">Related Properties</h2>
+      <a href="buy.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+
+    <div class="grid-4" id="relatedGrid">
+      <p class="state-msg">Loading related properties...</p>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <span class="footer-logo">HOMELINE</span>
+          <p>Premium real estate platform offering exceptional properties and immersive experiences through stunning photography and video walkthroughs.</p>
+          <div class="social-links">
+            <a href="https://www.facebook.com/" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://x.com/" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="buy.html"><i class="fas fa-chevron-right"></i> Browse Properties</a></li>
+            <li><a href="create-post.html"><i class="fas fa-chevron-right"></i> List Your Property</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Investment Guides</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Market Insights</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Blog</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>Our Services</h3>
+          <ul>
+            <li><a href="buy.html"><i class="fas fa-chevron-right"></i> Buy Property</a></li>
+            <li><a href="rent.html"><i class="fas fa-chevron-right"></i> Rent Property</a></li>
+            <li><a href="sell.html"><i class="fas fa-chevron-right"></i> Sell Property</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Property Management</a></li>
+            <li><a href="property.html"><i class="fas fa-chevron-right"></i> Virtual Tours</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>Contact Us</h3>
+          <ul>
+            <li><a href="tel:+250788123456"><i class="fas fa-phone"></i> +250 (0)788 123 456</a></li>
+            <li><a href="mailto:info@homeline.rw"><i class="fas fa-envelope"></i> info@homeline.rw</a></li>
+            <li><a href="contact.html"><i class="fas fa-map-marker-alt"></i> Kigali, Rwanda</a></li>
+          </ul>
+          <p><strong>Business Hours:</strong><br>Mon - Fri: 8:00 AM - 6:00 PM<br>Sat: 9:00 AM - 4:00 PM</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 HOMELINE. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="contact.html">Privacy Policy</a>
+          <a href="contact.html">Terms of Service</a>
+          <a href="contact.html">Cookie Policy</a>
+          <a href="buy.html">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+
+  <script>
+    // ── Sync auth state (matches pre-render script) ──
+    (function syncAuthClass() {
+      const isLoggedIn = Boolean(
+        localStorage.getItem('token') ||
+        localStorage.getItem('authToken') ||
+        sessionStorage.getItem('token')
+      );
+      document.documentElement.classList.toggle('logged-in', isLoggedIn);
+    })();
+
+    // ── Logout handler ──
+    document.querySelectorAll('[data-action="logout"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('token');
+        localStorage.removeItem('authToken');
+        sessionStorage.removeItem('token');
+        document.documentElement.classList.remove('logged-in');
+        window.location.href = 'index.html';
+      });
+    });
+
+    // ── Mobile hamburger ──
+    (function setupHamburger() {
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+      if (!hamburger || !navLinks) return;
+
+      hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isOpen = navLinks.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+          navLinks.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function() {
+          if (window.innerWidth <= 768) {
+            navLinks.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+          navLinks.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        }
+      });
+    })();
+
+    // ── Helpers ──
+    function getQueryParam(name) {
+      return new URLSearchParams(window.location.search).get(name);
+    }
+
+    function escapeHtml(str) {
+      if (str == null) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function formatPrice(price) {
+      const n = Number(price);
+      if (!isFinite(n)) return '—';
+      return 'RWF ' + n.toLocaleString('en-US');
+    }
+
+    // ── Main: load + render property ──
+    document.addEventListener('DOMContentLoaded', async () => {
+      const propertyId = getQueryParam('id');
+      if (!propertyId) {
+        document.getElementById('heroTitle').textContent = 'No property selected';
+        document.querySelector('#relatedGrid').innerHTML =
+          '<p class="state-msg">Browse all properties from the <a href="buy.html" style="color:var(--color-accent)">Buy</a> or <a href="rent.html" style="color:var(--color-accent)">Rent</a> pages.</p>';
+        return;
+      }
+
+      try {
+        const p = await API.getProperty(propertyId);
+        renderProperty(p);
+        loadRelated(p);
+      } catch (err) {
+        console.error('Property load failed:', err);
+        document.getElementById('heroTitle').textContent = 'Property not found';
+        document.getElementById('heroPrice').textContent = '—';
+      }
+    });
+
+    // ── Render single property ──
+    function renderProperty(p) {
+      // Hero image
+      const hero = document.getElementById('heroProperty');
+      const images = p.images || [];
+      const main = images.find(i => i.is_featured) || images[0];
+      if (hero && main && main.image_url) {
+        hero.style.backgroundImage = `url('${main.image_url}')`;
+      } else if (hero && p.main_image) {
+        hero.style.backgroundImage = `url('${p.main_image}')`;
+      }
+
+      document.getElementById('heroTitle').textContent = p.title || 'Untitled Property';
+      document.getElementById('heroPrice').textContent = formatPrice(p.price);
+
+      // Badges
+      const badges = [];
+      if (p.bedrooms != null) badges.push(`<span><i class="fas fa-bed"></i> ${p.bedrooms} beds</span>`);
+      if (p.bathrooms != null) badges.push(`<span><i class="fas fa-bath"></i> ${p.bathrooms} baths</span>`);
+      if (p.size_sqm != null) badges.push(`<span><i class="fas fa-expand"></i> ${p.size_sqm} m²</span>`);
+      document.getElementById('heroBadges').innerHTML = badges.join('');
+
+      // Meta grid
+      const metaItems = [
+        `<span><strong>Price</strong> ${formatPrice(p.price)}</span>`,
+        `<span><strong>Bedrooms</strong> ${p.bedrooms ?? '—'}</span>`,
+        `<span><strong>Bathrooms</strong> ${p.bathrooms ?? '—'}</span>`,
+        `<span><strong>Category</strong> ${escapeHtml(p.property_type || '—')}</span>`,
+        `<span><strong>Status</strong> ${escapeHtml(p.status || '—')}</span>`,
+        `<span><strong>Size</strong> ${p.size_sqm != null ? p.size_sqm + ' m²' : '—'}</span>`,
+      ];
+      if (p.listing_id) {
+        metaItems.push(`<span><strong>Listing ID</strong> ${escapeHtml(p.listing_id)}</span>`);
+      }
+      document.getElementById('metaGrid').innerHTML = metaItems.join('');
+
+      // Description
+      document.getElementById('description').textContent =
+        p.description || 'No description provided for this property.';
+
+      // Extra details (rooms + amenities)
+      const mainEl = document.querySelector('.details-main');
+      if ((p.rooms?.length || p.amenities?.length) && !document.getElementById('extraDetails')) {
+        const extra = document.createElement('div');
+        extra.id = 'extraDetails';
+        extra.style.marginTop = '32px';
+
+        if (p.rooms?.length) {
+          extra.innerHTML += `
+            <h3 style="margin-bottom:12px;font-family:var(--font-display);">Rooms</h3>
+            <ul style="list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:16px;margin-bottom:24px;">
+              ${p.rooms.map(r => `<li style="background:#fff;border:1px solid var(--color-border);padding:8px 14px;font-size:13px;">
+                <strong>${escapeHtml(r.room_name || r.room_type || 'Room')}</strong> · ${r.area_sqm ?? '—'} m²</li>`).join('')}
+            </ul>
+          `;
+        }
+
+        if (p.amenities?.length) {
+          extra.innerHTML += `
+            <h3 style="margin-bottom:12px;font-family:var(--font-display);">Amenities</h3>
+            <ul style="list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:10px;">
+              ${p.amenities.map(a => `<li style="background:#fff;border:1px solid var(--color-border);padding:6px 12px;font-size:13px;">
+                <i class="fas fa-${escapeHtml(a.amenity_icon || 'check')}" style="margin-right:6px;color:var(--color-accent);"></i>
+                ${escapeHtml(a.amenity_name || a.name || '')}</li>`).join('')}
+            </ul>
+          `;
+        }
+
+        mainEl?.appendChild(extra);
+      }
+
+      // Agent
+      document.getElementById('agentName').textContent = p.agent_name || 'HOMELINE Agent';
+      document.getElementById('agentRole').textContent = 'Property Advisor';
+      document.getElementById('agentPhone').innerHTML =
+        `<i class="fas fa-phone-alt"></i> ${escapeHtml(p.phone_number || '—')}`;
+
+      // Location
+      const loc = [p.neighborhood, p.city, p.country].filter(Boolean).join(', ');
+      document.getElementById('locationLabel').textContent = loc || 'Location not specified';
+
+      // WhatsApp
+      const waBtn = document.getElementById('whatsappBtn');
+      if (waBtn && p.phone_number) {
+        const digits = String(p.phone_number).replace(/\D/g, '');
+        waBtn.href = `https://wa.me/${digits}?text=${encodeURIComponent('Hello, I am interested in ' + (p.title || 'this property'))}`;
+      } else if (waBtn) {
+        waBtn.style.display = 'none';
+      }
+
+      // Page title
+      document.title = `${p.title || 'Property'} · HOMELINE`;
+    }
+
+    // ── Load related properties (same status/type, exclude current) ──
+    async function loadRelated(current) {
+      const grid = document.getElementById('relatedGrid');
+      if (!grid) return;
+
+      try {
+        // Fetch a pool of properties matching the same status
+        const statusFilter = current.status ? `status=${encodeURIComponent(current.status)}&` : '';
+        const res = await fetch(`/api/properties?${statusFilter}limit=20`);
+        const { data } = await res.json();
+
+        if (!Array.isArray(data)) throw new Error('Invalid data');
+
+        const currentId = String(current.listing_id || current.id);
+        const pool = data.filter(p => String(p.listing_id || p.id) !== currentId);
+
+        // Prefer same property_type, then same neighborhood
+        pool.sort((a, b) => {
+          const aScore =
+            (a.property_type === current.property_type ? 2 : 0) +
+            (a.neighborhood === current.neighborhood ? 1 : 0);
+          const bScore =
+            (b.property_type === current.property_type ? 2 : 0) +
+            (b.neighborhood === current.neighborhood ? 1 : 0);
+          return bScore - aScore;
+        });
+
+        const related = pool.slice(0, 4);
+
+        if (!related.length) {
+          grid.innerHTML = '<p class="state-msg">No related properties found.</p>';
+          return;
+        }
+
+        grid.innerHTML = related.map(p => {
+          const href = `property.html?id=${encodeURIComponent(p.listing_id || p.id)}`;
+          const img = p.main_image || '';
+          return `
+            <a class="card" href="${href}">
+              <div class="card-img" style="background-image: url('${img}');"></div>
+              <div class="card-body">
+                <h3>${escapeHtml(p.title || 'Untitled Property')}</h3>
+                <div class="price">${formatPrice(p.price)}</div>
+                <span class="btn-small">See more</span>
+              </div>
+            </a>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error('Related load failed:', err);
+        grid.innerHTML = '<p class="state-msg">Could not load related properties.</p>';
+      }
+    }
+
+    // ── Navbar search (goes to buy.html with query) ──
+    (function setupSearch() {
+      const input = document.getElementById('pageSearchInput');
+      const btn = document.getElementById('pageSearchButton');
+      if (!input || !btn) return;
+
+      const go = () => {
+        const q = input.value.trim();
+        if (q) window.location.href = `buy.html?q=${encodeURIComponent(q)}`;
+      };
+
+      btn.addEventListener('click', (e) => { e.preventDefault(); go(); });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); go(); }
+      });
+    })();
+  </script>
+</body>
+</html>

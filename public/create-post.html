@@ -1,0 +1,803 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOMELINE · Create Post</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=EB+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    // ── PAGE GUARD: runs before render. Redirects logged-out users. ──
+    (function guard() {
+      const isLoggedIn = Boolean(
+        localStorage.getItem('token') ||
+        localStorage.getItem('authToken') ||
+        sessionStorage.getItem('token')
+      );
+      if (!isLoggedIn) {
+        window.location.replace('login.html?returnTo=create-post.html');
+        return;
+      }
+      document.documentElement.classList.add('logged-in');
+    })();
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --color-cream: #F7F5F0;
+      --color-text: #1A1810;
+      --color-accent: #255837;
+      --color-accent-light: #EFEEE7;
+      --color-gold: #C9A227;
+      --color-neutral: #8B8680;
+      --color-border: #E8E5E0;
+      --color-dark: #000;
+      --font-display: 'EB Garamond', serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'Barlow Condensed', sans-serif;
+    }
+
+    html, body { overflow-x: hidden; max-width: 100%; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-cream);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    .container { max-width: 1440px; margin: 0 auto; padding: 0 48px; }
+
+    /* HEADER */
+    header {
+      background: var(--color-accent);
+      border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+      position: sticky; top: 0; z-index: 1000;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .navbar { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; gap: 48px; }
+    .logo-area { display: flex; align-items: center; flex-shrink: 0; }
+    .brand {
+      font-family: var(--font-mono); font-size: 16px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--color-gold); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .brand:hover { color: var(--color-cream); }
+    .nav-links {
+      display: flex; align-items: center; gap: 40px; flex: 1;
+      font-size: 14px; font-weight: 500;
+      color: rgba(247, 245, 240, 0.8);
+      letter-spacing: 0.3px;
+    }
+    .nav-links a {
+      text-decoration: none; color: inherit;
+      transition: color 0.2s, border-color 0.2s;
+      position: relative; padding-bottom: 2px;
+    }
+    .nav-links a:hover { color: var(--color-gold); }
+    .nav-links a.active { color: var(--color-gold); font-weight: 600; border-bottom: 2px solid var(--color-gold); }
+    .nav-actions { display: flex; align-items: center; gap: 24px; flex-shrink: 0; }
+
+    .search-form {
+      display: flex; align-items: center; gap: 8px;
+      border-bottom: 1.5px solid rgba(247, 245, 240, 0.4);
+      padding-bottom: 4px;
+    }
+    .search-box {
+      background: transparent; border: none;
+      color: var(--color-cream); padding: 6px 0;
+      font-size: 13px; font-family: var(--font-body);
+      width: 160px; transition: all 0.3s ease;
+    }
+    .search-box::placeholder { color: rgba(247, 245, 240, 0.5); }
+    .search-box:focus { outline: none; }
+
+    .nav-icon {
+      width: 20px; height: 20px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(247, 245, 240, 0.7);
+      cursor: pointer;
+      transition: color 0.2s, transform 0.2s;
+      flex-shrink: 0; background: transparent; border: none;
+    }
+    .nav-icon:hover { color: var(--color-gold); transform: scale(1.08); }
+
+    .cta-btn {
+      display: none; background: var(--color-gold);
+      color: #1A1810 !important; text-decoration: none;
+      font-size: 13px; font-weight: 600;
+      padding: 10px 22px; border-radius: 2px;
+      white-space: nowrap; transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .cta-btn:hover {
+      background: var(--color-text);
+      color: var(--color-cream) !important;
+      transform: translateY(-1px);
+    }
+
+    .hamburger {
+      display: none; border: none; background: transparent;
+      color: var(--color-cream); font-size: 20px;
+      cursor: pointer; padding: 4px; flex-shrink: 0;
+    }
+    .hamburger:hover { color: var(--color-gold); }
+
+    /* ===== AUTH STATE ===== */
+    html:not(.logged-in) [data-auth="protected"] { display: none !important; }
+    html:not(.logged-in) [data-auth="guest"]     { display: inline-block; }
+
+    html.logged-in [data-auth="protected"] { display: inline-block; }
+    html.logged-in [data-auth="guest"]     { display: none !important; }
+
+    /* PAGE */
+    .page-shell { padding: 48px 0 80px; }
+    .page-header { margin-bottom: 36px; }
+    .page-title {
+      font-family: var(--font-display);
+      font-size: 36px; font-weight: 600;
+      letter-spacing: -0.02em; color: var(--color-text);
+    }
+    .page-subtitle { color: var(--color-neutral); font-size: 16px; margin-top: 4px; }
+
+    /* FORM */
+    .form-card {
+      background: #ffffff; padding: 44px 48px;
+      border: 1px solid var(--color-border);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block; font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--color-text); margin-bottom: 6px;
+      font-family: var(--font-mono);
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%; padding: 14px 16px;
+      border: 1px solid var(--color-border);
+      font-family: var(--font-body); font-size: 14px;
+      background: var(--color-cream); outline: none;
+      color: var(--color-text); border-radius: 0;
+      appearance: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--color-accent); background: #ffffff; }
+    .form-group select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238B8680' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 16px center;
+      padding-right: 40px;
+    }
+    .form-group textarea { min-height: 140px; resize: vertical; }
+    .form-group small { display: block; margin-top: 6px; color: var(--color-neutral); font-size: 12px; }
+
+    .btn-group { display: flex; gap: 14px; margin-top: 12px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--color-accent); color: var(--color-cream);
+      border: none; padding: 16px 36px;
+      font-weight: 600; font-size: 13px;
+      letter-spacing: 0.8px; cursor: pointer;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 10px;
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { background: var(--color-text); transform: translateY(-2px); }
+    .btn-primary:disabled { opacity: 0.6; cursor: wait; }
+    .btn-secondary {
+      background: transparent; border: 1.5px solid var(--color-accent);
+      color: var(--color-accent); padding: 16px 36px;
+      font-weight: 600; font-size: 13px;
+      letter-spacing: 0.8px; cursor: pointer;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 10px;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { background: var(--color-accent); color: var(--color-cream); }
+
+    .dynamic-section { margin-bottom: 24px; }
+    .dynamic-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
+    .dynamic-row { display: grid; gap: 8px; align-items: center; }
+    .dynamic-row.room    { grid-template-columns: 1.2fr 1.5fr 100px 40px; }
+    .dynamic-row.amenity { grid-template-columns: 2fr 1.2fr 40px; }
+    .dynamic-row input { padding: 12px 14px; font-size: 13px; }
+    .remove-row {
+      background: #fff; border: 1px solid var(--color-border);
+      padding: 10px; cursor: pointer; color: var(--color-neutral);
+      transition: all 0.15s;
+    }
+    .remove-row:hover { border-color: #B42318; color: #B42318; }
+
+    .post-message {
+      margin-top: 20px; padding: 14px 20px;
+      background: var(--color-accent-light); color: var(--color-accent);
+      font-size: 14px; font-weight: 500;
+      display: none; border-left: 3px solid var(--color-accent);
+    }
+    .post-message.error { background: #FDF0EF; color: #B42318; border-left-color: #B42318; }
+
+    /* FOOTER */
+    footer { background: var(--color-accent); color: var(--color-cream); padding: 80px 48px 40px; }
+    .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 60px; margin-bottom: 60px; }
+    .footer-column h3 { font-family: var(--font-display); font-size: 18px; margin-bottom: 24px; font-weight: 600; }
+    .footer-column ul { list-style: none; padding: 0; margin: 0; }
+    .footer-column li { margin-bottom: 12px; }
+    .footer-column a { color: rgba(247, 245, 240, 0.8); text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+    .footer-column a:hover { color: var(--color-gold); }
+    .footer-column p { color: rgba(247, 245, 240, 0.8); font-size: 14px; }
+    .footer-logo { font-family: var(--font-mono); font-size: 16px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--color-gold); margin-bottom: 16px; display: inline-block; }
+    .social-links { display: flex; gap: 16px; margin-top: 20px; }
+    .social-links a { width: 40px; height: 40px; border-radius: 50%; background: rgba(247, 245, 240, 0.1); display: flex; align-items: center; justify-content: center; color: var(--color-cream); border: 1px solid rgba(247, 245, 240, 0.2); transition: all 0.2s; }
+    .social-links a:hover { background: var(--color-gold); color: var(--color-text); border-color: var(--color-gold); }
+    .footer-bottom { border-top: 1px solid rgba(247, 245, 240, 0.1); padding-top: 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; max-width: 1400px; margin: 0 auto; }
+    .footer-bottom p { font-size: 13px; color: rgba(247, 245, 240, 0.7); }
+    .footer-bottom-links { display: flex; gap: 32px; flex-wrap: wrap; }
+    .footer-bottom-links a { font-size: 13px; color: rgba(247, 245, 240, 0.7); text-decoration: none; }
+    .footer-bottom-links a:hover { color: var(--color-gold); }
+
+    @media (max-width: 1024px) {
+      .container { padding: 0 36px; }
+      .form-card { padding: 32px 32px; }
+      footer { padding: 60px 36px 30px; }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 24px; }
+      .navbar { padding: 16px 0; gap: 16px; }
+      .hamburger { display: flex; }
+      .search-form { display: none; }
+
+      .nav-links {
+        display: none !important;
+        position: absolute; top: 60px; left: 0; right: 0;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0 !important;
+        background: var(--color-cream);
+        border-top: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border);
+        padding: 16px 24px !important;
+        z-index: 999;
+      }
+      .nav-links.open { display: flex !important; }
+      .nav-links a {
+        padding: 10px 0; width: 100%;
+        border-bottom: 1px solid var(--color-border);
+        color: var(--color-text) !important;
+      }
+      .nav-links a:last-child { border-bottom: none; }
+      .nav-links a.active {
+        border-bottom: none; font-weight: 600;
+        color: var(--color-accent) !important;
+      }
+      .nav-links a:hover { color: var(--color-accent) !important; }
+
+      /* Mobile auth rules */
+      html:not(.logged-in) .nav-links [data-auth="protected"] { display: none !important; }
+      html.logged-in .nav-links [data-auth="protected"] { display: block !important; }
+      html.logged-in .nav-links [data-auth="guest"] { display: none !important; }
+
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+      .dynamic-row.room    { grid-template-columns: 1fr; }
+      .dynamic-row.amenity { grid-template-columns: 1fr; }
+      .btn-group { flex-direction: column; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+      footer { padding: 40px 24px 24px; }
+      .footer-content { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 16px; }
+      .brand { font-size: 12px; letter-spacing: 1.5px; }
+      .page-title { font-size: 24px; }
+      .form-card { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo-area">
+          <a href="index.html" class="brand">HOMELINE</a>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+          <a href="index.html">Home</a>
+          <a href="buy.html">Buy</a>
+          <a href="rent.html">Rent</a>
+          <a href="sell.html">Sell</a>
+          <a href="property.html">Properties</a>
+          <a href="contact.html">Contact</a>
+          <a href="dashboard.html" data-auth="protected">Dashboard</a>
+          <a href="create-post.html" class="active" data-auth="protected">Create Post</a>
+          <a href="login.html" data-auth="guest">Login</a>
+          <a href="index.html" data-action="logout" data-auth="protected">Logout</a>
+        </div>
+
+        <div class="nav-actions">
+          <form class="search-form" id="pageSearchForm" onsubmit="return false;">
+            <input type="text" class="search-box" id="pageSearchInput" placeholder="Search..." autocomplete="off">
+            <button type="button" class="nav-icon" id="pageSearchButton" aria-label="Search">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          <a href="login.html" class="cta-btn" data-auth="guest">Sign in</a>
+          <button class="hamburger" id="hamburger" type="button" aria-label="Toggle navigation" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page-shell">
+    <div class="page-header">
+      <h1 class="page-title">Create Property</h1>
+      <p class="page-subtitle">Fill in every detail, upload images, and add rooms and amenities.</p>
+    </div>
+
+    <div class="form-card">
+      <form id="createPostForm" novalidate>
+
+        <!-- Basic info -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="postTitle">Property title</label>
+            <input id="postTitle" placeholder="e.g. Luxury villa in Nyarutarama" required />
+          </div>
+          <div class="form-group">
+            <label for="postType">Property type</label>
+            <select id="postType" required>
+              <option value="House" selected>House</option>
+              <option value="Apartment">Apartment</option>
+              <option value="Villa">Villa</option>
+              <option value="Land">Land</option>
+              <option value="Townhouse">Townhouse</option>
+              <option value="Bungalow">Bungalow</option>
+              <option value="Residence">Residence</option>
+              <option value="Loft">Loft</option>
+              <option value="Office">Office</option>
+              <option value="Commercial">Commercial</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="postStatus">Status</label>
+            <select id="postStatus">
+              <option value="For Sale" selected>For Sale</option>
+              <option value="For Rent">For Rent</option>
+              <option value="Sold">Sold</option>
+              <option value="Draft">Draft</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="postPrice">Price (RWF)</label>
+            <input id="postPrice" type="number" min="0" placeholder="500000000" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="postBedrooms">Bedrooms</label>
+            <input id="postBedrooms" type="number" min="0" placeholder="3" required />
+          </div>
+          <div class="form-group">
+            <label for="postBathrooms">Bathrooms</label>
+            <input id="postBathrooms" type="number" min="0" placeholder="2" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="postSize">Size (m²)</label>
+            <input id="postSize" type="number" min="0" placeholder="320" required />
+          </div>
+          <div class="form-group">
+            <label for="postLocation">Location (neighborhood)</label>
+            <input id="postLocation" placeholder="e.g. Nyarutarama" required />
+          </div>
+        </div>
+
+        <!-- Map link -->
+        <div class="form-group">
+          <label for="postMapLink">Map link (Google Maps URL or coordinates)</label>
+          <input id="postMapLink" type="url" placeholder="https://maps.google.com/?q=-1.9441,30.0619" />
+          <small>Optional — opens in a new tab on the property detail page.</small>
+        </div>
+
+        <!-- Images -->
+        <div class="form-group">
+          <label for="postImages">Property images (multiple allowed)</label>
+          <input id="postImages" type="file" name="images" accept="image/*" multiple />
+          <small>First image becomes the hero/main image. Max 10 MB each. JPG, PNG, WEBP.</small>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+          <label for="postDescription">Description</label>
+          <textarea id="postDescription" placeholder="Describe the property, finishes, nearby amenities..." required></textarea>
+        </div>
+
+        <!-- Rooms -->
+        <div class="dynamic-section">
+          <div class="form-group" style="margin-bottom:8px;">
+            <label>Rooms &amp; Spaces</label>
+          </div>
+          <div class="dynamic-list" id="roomsList"></div>
+          <button type="button" class="btn-secondary" id="addRoomBtn" style="padding:10px 20px;font-size:12px;">
+            <i class="fas fa-plus"></i> Add Room
+          </button>
+        </div>
+
+        <!-- Amenities -->
+        <div class="dynamic-section">
+          <div class="form-group" style="margin-bottom:8px;">
+            <label>Amenities</label>
+          </div>
+          <div class="dynamic-list" id="amenitiesList"></div>
+          <button type="button" class="btn-secondary" id="addAmenityBtn" style="padding:10px 20px;font-size:12px;">
+            <i class="fas fa-plus"></i> Add Amenity
+          </button>
+        </div>
+
+        <!-- Submit -->
+        <div class="btn-group">
+          <button class="btn-primary" type="submit">
+            <i class="fas fa-check-circle"></i> Publish Property
+          </button>
+          <button class="btn-secondary" type="button" id="saveDraftBtn">
+            <i class="fas fa-save"></i> Save as Draft
+          </button>
+        </div>
+        <div id="postMessage" class="post-message" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <span class="footer-logo">HOMELINE</span>
+          <p>Premium real estate platform offering exceptional properties and immersive experiences.</p>
+          <div class="social-links">
+            <a href="https://www.facebook.com/" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://x.com/" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="buy.html"><i class="fas fa-chevron-right"></i> Browse Properties</a></li>
+            <li><a href="create-post.html"><i class="fas fa-chevron-right"></i> List Your Property</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Contact Us</h3>
+          <ul>
+            <li><a href="tel:+250788123456"><i class="fas fa-phone"></i> +250 (0)788 123 456</a></li>
+            <li><a href="mailto:info@homeline.rw"><i class="fas fa-envelope"></i> info@homeline.rw</a></li>
+            <li><a href="contact.html"><i class="fas fa-map-marker-alt"></i> Kigali, Rwanda</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 HOMELINE. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="contact.html">Privacy Policy</a>
+          <a href="contact.html">Terms of Service</a>
+          <a href="contact.html">Cookie Policy</a>
+          <a href="buy.html">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+
+  <script>
+    // ── Sync auth state on <html> ──
+    (function syncAuthClass() {
+      const isLoggedIn = Boolean(
+        localStorage.getItem('token') ||
+        localStorage.getItem('authToken') ||
+        sessionStorage.getItem('token')
+      );
+      document.documentElement.classList.toggle('logged-in', isLoggedIn);
+    })();
+
+    // ── Logout handler ──
+    document.querySelectorAll('[data-action="logout"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('token');
+        localStorage.removeItem('authToken');
+        sessionStorage.removeItem('token');
+        document.documentElement.classList.remove('logged-in');
+        window.location.href = 'index.html';
+      });
+    });
+
+    // ── Hamburger ──
+    (function setupHamburger() {
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+      if (!hamburger || !navLinks) return;
+
+      hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = navLinks.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+          navLinks.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function() {
+          if (window.innerWidth <= 768) {
+            navLinks.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+          navLinks.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        }
+      });
+    })();
+
+    // ── Navbar search ──
+    (function setupSearch() {
+      const input = document.getElementById('pageSearchInput');
+      const btn = document.getElementById('pageSearchButton');
+      if (!input || !btn) return;
+
+      const go = () => {
+        const q = input.value.trim();
+        if (q) window.location.href = `buy.html?q=${encodeURIComponent(q)}`;
+      };
+      btn.addEventListener('click', e => { e.preventDefault(); go(); });
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); go(); }
+      });
+    })();
+
+    // ── Form logic ──
+    document.addEventListener('DOMContentLoaded', () => {
+      // Guard again — if user somehow got here without auth, bounce
+      if (!document.documentElement.classList.contains('logged-in')) {
+        window.location.replace('login.html?returnTo=create-post.html');
+        return;
+      }
+
+      const form = document.getElementById('createPostForm');
+      const messageEl = document.getElementById('postMessage');
+      const saveDraftBtn = document.getElementById('saveDraftBtn');
+      if (!form) return;
+
+      // ── Rooms (dynamic) ───────────────────────
+      const roomsList = document.getElementById('roomsList');
+      const addRoomBtn = document.getElementById('addRoomBtn');
+
+      function addRoomRow(data = {}) {
+        const row = document.createElement('div');
+        row.className = 'dynamic-row room';
+
+        const typeInput = document.createElement('input');
+        typeInput.className = 'room-type';
+        typeInput.placeholder = 'Type (Bedroom)';
+        typeInput.value = data.room_type || '';
+
+        const nameInput = document.createElement('input');
+        nameInput.className = 'room-name';
+        nameInput.placeholder = 'Name (Master Suite)';
+        nameInput.value = data.room_name || '';
+
+        const areaInput = document.createElement('input');
+        areaInput.className = 'room-area';
+        areaInput.type = 'number';
+        areaInput.min = '0';
+        areaInput.placeholder = 'm²';
+        areaInput.value = data.area_sqm || '';
+
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'remove-row';
+        removeBtn.setAttribute('aria-label', 'Remove room');
+        removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+        removeBtn.addEventListener('click', () => row.remove());
+
+        row.append(typeInput, nameInput, areaInput, removeBtn);
+        roomsList.appendChild(row);
+      }
+
+      if (addRoomBtn) addRoomBtn.addEventListener('click', () => addRoomRow());
+      addRoomRow({ room_type: 'Bedroom', room_name: 'Master Suite', area_sqm: 30 });
+      addRoomRow({ room_type: 'Kitchen', room_name: 'Modern Kitchen', area_sqm: 18 });
+
+      // ── Amenities (dynamic) ───────────────────
+      const amenitiesList = document.getElementById('amenitiesList');
+      const addAmenityBtn = document.getElementById('addAmenityBtn');
+
+      function addAmenityRow(data = {}) {
+        const row = document.createElement('div');
+        row.className = 'dynamic-row amenity';
+
+        const nameInput = document.createElement('input');
+        nameInput.className = 'amenity-name';
+        nameInput.placeholder = 'Name (Swimming Pool)';
+        nameInput.value = data.amenity_name || '';
+
+        const iconInput = document.createElement('input');
+        iconInput.className = 'amenity-icon';
+        iconInput.placeholder = 'Icon (swimmer)';
+        iconInput.value = data.amenity_icon || '';
+
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'remove-row';
+        removeBtn.setAttribute('aria-label', 'Remove amenity');
+        removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+        removeBtn.addEventListener('click', () => row.remove());
+
+        row.append(nameInput, iconInput, removeBtn);
+        amenitiesList.appendChild(row);
+      }
+
+      if (addAmenityBtn) addAmenityBtn.addEventListener('click', () => addAmenityRow());
+      addAmenityRow({ amenity_name: 'Swimming Pool', amenity_icon: 'swimmer' });
+      addAmenityRow({ amenity_name: 'Garden',        amenity_icon: 'tree' });
+      addAmenityRow({ amenity_name: 'Parking',       amenity_icon: 'car' });
+
+      // ── Helpers ───────────────────────────────
+      function showMessage(text, isError = false) {
+        messageEl.textContent = text;
+        messageEl.style.display = 'block';
+        messageEl.className = 'post-message' + (isError ? ' error' : '');
+      }
+
+      function readValue(id) {
+        const el = document.getElementById(id);
+        return el ? String(el.value).trim() : '';
+      }
+
+      function collectRooms() {
+        const out = [];
+        roomsList.querySelectorAll('.dynamic-row').forEach(row => {
+          const type = row.querySelector('.room-type').value.trim();
+          const name = row.querySelector('.room-name').value.trim();
+          const area = row.querySelector('.room-area').value.trim();
+          if (type || name) {
+            out.push({
+              room_type: type || 'Room',
+              room_name: name || null,
+              area_sqm: area ? Number(area) : null,
+            });
+          }
+        });
+        return out;
+      }
+
+      function collectAmenities() {
+        const out = [];
+        amenitiesList.querySelectorAll('.dynamic-row').forEach(row => {
+          const name = row.querySelector('.amenity-name').value.trim();
+          const icon = row.querySelector('.amenity-icon').value.trim() || 'check';
+          if (name) out.push({ amenity_name: name, amenity_icon: icon });
+        });
+        return out;
+      }
+
+      // ── Submit ────────────────────────────────
+      async function submit(isDraft) {
+        const title       = readValue('postTitle');
+        const typeRaw     = readValue('postType') || 'House';
+        const statusRaw   = isDraft ? 'Draft' : (readValue('postStatus') || 'For Sale');
+        const priceRaw    = readValue('postPrice');
+        const bedroomsRaw = readValue('postBedrooms');
+        const bathroomsRaw= readValue('postBathrooms');
+        const sizeRaw     = readValue('postSize');
+        const descRaw     = readValue('postDescription');
+        const locationRaw = readValue('postLocation');
+        const mapLink     = readValue('postMapLink');
+
+        if (!title || !priceRaw || !descRaw) {
+          showMessage('❌ Title, price and description are required.', true);
+          return;
+        }
+
+        const allowedTypes = ['House','Apartment','Villa','Land','Townhouse','Bungalow','Residence','Loft','Office','Commercial'];
+        const safeType = allowedTypes.includes(typeRaw) ? typeRaw : 'House';
+
+        const allowedStatuses = ['For Sale','For Rent','Sold','Draft'];
+        const safeStatus = allowedStatuses.includes(statusRaw) ? statusRaw : 'For Sale';
+
+        const safePrice     = String(priceRaw).replace(/\D/g, '') || '0';
+        const safeBedrooms  = String(bedroomsRaw).replace(/\D/g, '') || '0';
+        const safeBathrooms = String(bathroomsRaw).replace(/\D/g, '') || '0';
+        const safeSize      = String(sizeRaw).replace(/\D/g, '') || '0';
+
+        const fd = new FormData();
+        fd.append('title',         title);
+        fd.append('property_type', safeType);
+        fd.append('status',        safeStatus);
+        fd.append('price',         safePrice);
+        fd.append('bedrooms',      safeBedrooms);
+        fd.append('bathrooms',     safeBathrooms);
+        fd.append('size_sqm',      safeSize);
+        fd.append('description',   descRaw);
+        fd.append('city',          'Kigali');
+        fd.append('neighborhood',  locationRaw || 'Kigali');
+        if (mapLink) fd.append('map_link', mapLink);
+
+        fd.append('rooms',     JSON.stringify(collectRooms()));
+        fd.append('amenities', JSON.stringify(collectAmenities()));
+
+        const imageInput = document.getElementById('postImages');
+        if (imageInput && imageInput.files && imageInput.files.length) {
+          Array.from(imageInput.files).forEach(f => fd.append('images', f));
+        }
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) submitBtn.disabled = true;
+        if (saveDraftBtn) saveDraftBtn.disabled = true;
+
+        try {
+          if (typeof API === 'undefined' || !API.createProperty) {
+            throw new Error('API client not available. Make sure app.js is loaded.');
+          }
+          const result = await API.createProperty(fd);
+          const imgCount = result && result.images ? result.images.length : 0;
+          showMessage(`✅ Listing ${result.listing_id || ''} created with ${imgCount} image(s).`);
+
+          // Reset
+          form.reset();
+          roomsList.innerHTML = '';
+          amenitiesList.innerHTML = '';
+          addRoomRow({ room_type: 'Bedroom', room_name: 'Master Suite', area_sqm: 30 });
+          addRoomRow({ room_type: 'Kitchen', room_name: 'Modern Kitchen', area_sqm: 18 });
+          addAmenityRow({ amenity_name: 'Swimming Pool', amenity_icon: 'swimmer' });
+          addAmenityRow({ amenity_name: 'Garden',        amenity_icon: 'tree' });
+          addAmenityRow({ amenity_name: 'Parking',       amenity_icon: 'car' });
+        } catch (err) {
+          console.error('Create failed:', err);
+          showMessage('❌ ' + (err.message || 'Something went wrong.'), true);
+        } finally {
+          if (submitBtn) submitBtn.disabled = false;
+          if (saveDraftBtn) saveDraftBtn.disabled = false;
+        }
+      }
+
+      form.addEventListener('submit', (e) => { e.preventDefault(); submit(false); });
+      if (saveDraftBtn) saveDraftBtn.addEventListener('click', (e) => { e.preventDefault(); submit(true); });
+    });
+  </script>
+</body>
+</html>
